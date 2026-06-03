@@ -12,7 +12,9 @@
       --bg: #f7f5f0; --surface: #ffffff; --text: #1c1a18;
       --muted: #6b6560; --accent: #2d5a8e; --accent-light: #e8eff8;
       --border: #ddd8d0; --highlight: #fff8e8;
-      --code-bg: #f0ede8; --table-head: #f0ede8; --sp-bg: #f4f8fd; --sp-border: #c8d8ee;
+      --code-bg: #f0ede8; --table-head: #f0ede8;
+      --sp-bg: #f4f8fd; --sp-border: #c8d8ee;
+      --note-bg: #fffbeb; --note-border: #f59e0b; --note-header: #92400e;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -46,15 +48,13 @@
     }
     #main { flex: 1; max-width: 820px; margin: 0 auto; padding: 48px 52px 80px; }
     .updated-at {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 20px;
+      font-family: 'DM Mono', monospace; font-size: 0.78rem;
+      color: var(--muted); margin-bottom: 20px;
     }
     h1 { font-family: 'Lora', serif; font-size: 2.1rem; font-weight: 600; line-height: 1.25; margin-bottom: 6px; }
     h2 {
       font-family: 'Lora', serif; font-size: 1.45rem; font-weight: 600;
-      margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.5rem;
+      margin-top: 3rem; margin-bottom: 0.6rem; padding-bottom: 0.5rem;
       border-bottom: 2px solid var(--border);
     }
     h3 { font-size: 1.02rem; font-weight: 600; margin-top: 1.8rem; margin-bottom: 0.5rem; color: var(--accent); }
@@ -65,6 +65,53 @@
     ul, ol { padding-left: 1.5rem; margin-bottom: 0.85rem; }
     li { margin-bottom: 0.3rem; }
     li p { margin-bottom: 0.2rem; }
+
+    /* UAS Notes box */
+    .uas-note {
+      background: var(--note-bg);
+      border: 1px solid #fcd34d;
+      border-left: 4px solid var(--note-border);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px 14px 16px;
+      margin: 1rem 0 1.6rem 0;
+    }
+    .uas-note-header {
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--note-header);
+      margin-bottom: 10px;
+    }
+    .uas-note ul, .uas-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .uas-note ul li, .uas-list li {
+      padding: 3px 0 3px 20px;
+      position: relative;
+      font-size: 0.93rem;
+      border-bottom: none;
+      margin-bottom: 4px;
+      line-height: 1.6;
+    }
+    .uas-note ul li::before, .uas-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--note-border);
+      font-size: 0.85em;
+      top: 4px;
+    }
+    /* Also style regular blockquotes differently */
+    blockquote {
+      border-left: 3px solid var(--accent); background: var(--highlight);
+      margin: 1.2rem 0; padding: 12px 20px; border-radius: 0 6px 6px 0;
+    }
+    blockquote p { margin: 0; font-family: 'Lora', serif; font-style: italic; }
+
+    /* SP/SG blocks */
     .sp-block {
       border-left: 3px solid var(--sp-border); background: var(--sp-bg);
       border-radius: 0 6px 6px 0; margin: 0.8rem 0; padding: 10px 16px;
@@ -73,17 +120,13 @@
     .sp-desc { margin: 0; font-size: 0.95rem; }
     .sp-list { margin: 4px 0 0 0; padding-left: 1.3rem; font-size: 0.95rem; }
     .sp-list li { margin-bottom: 0.2rem; }
+
     code {
       font-family: 'DM Mono', monospace; font-size: 0.82em;
       background: var(--code-bg); padding: 2px 6px; border-radius: 3px; color: #8b4513;
     }
     pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; overflow-x: auto; margin-bottom: 1rem; }
     pre code { background: none; padding: 0; color: var(--text); font-size: 0.88em; }
-    blockquote {
-      border-left: 3px solid var(--accent); background: var(--highlight);
-      margin: 1.2rem 0; padding: 12px 20px; border-radius: 0 6px 6px 0;
-    }
-    blockquote p { margin: 0; font-family: 'Lora', serif; font-style: italic; }
     table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.9rem; }
     th { background: var(--table-head); font-weight: 600; text-align: left; padding: 9px 14px; border: 1px solid var(--border); font-size: 0.85rem; }
     td { padding: 8px 14px; border: 1px solid var(--border); vertical-align: top; }
@@ -123,13 +166,26 @@
 <main id="main">
 <h1 id="catatan-belajar-uas-dinamika-tim-perangkat-lunak-dtpl">📚
 Catatan Belajar UAS — Dinamika Tim Perangkat Lunak (DTPL)</h1>
-<div class="updated-at">Updated at 03/06/2026 05:41:25</div>
+<div class="updated-at">Updated at 03/06/2026 12:46:59</div>
 <p><strong>Topik Utama: Software Craftsmanship, Agile, CMMI, dan Scaling
 Agile</strong></p>
 <hr />
 
 <h2 id="software-engineering-software-craftsmanship">1. Software
 Engineering &amp; Software Craftsmanship</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - <strong>Ingat tujuan
+utama:</strong> “Deliver QUALITY products ON TIME and ON BUDGET which
+meet the customer’s REAL NEEDS” — ini sering jadi landasan pertanyaan
+esai. - <strong>Trilogy Software Engineering</strong> selalu muncul:
+Process Life Cycle + Skilled Team + Tools. Ketiga elemen harus seimbang.
+- <strong>Engineering = Producing under Constraint.</strong> Tiga hal
+yang selalu dihadapi: Structure, Constraints, Trade-offs. - Bedakan
+<strong>Engineering approach</strong> vs <strong>Craftsmanship
+approach</strong> — engineering lebih ke proses dan standar,
+craftsmanship lebih ke keahlian dan profesionalisme individual. -
+Hafalkan <strong>layer hierarchy</strong>: Framework → Methodology →
+Process Method → Management Procedures.</p>
+</div>
 <h3 id="the-ultimate-goal-of-software-development">🎯 The Ultimate Goal
 of Software Development</h3>
 <blockquote>
@@ -183,6 +239,20 @@ Request, Inspection, Release</p>
 <hr />
 <h2 id="agile-software-development-agile-hangover">2. Agile Software
 Development &amp; Agile Hangover</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - <strong>Agile Hangover</strong>
+bisa jadi soal definisi atau esai: fenomena di mana tim fokus pada
+<em>ritual</em> Agile (stand-up, post-its) tapi tidak meningkatkan
+kualitas teknis → hasil: produk berkualitas rendah diproduksi <em>lebih
+cepat</em>. - Kata kunci yang sering diuji: <strong>“Zombie
+Scrum”</strong> — tim menjalankan Scrum secara mekanis tanpa jiwa/nilai.
+- <strong>Penyebab Agile Hangover:</strong> hanya meningkatkan proses,
+mengabaikan keunggulan teknis. - <strong>5 karakteristik
+Agility</strong> (hafal semua): rapid &amp; adaptive response to change,
+effective communication, drawing customer onto team, team in control of
+work, rapid incremental delivery. - Hubungan Agile Hangover → Software
+Craftsmanship: craftsmanship hadir untuk <em>melengkapi</em> Agile
+dengan keunggulan teknis yang hilang.</p>
+</div>
 <h3 id="apa-itu-agility">✅ Apa itu Agility?</h3>
 <ul>
 <li>Effective (rapid and adaptive) <strong>response to
@@ -223,6 +293,21 @@ teknis.</p>
 <hr />
 <h2 id="software-craftsmanship-manifesto-vs-agile-manifesto">3. Software
 Craftsmanship Manifesto vs Agile Manifesto</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - <strong>Hafal 4 poin Agile
+Manifesto</strong> beserta pasangan nilai “over”-nya. Ini sering
+langsung ditanyakan. - <strong>Hafal 4 poin Craftsmanship
+Manifesto</strong> — polanya “Not only X, but also Y” di mana Y
+<em>menambahkan</em> nilai di atas X Agile. - Perhatikan: Craftsmanship
+<strong>bukan pengganti</strong> Agile, tapi <strong>ideologi
+pelengkap</strong>. - <strong>Well-crafted ≠ working:</strong> working
+software = bisa jalan; well-crafted = mudah dipahami, mudah diubah,
+teruji, desain sederhana. - <strong>Prinsip penting yang sering
+diuji:</strong> “always leave the code cleaner than we found it” → ini
+bagian dari <em>steadily adding value</em>. - Metodologi yang paling
+direkomendasikan komunitas Craftsmanship: <strong>Extreme Programming
+(XP)</strong> — karena XP paling fokus pada praktik teknis (TDD, pair
+programming, refactoring).</p>
+</div>
 <h3 id="agile-manifesto-2001-kent-beck-et-al.">📜 Agile Manifesto (2001,
 Kent Beck et al.)</h3>
 <table>
@@ -345,6 +430,22 @@ Programming - Refactoring - Continuous Integration</p>
 <hr />
 <h2 id="cmmi-pengantar-maturity-levels-dan-representasi">4. CMMI:
 Pengantar, Maturity Levels, dan Representasi</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - <strong>Hafal 5 Maturity Level
+beserta nama dan karakteristiknya</strong> — ini hampir pasti keluar. -
+<strong>Data Rifkin:</strong> defect rate berkurang setengah setiap naik
+1 level. Level 1 butuh $5.4jt, Level 5 hanya $146rb — kontras yang
+sering dipakai untuk soal analisis. - <strong>Waktu naik level:</strong>
+L1→L2 ~25 bulan, L2→L3 ~22 bulan, L3→L4 ~36.5 bulan. - <strong>4
+kategori PA:</strong> Project Management, Process Management,
+Engineering, Support. - <strong>Perbedaan Staged vs Continuous:</strong>
+Staged = naik level bersama-sama (ML 1–5), Continuous = tiap PA naik
+sendiri-sendiri (CL 0–3). Staged cocok untuk sertifikasi formal,
+Continuous untuk perbaikan fleksibel. - <strong>CMMI v2.0:</strong>
+“Process Area” → “Practice Area”, Generic Practices diganti GOV + II, 22
+PA → 29 PA, 168 practices → 198 practices. - Keyakinan dasar CMMI:
+masalah bukan pada teknik baru, tapi pada <strong>cara mengelola
+proses</strong>.</p>
+</div>
 <h3 id="mengapa-cmmi">💡 Mengapa CMMI?</h3>
 <p>Analogi sepak bola: Tim Little League vs Tim Profesional.
 Perbedaannya bukan pada usia, tapi pada <strong>kematangan
@@ -585,6 +686,20 @@ Dev 2.0: 4 Category, 12 Capability Area, 29 PA, 198 Practices</p>
 <hr />
 <h2 id="cmmi-agile-scrum-project-planning-pp">5. CMMI &amp; Agile
 (Scrum): Project Planning (PP)</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - PP ada di <strong>Maturity Level
+2</strong> — salah satu PA paling fundamental. - <strong>Hafal 3 SG
+PP:</strong> SG1 Establish Estimates, SG2 Develop a Project Plan, SG3
+Obtain Commitment to the Plan. - <strong>SG1 paling banyak SP-nya (4
+SP):</strong> scope, attributes, lifecycle phases, effort &amp; cost. -
+<strong>Mapping yang sering diuji:</strong> Backlog Grooming → SP 1.1,
+1.2, 1.4 | Sprint Planning → SP 1.1, 1.2, 1.4, 3.1, 3.2, 3.3 | Product
+Backlog → SP 2.7. - <strong>WBS di Scrum = Product Backlog</strong>
+dengan epics/stories + metadata (DoD, sizing) — ini sering jadi soal
+perbandingan. - <strong>Technical Debt</strong> memetakan ke SP 1.4
+(Estimate Effort and Cost) dan SP 2.2 (Identify Project Risks) dan SP
+3.3 (Obtain Plan Commitment). - <strong>3 kata kunci commitment (SP
+3.3):</strong> Agreement, Alignment, Cooperation.</p>
+</div>
 <h3 id="cmmi-scrum-dua-perspektif">🤝 CMMI + Scrum: Dua Perspektif</h3>
 <ul>
 <li><strong>CMMI</strong> memberikan peta tentang
@@ -713,6 +828,24 @@ Ceremonies</h4>
 <hr />
 <h2 id="cmmi-agile-scrum-project-monitoring-control-pmc">6. CMMI &amp;
 Agile (Scrum): Project Monitoring &amp; Control (PMC)</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - PMC = <strong>inti Project
+Management</strong>, ada di <strong>ML 2</strong>. Tujuan utama:
+memahami progress proyek agar corrective action bisa diambil tepat
+waktu. - <strong>Hafal 2 SG PMC:</strong> SG1 Monitor the Project
+Against the Plan (7 SP), SG2 Manage Corrective Action to Closure (3 SP).
+- <strong>SP 1.6 Conduct Progress Reviews</strong> = diperkuat oleh
+Daily Standup, Release Burn-Down Chart, Sprint Burn-Down Chart. -
+<strong>SP 1.7 Conduct Milestone Reviews</strong> = diperkuat oleh
+Sprint Demo/Sprint Review. - <strong>Burn-Down vs Burn-Up:</strong>
+Burn-down melacak sisa pekerjaan (kurva turun), Burn-up melacak
+pekerjaan selesai (kurva naik). - <strong>Release Burn-Down vs Sprint
+Burn-Down:</strong> Release = high-level trajectory seluruh release per
+sprint; Sprint = effort tersisa dalam satu sprint. - <strong>3 opsi
+corrective action (SP 2.2):</strong> Remove the Issue, Change Project
+Activities, Change the Plan. - Daily Standup: sering diuji — risiko
+harus diangkat sebagai agenda <em>spesifik</em>, bukan hanya saat ada
+blocker.</p>
+</div>
 <h3 id="tujuan-pmc">🎯 Tujuan PMC</h3>
 <p>Memberikan pemahaman tentang kemajuan proyek agar <strong>corrective
 action</strong> yang tepat dapat diambil ketika performance menyimpang
@@ -817,6 +950,23 @@ Ceremonies</h4>
 <hr />
 <h2 id="cmmi-agile-scrum-requirements-management-reqm">7. CMMI &amp;
 Agile (Scrum): Requirements Management (REQM)</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - REQM ada di <strong>ML 2</strong>.
+Tujuan: kelola requirements dan pastikan alignment dengan plans &amp;
+work products. - <strong>Hafal 5 SP REQM:</strong> Understand, Obtain
+Commitment, Manage Changes, Maintain Bidirectional Traceability, Ensure
+Alignment. - <strong>Bidirectional traceability</strong> artinya bisa
+trace dari requirement ke work product <em>dan</em> sebaliknya — ini
+kunci SP 1.4. - <strong>Mengapa tidak ada Requirements Development di ML
+2?</strong> SEI berpendapat: tim harus bisa <em>mengelola</em>
+requirements dulu sebelum bisa <em>mengembangkan</em>-nya. Manage dulu,
+baru develop. - <strong>Sprint Backlog di-freeze</strong> setelah Sprint
+Planning — perubahan apapun saat sprint berjalan masuk ke Product
+Backlog, bukan langsung ke Sprint Backlog. - <strong>REQM v1.3 → RDM
+v2.0:</strong> di CMMI v2.0, REQM dan RD digabung jadi satu PA:
+Requirements Development &amp; Management (RDM). - <strong>Backlog
+Grooming</strong> memperkuat semua 5 SP REQM — ini ceremony paling kaya
+kontribusinya ke REQM.</p>
+</div>
 <h3 id="apa-itu-requirements">📌 Apa itu Requirements?</h3>
 <p>Requirements adalah ekspektasi umum tentang: - Apa yang akan dibangun
 - Apa yang harus dilakukan setelah dibangun - Apa yang diperlukan untuk
@@ -890,6 +1040,25 @@ necessary &amp; sufficient, balance, validate)</p>
 <hr />
 <h2 id="cmmi-agile-scrum-requirements-development-rd">8. CMMI &amp;
 Agile (Scrum): Requirements Development (RD)</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - RD ada di <strong>ML 3</strong>
+(berbeda dengan REQM yang ML 2!). Fokus: elicit, analyze, establish
+requirements. - <strong>3 tipe requirements RD:</strong> customer
+requirements, product requirements, product component requirements. -
+<strong>Hafal 3 SG RD:</strong> SG1 Develop Customer Requirements, SG2
+Develop Product Requirements, SG3 Analyze and Validate Requirements. -
+<strong>Eliciting ≠ Collecting:</strong> eliciting = proactively
+mengidentifikasi requirements yang tidak dinyatakan eksplisit, bukan
+sekadar mencatat yang diminta. - <strong>Format user story:</strong> “As
+a [role], I want to [goal] so that [benefit].” — ini standar yang diuji.
+- <strong>Epic → User Story:</strong> Epic adalah large user story yang
+dipecah. Karena epic harus map ke user stories di bawahnya, ini
+membentuk level pertama <strong>requirements traceability</strong> (RD +
+REQM SP 1.4). - <strong>TDD memperkuat SP 3.1, 3.4, 3.5</strong> — test
+cases yang terus berkembang = bentuk validation requirements yang
+berkelanjutan. - <strong>Pair Programming:</strong> driver (menulis
+kode) + navigator (review). Meningkatkan biaya awal tapi terbayar lewat
+kualitas.</p>
+</div>
 <h3 id="tujuan-rd">🎯 Tujuan RD</h3>
 <p><strong>Elicit, analyze, and establish</strong> customer, product,
 dan product component requirements.</p>
@@ -972,6 +1141,29 @@ kode secara berkelanjutan.</p>
 <hr />
 <h2 id="verification-validation-ver-val-software-inspection">9.
 Verification &amp; Validation (VER &amp; VAL) + Software Inspection</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - <strong>Bedakan VER vs VAL</strong>
+— ini hampir pasti keluar sebagai soal definisi: - VER: “Did we build
+the product <strong>right</strong>?” → sesuai spesifikasi/requirements -
+VAL: “Did we build the <strong>right</strong> product?” → sesuai
+kebutuhan pengguna di environment nyata - VER dan VAL keduanya ada di
+<strong>ML 3</strong>. - Satu aktivitas review bisa memenuhi VER
+<strong>dan</strong> VAL sekaligus — di CMMI v2.0 keduanya digabung jadi
+satu PA: <strong>VV</strong>. - <strong>3 SG VER:</strong> Prepare
+(select WP, env, criteria), Perform Peer Reviews, Verify Selected Work
+Products. - <strong>Peer review methods:</strong> Inspections,
+Structured walkthroughs, Pair programming. - <strong>Inspection Fagan
+(1976):</strong> metode review paling formal. Hafal tahapannya: Entry →
+Planning → Kickoff → Individual Checking → Logging Meeting → Edit →
+Follow Up &amp; Exit. - <strong>Individual Checking = tahap paling
+produktif</strong> — mayoritas defects ditemukan di sini. -
+<strong>Roles inspection:</strong> Moderator, Author, Reviewer/Reader,
+Scribe. - <strong>Inspection Metrics:</strong> Yield = Total Defects
+Found / Estimated Total Defects × 100%. Estimated Total = AB/C. -
+<strong>Defect severity:</strong> Major (akan sebabkan masalah jika
+tidak diperbaiki) vs Minor. Jika ragu → anggap Major. -
+<strong>XP/Agile:</strong> pair programming dianggap sebagai
+<em>continual inspection process</em> — pengganti formal inspection.</p>
+</div>
 <h3 id="perbedaan-kunci-verification-vs-validation">🔑 Perbedaan Kunci:
 Verification vs Validation</h3>
 <table>
@@ -1195,6 +1387,28 @@ Diperkuat VER &amp; VAL</h3>
 <hr />
 <h2 id="the-essence-of-se-agnostic-scaling-agile-asa-model">10. The
 Essence of SE &amp; Agnostic Scaling Agile (ASA) Model</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - <strong>The Essence</strong> =
+standar OMG, dibuat 2014 oleh SEMAT. Bersifat
+<strong>method-agnostic</strong> — bisa mendeskripsikan metode apapun. -
+<strong>4 elemen Essence:</strong> Activity, Alpha, Work Product,
+Competency, Pattern (ingat: AAWCP). - <strong>Alpha</strong> = elemen
+kunci yang diperlukan agar progress terjadi. Alpha <em>state</em> =
+indikator progress. Contoh: Sprint Alpha punya state scheduled → planned
+→ reviewed. - <strong>Scrum Essentials Cards:</strong> dibuat oleh Ivar
+Jacobson (penggagas Essence) + Jeff Sutherland (penggagas Scrum).
+Menggambarkan Scrum dalam bahasa Essence. - <strong>3 level
+Agile:</strong> Team Level (1–2 tim), Enterprise/Scaled Agile (3–10+
+tim, SAFe/Nexus/Scrum@Scale/Spotify), Business Level. - <strong>ASA
+Model</strong> = agnostik, tidak bias ke framework manapun. Terdiri
+dari: The Essence of Scaling Agile + mapping ke CMMI v2 PA. -
+<strong>Kegunaan ASA Model:</strong> assessment CL/ML proses Scaling
+Agile, mengukur readiness organisasi, memilih framework, tailoring,
+menyusun framework dari awal. - <strong>ML ASA:</strong> ML1 = semua
+elemen CL1, ML2 = semua elemen CL2, ML3 = semua elemen CL3 (kecuali
+Configuration Management maksimal CL2). - <strong>Hybrid
+approach:</strong> 71% organisasi pakai Agile, 42% pakai hybrid (Agile +
+Waterfall). Tren meningkat 43% dari 2020–2023.</p>
+</div>
 <h3 id="the-essence-of-software-engineering">🧩 The Essence of Software
 Engineering</h3>
 <p><strong>Konteks:</strong> Software Engineering tidak kekurangan
@@ -1585,6 +1799,25 @@ Magister Teknologi Informasi, Universitas Indonesia</em></p>
 <hr />
 <h2 id="topik-tambahan-konsep-cmmi-yang-sering-diuji">11. Topik
 Tambahan: Konsep CMMI yang Sering Diuji</h2>
+<div class="uas-note"><div class="uas-note-header">📝 Catatan UAS</div> - <strong>Software Crises</strong> =
+konteks historis CMMI. Kuncinya: masalah bukan teknis, tapi pengelolaan
+proses yang buruk. - <strong>PA Components — hierarki status
+komponen:</strong> - Required (wajib): SG dan GG - Expected
+(diharapkan): SP dan GP - Informative (panduan): Example Work Products,
+Subpractices, GP Elaborations - <strong>GG dan GP berlaku untuk SEMUA
+PA</strong> — itulah kenapa disebut “generic”. Mereka mengukur seberapa
+baik proses <em>diinstitusionalisasi</em>. - <strong>Hafal GP 2.x (10
+practices):</strong> Policy, Plan, Resources, Responsibility, Train,
+Control WP, Involve Stakeholders, Monitor &amp; Control, Objectively
+Evaluate, Review with Higher Mgmt. - <strong>Performed → Managed →
+Defined = CL1 → CL2 → CL3.</strong> Perbedaannya: CL1 hanya dikerjakan,
+CL2 dikelola dengan kebijakan organisasi, CL3 berasal dari standard
+process organisasi yang di-tailor. - <strong>Velocity</strong> dipetakan
+ke <strong>Measurement and Analysis (MA)</strong> — metric yang
+dikumpulkan untuk pengambilan keputusan. - <strong>Scrum of
+Scrums</strong> = setara dengan <strong>Scaled Coordination
+Meeting</strong> dalam Essence of Scaling Agile.</p>
+</div>
 <h3 id="software-crises">🚨 Software Crises</h3>
 <p>Latar belakang lahirnya CMMI. Software crises ditandai dengan: -
 Gagalnya produk perangkat lunak (kualitas buruk) - Over budget - Lewat
