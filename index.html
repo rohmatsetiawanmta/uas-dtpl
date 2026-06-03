@@ -1,1 +1,1841 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catatan Belajar UAS &mdash; DTPL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --text: #1c1a18;
+      --muted: #6b6560;
+      --accent: #2d5a8e;
+      --accent-light: #e8eff8;
+      --border: #ddd8d0;
+      --highlight: #fff8e8;
+      --code-bg: #f0ede8;
+      --table-head: #f0ede8;
+      --blockquote-border: #2d5a8e;
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar TOC */
+    #sidebar {
+      width: 260px;
+      min-width: 260px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 28px 20px;
+      font-size: 13px;
+    }
+
+    #sidebar .sidebar-title {
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    #sidebar ol {
+      list-style: none;
+      padding: 0;
+      counter-reset: toc;
+    }
+
+    #sidebar ol li {
+      counter-increment: toc;
+      margin-bottom: 4px;
+    }
+
+    #sidebar ol li a {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      line-height: 1.4;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    #sidebar ol li a::before {
+      content: counter(toc);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      min-width: 16px;
+      flex-shrink: 0;
+    }
+
+    #sidebar ol li a:hover {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    /* Main content */
+    #main {
+      flex: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 52px 80px;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+      color: var(--text);
+    }
+
+    h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 1.8rem;
+      margin-bottom: 0.6rem;
+      color: var(--accent);
+    }
+
+    h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 1.4rem;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    p { margin-bottom: 0.9rem; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    strong { font-weight: 600; }
+    em { font-style: italic; }
+
+    ul, ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    li { margin-bottom: 0.3rem; }
+    li p { margin-bottom: 0.2rem; }
+
+    /* Code */
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82em;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #a0522d;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: var(--text);
+      font-size: 0.88em;
+    }
+
+    /* Blockquote */
+    blockquote {
+      border-left: 3px solid var(--blockquote-border);
+      background: var(--highlight);
+      margin: 1.2rem 0;
+      padding: 12px 20px;
+      border-radius: 0 6px 6px 0;
+      color: var(--text);
+    }
+
+    blockquote p { margin: 0; font-family: 'Lora', serif; font-style: italic; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: var(--table-head);
+      font-weight: 600;
+      text-align: left;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    td {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td { background: #faf9f7; }
+
+    /* HR */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* Section header pill style for h2 */
+    h2 .section-num {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-right: 8px;
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
+    }
+
+    /* Back to top */
+    #back-to-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    #back-to-top.visible { opacity: 1; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { padding: 32px 24px 60px; }
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.6rem; }
+      #main { padding: 24px 16px 60px; }
+      table { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="sidebar-title">Daftar Isi</div>
+  <ol>
+    <li><a href="#1-software-engineering--software-craftsmanship">Software Engineering &amp; Craftsmanship</a></li>
+    <li><a href="#2-agile-software-development--agile-hangover">Agile &amp; Agile Hangover</a></li>
+    <li><a href="#3-software-craftsmanship-manifesto-vs-agile-manifesto">Craftsmanship vs Agile Manifesto</a></li>
+    <li><a href="#4-cmmi-pengantar-maturity-levels-dan-representasi">CMMI: Maturity Levels &amp; Representasi</a></li>
+    <li><a href="#5-cmmi--agile-scrum-project-planning-pp">CMMI: Project Planning (PP)</a></li>
+    <li><a href="#6-cmmi--agile-scrum-project-monitoring--control-pmc">CMMI: Project Monitoring &amp; Control</a></li>
+    <li><a href="#7-cmmi--agile-scrum-requirements-management-reqm">CMMI: Requirements Management</a></li>
+    <li><a href="#8-cmmi--agile-scrum-requirements-development-rd">CMMI: Requirements Development</a></li>
+    <li><a href="#9-verification--validation-ver--val--software-inspection">Verification &amp; Validation</a></li>
+    <li><a href="#10-the-essence-of-se--agnostic-scaling-agile-asa-model">Essence &amp; ASA Model</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 id="catatan-belajar-uas-dinamika-tim-perangkat-lunak-dtpl">📚
+Catatan Belajar UAS — Dinamika Tim Perangkat Lunak (DTPL)</h1>
+<p><strong>Topik Utama: Software Craftsmanship, Agile, CMMI, dan Scaling
+Agile</strong></p>
+<hr />
+<h2 id="daftar-isi">🗂️ Daftar Isi</h2>
+<ol type="1">
+<li><a href="#1-software-engineering--software-craftsmanship">Software
+Engineering &amp; Software Craftsmanship</a></li>
+<li><a href="#2-agile-software-development--agile-hangover">Agile
+Software Development &amp; Agile Hangover</a></li>
+<li><a
+href="#3-software-craftsmanship-manifesto-vs-agile-manifesto">Software
+Craftsmanship Manifesto vs Agile Manifesto</a></li>
+<li><a href="#4-cmmi-pengantar-maturity-levels-dan-representasi">CMMI:
+Pengantar, Maturity Levels, dan Representasi</a></li>
+<li><a href="#5-cmmi--agile-scrum-project-planning-pp">CMMI &amp; Agile
+(Scrum): Project Planning (PP)</a></li>
+<li><a href="#6-cmmi--agile-scrum-project-monitoring--control-pmc">CMMI
+&amp; Agile (Scrum): Project Monitoring &amp; Control (PMC)</a></li>
+<li><a href="#7-cmmi--agile-scrum-requirements-management-reqm">CMMI
+&amp; Agile (Scrum): Requirements Management (REQM)</a></li>
+<li><a href="#8-cmmi--agile-scrum-requirements-development-rd">CMMI
+&amp; Agile (Scrum): Requirements Development (RD)</a></li>
+<li><a
+href="#9-verification--validation-ver--val--software-inspection">Verification
+&amp; Validation (VER &amp; VAL) + Software Inspection</a></li>
+<li><a
+href="#10-the-essence-of-se--agnostic-scaling-agile-asa-model">The
+Essence of SE &amp; Agnostic Scaling Agile (ASA) Model</a></li>
+</ol>
+<hr />
+<h2 id="software-engineering-software-craftsmanship">1. Software
+Engineering &amp; Software Craftsmanship</h2>
+<h3 id="the-ultimate-goal-of-software-development">🎯 The Ultimate Goal
+of Software Development</h3>
+<blockquote>
+<p><strong>“Deliver QUALITY products ON TIME and ON BUDGET which meet
+the customer’s REAL NEEDS”</strong></p>
+</blockquote>
+<p>Ini adalah tujuan utama yang menjadi landasan seluruh mata kuliah
+ini. Semua framework dan pendekatan yang dipelajari (Agile, CMMI,
+Craftsmanship) bermuara ke sini.</p>
+<h3 id="engineering-mindset">🔧 Engineering Mindset</h3>
+<p>Mengutip Guru Madhava dalam “Think Like An Engineer”: pesawat terbang
+sudah ada sebelum ilmu aeronautika formal. Artinya, <em>praktik sering
+mendahului teori</em>.</p>
+<p>Engineering berarti <strong>“Producing under Constraint”</strong>.
+Ada tiga hal yang selalu dihadapi: - <strong>Structure</strong> — ada
+struktur yang harus dipahami - <strong>Constraints</strong> — batasan
+waktu, biaya, sumber daya - <strong>Trade-offs</strong> — tidak ada
+solusi sempurna, selalu ada pilihan antara opsi-opsi</p>
+<blockquote>
+<p>“There is not enough time to make a perfect product, but we always
+have limitless time to make it better.”</p>
+</blockquote>
+<h3 id="software-engineering-process-life-cycle">📐 Software Engineering
+Process Life Cycle</h3>
+<p>Siklus hidup proses pengembangan perangkat lunak melibatkan: -
+Software Development Planning - Requirements Analysis - Software
+Architecture Design - Coding - Software Testing - Software Product
+Distribution and Deployment</p>
+<p><strong>Trilogy of Software Engineering Process Focus</strong> (3 hal
+yang harus seimbang): 1. <strong>Process Life Cycle</strong> —
+tahapan-tahapan pengembangan 2. <strong>Skilled &amp; Talented Software
+Team</strong> — tim yang kompeten 3. <strong>Software Dev. &amp;
+Productivity Tools</strong> — alat bantu yang tepat</p>
+<h3 id="swebok-software-engineering-body-of-knowledge">📚 SWEBOK
+(Software Engineering Body of Knowledge)</h3>
+<p>Area pengetahuan utama dalam Software Engineering: - Software
+Requirements, Software Design, Software Construction, Software Testing -
+Software Maintenance, Software Configuration Management - Software
+Engineering Management, Software Engineering Process - Software
+Engineering Models and Methods, Software Quality - Software Engineering
+Professional Practice, Software Engineering Economics</p>
+<h3 id="software-engineering-framework-hierarchy">🏗️ Software
+Engineering Framework Hierarchy</h3>
+<p>Dari yang paling luas ke paling spesifik: 1.
+<strong>Framework</strong> — misal: CMMI-Dev, Essence/SEMAT 2.
+<strong>Methodology</strong> — misal: Waterfall, RUP, XP, Scrum 3.
+<strong>Process Method</strong> — misal: OOA, OOD, Black Box Testing 4.
+<strong>Management Procedures</strong> — Rules &amp; Policy: Change
+Request, Inspection, Release</p>
+<p><strong>Framework standar internasional yang relevan:</strong> -
+ISO-12207: Software Engineering - ISO-15288: System Engineering -
+ISO-9001: Quality - CMMI for System and Software Engineering</p>
+<hr />
+<h2 id="agile-software-development-agile-hangover">2. Agile Software
+Development &amp; Agile Hangover</h2>
+<h3 id="apa-itu-agility">✅ Apa itu Agility?</h3>
+<ul>
+<li>Effective (rapid and adaptive) <strong>response to
+change</strong></li>
+<li>Effective <strong>communication</strong> among all stakeholders</li>
+<li><strong>Drawing the customer onto the team</strong></li>
+<li>Organizing a team so that it is <strong>in control of the
+work</strong> performed</li>
+<li><strong>Rapid, incremental delivery</strong> of software</li>
+</ul>
+<h3 id="scrum-framework-metodologi-agile-utama">📋 Scrum Framework
+(Metodologi Agile utama)</h3>
+<p>Scrum adalah metodologi agile yang paling populer. Komponen utamanya:
+- <strong>Product Backlog</strong> — daftar semua fitur/kebutuhan produk
+- <strong>Sprint</strong> — iterasi pengembangan berdurasi tetap
+(biasanya 2–4 minggu) - <strong>Sprint Planning, Daily Scrum, Sprint
+Review, Sprint Retrospective</strong> - <strong>Product Owner, Scrum
+Master, Development Team</strong></p>
+<h3 id="the-agile-hangover">😵 The Agile Hangover</h3>
+<p>Sejak 2001, banyak perusahaan beralih ke Agile. Namun banyak yang
+tetap mengalami masalah lama: - Kualitas perangkat lunak yang rendah -
+Banyak bugs - Technical debt yang tinggi - Basis kode yang berantakan -
+Biaya maintenance yang besar - Pengguna yang kecewa</p>
+<p><strong>Mengapa?</strong> Banyak perusahaan hanya mengganti
+<em>ritual</em> (stand-up meeting, sticky notes, post-its berwarna)
+tanpa mengubah kualitas teknis secara fundamental.</p>
+<p><strong>Definisi Agile Hangover:</strong> Kelelahan, kekecewaan, dan
+birokratisasi yang muncul setelah penerapan Agile yang berlebihan, kaku,
+atau buruk — di mana tim lebih fokus pada ritual daripada memberikan
+nilai. Ditandai dengan <em>“zombie Scrum”</em> — tim menjalankan Scrum
+secara mekanis tanpa jiwa.</p>
+<p><strong>Kondisi yang sering terjadi:</strong> - Hanya memaksimalkan
+peningkatan <em>proses</em> tapi mengabaikan <em>keunggulan teknis</em>
+- Lupa bahwa hasil terpenting adalah (kualitas) perangkat lunak itu
+sendiri</p>
+<p><strong>Solusi:</strong> Inilah kenapa <strong>Software
+Craftsmanship</strong> hadir — untuk melengkapi Agile dengan keunggulan
+teknis.</p>
+<hr />
+<h2 id="software-craftsmanship-manifesto-vs-agile-manifesto">3. Software
+Craftsmanship Manifesto vs Agile Manifesto</h2>
+<h3 id="agile-manifesto-2001-kent-beck-et-al.">📜 Agile Manifesto (2001,
+Kent Beck et al.)</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Lebih dihargai</th>
+<th>Dibandingkan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Individuals and interactions</td>
+<td>Processes and tools</td>
+</tr>
+<tr class="even">
+<td>Working software</td>
+<td>Comprehensive documentation</td>
+</tr>
+<tr class="odd">
+<td>Customer collaboration</td>
+<td>Contract negotiation</td>
+</tr>
+<tr class="even">
+<td>Responding to change</td>
+<td>Following a plan</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apa-itu-software-craftsmanship">🛠️ Apa itu Software
+Craftsmanship?</h3>
+<ul>
+<li>Ideologi tentang <strong>profesionalisme</strong> dalam pengembangan
+perangkat lunak</li>
+<li>Pengembang mengadopsinya untuk menjadi lebih baik</li>
+<li>Mempromosikan banyak <strong>praktik teknis</strong> agar tim bisa
+menulis <em>well-crafted code</em></li>
+<li>Menekankan pemahaman domain bisnis pengguna, bukan hanya fokus
+menulis kode</li>
+</ul>
+<p><strong>Analogi:</strong> Seperti perbedaan <em>batik tulis</em>
+(craftsmanship) vs <em>batik cap</em> (industrial/engineered).
+Craftsmanship mementingkan kualitas dan keahlian individual yang
+mendalam.</p>
+<h3 id="software-craftsmanship-manifesto">📜 Software Craftsmanship
+Manifesto</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Craftsmanship values</th>
+<th>Dibandingkan dengan nilai Agile</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Not only</strong> working software, <strong>but
+also</strong> well-crafted software</td>
+<td>Working software</td>
+</tr>
+<tr class="even">
+<td><strong>Not only</strong> responding to change, <strong>but
+also</strong> steadily adding value</td>
+<td>Responding to change</td>
+</tr>
+<tr class="odd">
+<td><strong>Not only</strong> individuals and interactions, <strong>but
+also</strong> a community of professionals</td>
+<td>Individuals and interactions</td>
+</tr>
+<tr class="even">
+<td><strong>Not only</strong> customer collaboration, <strong>but
+also</strong> productive partnerships</td>
+<td>Customer collaboration</td>
+</tr>
+</tbody>
+</table>
+<h3 id="penjelasan-detail-tiap-poin-manifesto">🔍 Penjelasan Detail Tiap
+Poin Manifesto</h3>
+<p><strong>1. Well-crafted software vs Working software</strong> Working
+software saja tidak cukup. Perangkat lunak harus: - Mudah dipahami -
+Mudah diubah - Teruji (tested) - Memiliki rancangan yang sederhana -
+Bisnis prosesnya tergambar dengan baik dalam source code - Praktik
+seperti <strong>Test-Driven Development (TDD)</strong> dan
+<strong>simple design</strong> sangat ditekankan</p>
+<p><strong>2. Steadily adding value vs Responding to change</strong>
+Menanggapi perubahan saja tidak cukup. Harus ada: - Peningkatan struktur
+kode secara berkala - Kode yang tetap rapi, mudah dikembangkan, dapat
+diuji, dan mudah dirawat - Prinsip: <strong>“always leave the code
+cleaner than we found it”</strong></p>
+<p><strong>3. Community of professionals vs Individuals and
+interactions</strong> - Pengembang harus menerapkan <strong>kode
+etik</strong> profesionalisme - Kode etik melindungi tim dari tekanan
+eksternal yang merugikan - Tim tidak boleh terintimidasi untuk mengubah
+praktik teknis yang bermanfaat - Selalu belajar dan tidak malu untuk
+belajar dari orang lain</p>
+<p><strong>4. Productive partnerships vs Customer collaboration</strong>
+Tujuannya adalah membangun hubungan yang produktif dengan membantu
+klien: - Meningkatkan proses - Menyajikan pilihan dan menghapus
+birokrasi yang tidak perlu - Memahami domain bisnis - Menyajikan
+informasi dan pengetahuan yang baik - Membantu merencanakan dan
+memprioritaskan pekerjaan</p>
+<h3 id="bagaimana-mengadopsi-software-craftsmanship">🤝 Bagaimana
+Mengadopsi Software Craftsmanship?</h3>
+<ul>
+<li>Software craftsmanship adalah ideologi <strong>pelengkap</strong>
+Agile, bukan pengganti</li>
+<li>Dapat diadopsi dengan metodologi Agile apapun</li>
+<li>Komunitas Software Craftsmanship merekomendasikan <strong>Extreme
+Programming (XP)</strong> karena XP sangat fokus pada praktik
+teknis</li>
+</ul>
+<p><strong>Extreme Programming (XP):</strong> Metodologi Agile yang
+memfokuskan pada teknik pemrograman yang baik, komunikasi yang jelas,
+dan kerjasama tim. XP memiliki praktik-praktik yang mendukung Software
+Craftsmanship seperti: - Test-Driven Development (TDD) - Pair
+Programming - Refactoring - Continuous Integration</p>
+<hr />
+<h2 id="cmmi-pengantar-maturity-levels-dan-representasi">4. CMMI:
+Pengantar, Maturity Levels, dan Representasi</h2>
+<h3 id="mengapa-cmmi">💡 Mengapa CMMI?</h3>
+<p>Analogi sepak bola: Tim Little League vs Tim Profesional.
+Perbedaannya bukan pada usia, tapi pada <strong>kematangan
+proses</strong>.</p>
+<ul>
+<li>Tim profesional memiliki <strong>self-perpetuating quality</strong>:
+membuat permainan yang baik, mengembangkan pemain baru seperti diri
+mereka, dan mencari cara untuk bermain lebih baik.</li>
+<li>CMMI mencoba <strong>menangkap dan mendeskripsikan</strong>
+perbedaan antara organisasi pengembang perangkat lunak berkualitas
+tinggi dan rendah.</li>
+</ul>
+<p><strong>Keyakinan dasar CMMI:</strong> Penggunaan teknik perangkat
+lunak baru tidak akan dengan sendirinya meningkatkan produktivitas,
+karena masalah sebenarnya adalah <strong>bagaimana kita mengelola proses
+perangkat lunak</strong>.</p>
+<h3 id="maturity-levels-cmmi-dev">📊 5 Maturity Levels (CMMI-DEV)</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Nama</th>
+<th>Karakteristik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td>Initial</td>
+<td>Ad hoc dan chaotic. Keberhasilan bergantung pada individu, bukan
+proses.</td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td>Managed</td>
+<td>Proses direncanakan dan dijalankan sesuai kebijakan. Stabil dan
+dapat diulang di level proyek.</td>
+</tr>
+<tr class="odd">
+<td><strong>3</strong></td>
+<td>Defined</td>
+<td>Proses terdokumentasi dengan baik dalam standar organisasi.
+Proaktif, bukan reaktif.</td>
+</tr>
+<tr class="even">
+<td><strong>4</strong></td>
+<td>Quantitatively Managed</td>
+<td>Proses diukur secara statistik. Ada target kuantitatif untuk
+kualitas dan performa.</td>
+</tr>
+<tr class="odd">
+<td><strong>5</strong></td>
+<td>Optimizing</td>
+<td>Perbaikan proses berkelanjutan berdasarkan pemahaman
+kuantitatif.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Data Perbandingan Performa per Level (Rifkin, 1993)</strong>
+Untuk program 200.000 baris kode dari 1.300 proyek:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>CMM Level</th>
+<th>Durasi (Calendar Months)</th>
+<th>Effort (Person Months)</th>
+<th>Faults Delivered</th>
+<th>Total Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Level 1</td>
+<td>29.8</td>
+<td>593.5</td>
+<td>61</td>
+<td>$5,440,000</td>
+</tr>
+<tr class="even">
+<td>Level 2</td>
+<td>18.5</td>
+<td>143.0</td>
+<td>12</td>
+<td>$1,311,000</td>
+</tr>
+<tr class="odd">
+<td>Level 3</td>
+<td>15.2</td>
+<td>79.5</td>
+<td>7</td>
+<td>$728,000</td>
+</tr>
+<tr class="even">
+<td>Level 4</td>
+<td>12.5</td>
+<td>42.8</td>
+<td>5</td>
+<td>$392,000</td>
+</tr>
+<tr class="odd">
+<td>Level 5</td>
+<td>9.0</td>
+<td>16.0</td>
+<td>1</td>
+<td>$146,000</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Defect rate kira-kira berkurang setengah setiap naik satu
+maturity level.</strong></p>
+</blockquote>
+<p><strong>Waktu rata-rata untuk naik level:</strong> - Level 1 → 2: ~25
+bulan - Level 2 → 3: ~22 bulan - Level 3 → 4: ~36.5 bulan</p>
+<h3 id="process-areas-pa-di-cmmi-dev-v1.3">🗂️ Process Areas (PA) di
+CMMI-DEV v1.3</h3>
+<p><strong>22 Process Area, diorganisir ke 4 kategori:</strong></p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Maturity Level</th>
+<th>Project Management</th>
+<th>Process Management</th>
+<th>Engineering</th>
+<th>Support</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5</td>
+<td></td>
+<td>OPM</td>
+<td></td>
+<td>CAR</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>QPM</td>
+<td>OPP</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>IPM, RSKM</td>
+<td>OPD, OPF, OT</td>
+<td>PI, RD, TS, VAL, VER</td>
+<td>DAR</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>PMC, PP, REQM, SAM</td>
+<td></td>
+<td></td>
+<td>CM, MA, PPQA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Keterangan singkatan:</strong> - PP = Project Planning, PMC =
+Project Monitoring and Control - REQM = Requirements Management, SAM =
+Supplier Agreement Management - RD = Requirements Development, TS =
+Technical Solution - PI = Product Integration, VER = Verification, VAL =
+Validation - IPM = Integrated Project Management, RSKM = Risk Management
+- OPD = Organizational Process Definition, OPF = Organizational Process
+Focus - OT = Organizational Training, OPP = Organizational Process
+Performance - QPM = Quantitative Project Management, OPM =
+Organizational Performance Management - CAR = Causal Analysis and
+Resolution, DAR = Decision Analysis and Resolution - CM = Configuration
+Management, MA = Measurement and Analysis, PPQA = Process and Product
+Quality Assurance</p>
+<h3 id="staged-vs-continuous-representation">⚖️ Staged vs Continuous
+Representation</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Staged Representation</th>
+<th>Continuous Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Satuan ukur</strong></td>
+<td>Maturity Level (1–5)</td>
+<td>Capability Level (0–3)</td>
+</tr>
+<tr class="even">
+<td><strong>Pendekatan</strong></td>
+<td>Semua PA naik bersama per level</td>
+<td>Tiap PA bisa naik capability level-nya secara mandiri</td>
+</tr>
+<tr class="odd">
+<td><strong>Keunggulan</strong></td>
+<td>Sistematis, ada panduan urutan</td>
+<td>Fleksibel, fokus pada area masalah tertentu</td>
+</tr>
+<tr class="even">
+<td><strong>Penggunaan</strong></td>
+<td>Sertifikasi formal, benchmark umum</td>
+<td>Perbaikan internal yang fleksibel</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Capability Levels (Continuous):</strong> - CL 0: Incomplete -
+CL 1: Performed — melakukan specific practices - CL 2: Managed —
+direncanakan, dipantau, dan dikontrol - CL 3: Defined —
+di-<em>tailor</em> dari standard process organisasi</p>
+<h3 id="cmmi-v1.3-vs-cmmi-v2.0">🔄 CMMI v1.3 vs CMMI v2.0</h3>
+<p>Perubahan utama di CMMI v2.0 (dirilis Maret 2018): - “Process Area” →
+“<strong>Practice Area</strong>”: menekankan bahwa ini bukan kumpulan
+proses kaku, melainkan praktik-praktik - Practices diorganisir per level
+(bukan per Specific Goals) - Generic Practices diganti oleh dua Practice
+Area baru: <strong>Governance (GOV)</strong> dan <strong>Implementation
+Infrastructure (II)</strong> - CMMI Dev 1.3: 22 PA, 168 Practices → CMMI
+Dev 2.0: 4 Category, 12 Capability Area, 29 PA, 198 Practices</p>
+<hr />
+<h2 id="cmmi-agile-scrum-project-planning-pp">5. CMMI &amp; Agile
+(Scrum): Project Planning (PP)</h2>
+<h3 id="cmmi-scrum-dua-perspektif">🤝 CMMI + Scrum: Dua Perspektif</h3>
+<ul>
+<li><strong>CMMI</strong> memberikan peta tentang
+<strong>“WHAT”</strong> yang harus dilakukan organisasi berkinerja
+tinggi</li>
+<li><strong>Agile/Scrum</strong> menentukan <strong>“HOW”</strong>
+melakukannya</li>
+<li>Keduanya bekerja bersama: 18 common business problems
+teridentifikasi yang bisa diselesaikan dengan kombinasi keduanya</li>
+</ul>
+<h3 id="project-planning-pp-maturity-level-2">📋 Project Planning (PP) —
+Maturity Level 2</h3>
+<p><strong>Tujuan:</strong> Menetapkan dan memelihara rencana yang
+mendefinisikan aktivitas proyek.</p>
+<p><strong>Output utama:</strong> Project Plan — sebagai dasar untuk
+menjalankan dan mengontrol proyek.</p>
+<p><strong>Project Plan menjawab:</strong> - Why? — Apa masalah/value
+proposition proyek ini? - What? — Apa pekerjaan yang akan dilakukan? -
+Who? — Siapa yang terlibat dan perannya? - When? — Timeline dan
+milestone-nya?</p>
+<h4 id="sg-1-establish-estimates">SG 1: Establish Estimates</h4>
+<p>Membuat perkiraan untuk parameter perencanaan proyek.</p>
+<p><strong>SP 1.1 Estimate the Scope of the Project</strong> - Buat Work
+Breakdown Structure (WBS) top-level - Dalam Scrum, WBS setara dengan
+<strong>Epics/Stories yang tersusun dalam prioritized backlog</strong>
+dengan metadata (Definition of Done, sizing) - Diperkuat oleh: Backlog
+Grooming, Definition of Done, Release Planning, Sprint Planning, Team
+Estimating Game</p>
+<p><strong>SP 1.2 Establish Estimates of Work Product and Task
+Attributes</strong> - Identifikasi deliverables standar (Requirements
+Doc, Project Plan, Source Code) dan custom (Prototype, Mockups) - Break
+down tasks untuk setiap deliverable - Dalam Scrum: parent dan children
+user stories di-<em>size</em> menggunakan story sizing saat Backlog
+Grooming</p>
+<p><strong>SP 1.3 Define Project Lifecycle Phases</strong> - Pilih
+lifecycle yang paling sesuai: Waterfall, Agile, dll. - Dalam Scrum:
+Release Planning yang menstrukturisasi Sprints di dalamnya dengan durasi
+dan konten yang terdefinisi</p>
+<p><strong>SP 1.4 Estimate Effort and Cost</strong> - Kutip dalam
+<em>man-days</em> per task - Dalam Scrum: sizing of stories digunakan
+untuk memperkirakan durasi sprint</p>
+<h4 id="sg-2-develop-a-project-plan">SG 2: Develop a Project Plan</h4>
+<p><strong>SP 2.1 Establish the Budget and Schedule</strong> - Tetapkan
+Key Milestone: titik kritis di mana progress dapat diukur (misal:
+Release v1, UAT) - Buat Schedule Baseline menggunakan WBS (biasanya di
+MS Project) - Dalam Scrum: Release Planning (SP 2.2, 2.6, 2.1, 2.7)</p>
+<p><strong>SP 2.2 Identify Project Risks</strong> - Dokumentasikan
+risiko yang diketahui: perubahan staf, kebutuhan bisnis yang berkembang,
+kebijakan yang berubah - Beri nilai setiap risiko: urgensi, kemungkinan
+terjadi, dampak - Buat mitigation plan dan assign owner untuk setiap
+risiko - Dalam Scrum: Release Planning, Technical Debt (SP 2.2)</p>
+<p><strong>SP 2.3 Plan Data Management</strong> - Identifikasi data yang
+perlu dikelola: Plans, reports, schedules, test cases, dll. - Atur
+access level, version control, backup/archiving - Dalam Scrum: ini
+dikuatkan oleh Configuration Management</p>
+<p><strong>SP 2.4 Plan the Project’s Resources</strong> - Identifikasi
+semua resource: orang, fasilitas, tools, perangkat - Rencanakan ukuran
+tim dan peran (kalau belum bisa nama, setidaknya job role) - Dalam
+Scrum: ini tercakup dalam Release Planning</p>
+<p><strong>SP 2.5 Plan Needed Knowledge and Skills</strong> - Technical
+skills: BA, System Architect, Programmer, QA - Management skills: PM,
+Change Mgmt, Configuration Mgmt - Dalam Scrum: Team Agreements dapat
+mencakup ini</p>
+<p><strong>SP 2.6 Plan Stakeholder Involvement</strong> - Identifikasi
+siapa saja stakeholder dan kapan keterlibatan mereka diperlukan -
+Pastikan Senior Management terlibat dan ter-inform - Dalam Scrum:
+Release Planning (SP 2.6)</p>
+<p><strong>SP 2.7 Establish the Project Plan</strong> - Publikasikan
+draft plan yang profesional - Tampilan plan mencerminkan tingkat
+komitmen - Dalam Scrum: <strong>Product Backlog</strong> adalah setara
+dengan Project Plan. Product Owner + Scrum Team berkolaborasi saat
+Release Planning, Sprint Planning, dan Backlog Grooming</p>
+<h4 id="sg-3-obtain-commitment-to-the-plan">SG 3: Obtain Commitment to
+the Plan</h4>
+<p><strong>SP 3.1 Review Plans that Affect the Project</strong> →
+dikuatkan oleh Sprint Planning <strong>SP 3.2 Reconcile Work and
+Resource Levels</strong> → Sprint Planning <strong>SP 3.3 Obtain Plan
+Commitment</strong> → Sprint Planning, Release Planning, Technical
+Debt</p>
+<p><strong>Kata kunci Commitment:</strong> - <strong>Agreement</strong>
+— semua pihak setuju dengan atribut proyek - <strong>Alignment</strong>
+— bergerak bersama ke arah yang sama - <strong>Cooperation</strong> —
+mengakui pentingnya bekerja sama</p>
+<h4 id="mapping-pp-ke-scrum-ceremonies">Mapping PP ke Scrum
+Ceremonies</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Scrum Ceremony/Technique</th>
+<th>CMMI PP Practices</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Backlog Grooming</td>
+<td>SP 1.1, 1.2, 1.4</td>
+</tr>
+<tr class="even">
+<td>Definition of Done</td>
+<td>SP 1.1, 1.2</td>
+</tr>
+<tr class="odd">
+<td>Release Planning</td>
+<td>SP 1.1–1.4, 2.1, 2.2, 2.6, 2.7, 3.3</td>
+</tr>
+<tr class="even">
+<td>Sprint Planning</td>
+<td>SP 1.1, 1.2, 1.4, 3.1, 3.2, 3.3</td>
+</tr>
+<tr class="odd">
+<td>Sprint/Iteration</td>
+<td>SP 1.3</td>
+</tr>
+<tr class="even">
+<td>Team Estimating Game &amp; Planning Poker</td>
+<td>SP 1.1, 1.4</td>
+</tr>
+<tr class="odd">
+<td>Product Backlog</td>
+<td>SP 2.7</td>
+</tr>
+<tr class="even">
+<td>Technical Debt</td>
+<td>SP 1.4, 2.2, 3.3</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cmmi-agile-scrum-project-monitoring-control-pmc">6. CMMI &amp;
+Agile (Scrum): Project Monitoring &amp; Control (PMC)</h2>
+<h3 id="tujuan-pmc">🎯 Tujuan PMC</h3>
+<p>Memberikan pemahaman tentang kemajuan proyek agar <strong>corrective
+action</strong> yang tepat dapat diambil ketika performance menyimpang
+secara signifikan dari rencana.</p>
+<p>PMC adalah inti dari Project Management: - Guide of Work: memastikan
+semua pekerjaan terkoordinasi sesuai rencana - Protect Commitment:
+memastikan komitmen (jadwal, anggaran, kualitas) terealisasi - Promote
+Communication: komunikasi yang buruk menyebabkan false perception -
+Facilitate Correction, Adjustment, and Focus: perubahan yang tidak
+terkontrol bisa menyebabkan kegagalan proyek</p>
+<h3 id="sg-1-monitor-the-project-against-the-plan">SG 1: Monitor the
+Project Against the Plan</h3>
+<p><strong>SP 1.1 Monitor Project Planning Parameters</strong> Monitor:
+scope, schedule, budget, resources - Schedule selalu diperbaharui dan
+jelas — bisa menjadi communication tool - Budget: track konsumsi agar
+selalu sejajar dengan aktivitas proyek - Dalam Scrum: dikuatkan oleh
+Daily Standup dan Release Burn-Down Chart</p>
+<p><strong>SP 1.2 Monitor Commitments</strong> Monitor komitmen terkait
+deliverables, kualitas, dan komunikasi. - Dalam Scrum: Daily Standup
+(format “what I did, what I’m doing, what’s blocking me”), Release
+Burn-Down Chart</p>
+<p><strong>SP 1.3 Monitor Project Risks</strong> Risiko yang sudah
+didokumentasikan di PP harus terus dipantau. - Dalam Scrum: Daily
+Standup — risiko harus diangkat sebagai agenda spesifik, bukan hanya
+saat ada blocker</p>
+<p><strong>SP 1.4 Monitor Data Management</strong> Pastikan work
+products terpelihara dan tersedia dengan baik.</p>
+<p><strong>SP 1.5 Monitor Stakeholder Involvement</strong> Stakeholder
+bisa keluar-masuk proyek; pastikan keterlibatan mereka terencana. -
+Dalam Scrum: Release Burn-Down Chart digunakan dan di-review dengan
+stakeholder saat Sprint Demo dan Retrospective</p>
+<p><strong>SP 1.6 Conduct Progress Reviews</strong> Review berkala untuk
+progress, performance, dan issues. PM membandingkan aktual dengan
+estimasi. - Dalam Scrum: <strong>Daily Standup</strong>, <strong>Release
+Burn-Down Chart</strong>, <strong>Sprint Burn-Down Chart</strong></p>
+<p><strong>SP 1.7 Conduct Milestone Reviews</strong> - Critical path
+dates: milestone pada fase proyek (misal: Deployment) - Critical path
+work products: Release 1, Prototype, dll. - Dalam Scrum: <strong>Sprint
+Demo/Sprint Review</strong> (akhir setiap sprint = milestone review)</p>
+<h3 id="sg-2-manage-corrective-action-to-closure">SG 2: Manage
+Corrective Action to Closure</h3>
+<p><strong>SP 2.1 Analyze Issues</strong> — identifikasi dan analisis
+issues untuk menilai dampak dan urgensi</p>
+<p><strong>SP 2.2 Take Corrective Action:</strong> - Remove the Issue —
+eliminasi jika ternyata bukan masalah nyata - Change Project Activities
+— misal: tambah resource, kerja overtime untuk schedule issue - Change
+the Plan — jika realita tidak bisa dihindari, realign ekspektasi dan
+modifikasi plan</p>
+<p><strong>SP 2.3 Manage Corrective Actions</strong> — pastikan semua
+actions ditindaklanjuti hingga tuntas (closure)</p>
+<h3 id="scrum-ceremonies-yang-memperkuat-pmc">📊 Scrum Ceremonies yang
+Memperkuat PMC</h3>
+<p><strong>Daily Standup/Daily Scrum</strong> - Mengidentifikasi issues
+dan risiko lebih awal (“fail fast”) - Meningkatkan kolaborasi antar
+anggota tim - Memperkuat: SP 1.1 (Monitor Parameters), SP 1.2 (Monitor
+Commitments), SP 1.3 (Monitor Risks), SP 1.6 (Progress Reviews), SP 1.7
+(Milestone Reviews)</p>
+<p><strong>Release Burn-Down Chart</strong> - Menggambarkan trajectory
+keseluruhan release berdasarkan sprint - Berdasarkan
+<strong>velocity</strong> (story points yang bisa di-“burn down” per
+sprint) - Membantu Product Owner dan tim memahami apakah functionality
+akan terdelivery sesuai rencana - Memperkuat: SP 1.1, 1.2, 1.5, 1.6</p>
+<p><strong>Sprint Burn-Down Chart</strong> - Menggambarkan effort yang
+tersisa untuk menyelesaikan sprint - <em>Burn-Up chart</em> adalah
+kebalikannya: melacak seberapa banyak pekerjaan yang sudah selesai
+(kurva naik) - Memperkuat: SP 1.5, 1.6</p>
+<p><strong>Sprint Demo / Sprint Review</strong> - Teknik kolaboratif
+iteratif dan inkremental memastikan stakeholder aware terhadap value
+yang delivered - Memperkuat: SP 1.2, 1.5, 1.6, 1.7 (SG 1) dan SP 2.3 (SG
+2)</p>
+<h4 id="mapping-pmc-ke-scrum-ceremonies">Mapping PMC ke Scrum
+Ceremonies</h4>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scrum Ceremony</th>
+<th>PMC Practices</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Daily Standup</td>
+<td>SP 1.1, 1.2, 1.3, 1.6, 1.7</td>
+</tr>
+<tr class="even">
+<td>Release Burn-Down Chart</td>
+<td>SP 1.1, 1.2, 1.5, 1.6</td>
+</tr>
+<tr class="odd">
+<td>Sprint Burn-Down Chart</td>
+<td>SP 1.5, 1.6</td>
+</tr>
+<tr class="even">
+<td>Sprint Demo/Sprint Review</td>
+<td>SP 1.2, 1.5, 1.6, 1.7 (SG1); SP 2.3 (SG2)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cmmi-agile-scrum-requirements-management-reqm">7. CMMI &amp;
+Agile (Scrum): Requirements Management (REQM)</h2>
+<h3 id="apa-itu-requirements">📌 Apa itu Requirements?</h3>
+<p>Requirements adalah ekspektasi umum tentang: - Apa yang akan dibangun
+- Apa yang harus dilakukan setelah dibangun - Apa yang diperlukan untuk
+membangunnya</p>
+<p>Requirements adalah <strong>kontrak saling pengertian</strong> antara
+developer dan customer. Mereka berfungsi sebagai: 1. <strong>Basis for
+Agreement</strong> — dasar kesepakatan developer-customer-tim 2.
+<strong>Scope Definition</strong> — menentukan jumlah/jenis pekerjaan,
+resource, waktu, biaya 3. <strong>Performance Obligation</strong> —
+tanggung jawab legal (untuk beberapa jenis klien) 4. <strong>Success
+Criteria</strong> — benchmark keberhasilan proyek 5. <strong>Naturally
+Subject to Change</strong> — oleh karena itu harus dikelola dengan
+baik</p>
+<h3 id="tujuan-reqm">🎯 Tujuan REQM</h3>
+<p>Mengelola requirements produk dan memastikan alignment antara
+requirements dengan plans dan work products proyek.</p>
+<h3 id="sg-1-manage-requirements-5-specific-practices">SG 1: Manage
+Requirements (5 Specific Practices)</h3>
+<p><strong>SP 1.1 Understand Requirements</strong> - Kembangkan
+pemahaman dengan requirements providers tentang makna requirements -
+Dalam Scrum: <strong>Backlog Grooming</strong> — product owner, Scrum
+master, dan tim membahas clarifying questions hingga size dan complexity
+user story dipahami - Bisa didemonstrasikan: attend backlog grooming
+session, lihat story points ter-assign, backlog terdokumentasi di
+board/tool</p>
+<p><strong>SP 1.2 Obtain Commitment to Requirements</strong> - Dapatkan
+komitmen dari peserta proyek terhadap requirements - Dalam Scrum:
+Backlog Grooming — semua anggota review user stories baru/yang
+dimodifikasi/yang dihapus - Penting: CMMI menekankan dialog dengan
+<strong>extended stakeholders</strong> untuk menghindari
+misunderstanding</p>
+<p><strong>SP 1.3 Manage Requirements Changes</strong> - Kelola
+perubahan requirements seiring berkembangnya proyek - Dalam Scrum: Epics
+dan user stories terhubung ke tasks dan Definition of Done di tool
+seperti Jira atau Version One - CMMI fokus pada <strong>capture of
+change purpose and history</strong> — tanpa ini, bisa mendekati
+chaos</p>
+<p><strong>SP 1.4 Maintain Bidirectional Traceability of
+Requirements</strong> - Maintain traceability dua arah antara
+requirements dan work products - Dalam Scrum: mapping dari Epics →
+Parent User Stories → Child User Stories - Bidirectional traceability
+membantu memvalidasi bahwa stories terimplementasi dan mengidentifikasi
+gaps</p>
+<p><strong>SP 1.5 Ensure Alignment Between Project Work and
+Requirements</strong> - Pastikan project plans dan work products tetap
+aligned dengan requirements - Dalam Scrum: Backlog grooming memastikan
+user stories aligned dengan kebutuhan, skills, environments, dan
+architecture yang diperlukan</p>
+<h3 id="tips-menghadapi-requirements-yang-selalu-berubah-dalam-scrum">⚡
+Tips Menghadapi Requirements yang Selalu Berubah (dalam Scrum)</h3>
+<ol type="1">
+<li>Ada <strong>Product Backlog</strong> untuk track semua user
+stories</li>
+<li><strong>Product Owner</strong> bertanggung jawab menjaga backlog
+up-to-date</li>
+<li><strong>Sprint Backlog di-freeze</strong> setelah Sprint Planning
+selesai</li>
+<li>Perubahan yang datang saat Sprint berjalan → masuk ke Product
+Backlog</li>
+<li>Lakukan <strong>Backlog Grooming</strong> secara reguler untuk
+menguraikan user stories untuk sprint berikutnya</li>
+</ol>
+<h3 id="reqm-v1.3-vs-rdm-v2.0">🔄 REQM v1.3 vs RDM v2.0</h3>
+<p>Di CMMI v2.0, REQM dan Requirements Development (RD) digabung menjadi
+satu Practice Area: <strong>Requirements Development &amp; Management
+(RDM)</strong>.</p>
+<p><strong>RDM Level 1:</strong> RDM 1.1 Record requirements <strong>RDM
+Level 2:</strong> RDM 2.1–2.6 (elicit, transform, understand, commit,
+traceability, alignment) <strong>RDM Level 3:</strong> RDM 3.1–3.7
+(develop &amp; update, operational concepts, allocate, interface,
+necessary &amp; sufficient, balance, validate)</p>
+<hr />
+<h2 id="cmmi-agile-scrum-requirements-development-rd">8. CMMI &amp;
+Agile (Scrum): Requirements Development (RD)</h2>
+<h3 id="tujuan-rd">🎯 Tujuan RD</h3>
+<p><strong>Elicit, analyze, and establish</strong> customer, product,
+dan product component requirements.</p>
+<p>RD mendeskripsikan tiga tipe requirements: 1. <strong>Customer
+requirements</strong> — kebutuhan dari perspektif customer 2.
+<strong>Product requirements</strong> — kebutuhan produk keseluruhan 3.
+<strong>Product component requirements</strong> — kebutuhan
+komponen-komponen produk</p>
+<p>Dalam konteks Agile, kebutuhan customer di-elicit, diuraikan,
+dianalisis, dan divalidasi secara <strong>iteratif</strong>.
+Requirements didokumentasikan sebagai: user stories, scenarios, use
+cases, product backlogs.</p>
+<h3 id="sg-1-develop-customer-requirements">SG 1: Develop Customer
+Requirements</h3>
+<p><strong>SP 1.1 Elicit Needs</strong> - Elicit kebutuhan, ekspektasi,
+constraints, dan interfaces stakeholder untuk semua fase lifecycle
+produk - <em>Eliciting</em> lebih dari sekadar mengumpulkan requirements
+— proactively mengidentifikasi requirements tambahan yang tidak
+dinyatakan eksplisit - Teknik: technology demonstrations,
+questionnaires, interviews, scenarios, Interface Control Working Groups
+- Dalam Scrum: Backlog Grooming, Epics, User Stories</p>
+<p><strong>SP 1.2 Transform Stakeholder Needs into Customer
+Requirements</strong> - Terjemahkan kebutuhan stakeholder menjadi
+prioritized customer requirements - Establis prioritasi customer
+functional dan quality attribute requirements - Dalam Scrum: Epic
+dipecah menjadi User Story yang lebih kecil saat Backlog Grooming</p>
+<h3 id="sg-2-develop-product-requirements">SG 2: Develop Product
+Requirements</h3>
+<p><strong>SP 2.1 Establish Product and Product Component
+Requirements</strong> - Tetapkan product dan product component
+requirements berdasarkan customer requirements - Dalam Scrum: modifikasi
+user stories oleh PO = aspek “maintained”; parent/children user stories
+= lebih specific data</p>
+<p><strong>SP 2.2 Allocate Product Component Requirements</strong> -
+Alokasikan requirements ke setiap product component - Dalam Scrum:
+requirements dialokasikan ke delivery increment untuk feed sprint
+planning</p>
+<p><strong>SP 2.3 Identify Interface Requirements</strong> -
+Identifikasi interface antara fungsi-fungsi (atau objek-objek atau
+entitas logis lainnya) - Dalam Scrum: interface requirements
+diidentifikasi dan diaddress melalui user stories</p>
+<h3 id="sg-3-analyze-and-validate-requirements">SG 3: Analyze and
+Validate Requirements</h3>
+<p><strong>SP 3.1 Establish Operational Concepts and Scenarios</strong>
+- Kembangkan konsep operasional dan skenario penggunaan produk - Dalam
+Scrum: user stories dalam format “As an XXX, I need to XXX so that I can
+XXX” - Dikuatkan oleh: Backlog Grooming, Test Driven Development</p>
+<p><strong>SP 3.2 Establish a Definition of Required Functionality and
+Quality Attributes</strong> - Definisikan functionality yang dibutuhkan
+dan quality attributes - Dalam Scrum: acceptance criteria dan quality
+attributes dalam user story mendefinisikan “what success looks like”</p>
+<p><strong>SP 3.3 Analyze Requirements</strong> - Pastikan requirements
+necessary dan sufficient - Hapus konflik, pastikan setiap requirement
+satisfy higher-level requirements - Dalam Scrum: PO dan tim menganalisis
+epics dan user stories saat Backlog Grooming</p>
+<p><strong>SP 3.4 Analyze Requirements to Achieve Balance</strong> -
+Gunakan proven models, simulations, dan prototyping untuk analisis
+keseimbangan - Dalam Scrum: stories diprioritaskan 1 to n untuk
+memastikan stories paling critical diimplementasikan pertama</p>
+<p><strong>SP 3.5 Validate Requirements</strong> - Pastikan produk yang
+dihasilkan akan berfungsi sebagaimana dimaksud di environment pengguna -
+Teknik: analysis, simulations, prototyping, demonstrations - Dalam
+Scrum: Backlog Grooming membuat stories untuk
+prototype/simulasi/demonstrasi; TDD memastikan continuous validation</p>
+<h3 id="beberapa-teknikceremony-scrum-yang-diperkuat-oleh-rd">📋
+Beberapa Teknik/Ceremony Scrum yang Diperkuat oleh RD</h3>
+<p><strong>Epics:</strong> Dikuatkan oleh RD SP 1.1 dan SP 1.2. Epic
+merupakan large user story yang nantinya dipecah menjadi user stories
+yang bisa diselesaikan dalam satu sprint.</p>
+<p><strong>User Stories:</strong> Format: “As a [user role], I want to
+[goal] so that [benefit].” Dikuatkan oleh hampir semua SP di SG 1, 2,
+dan 3. Ketika TDD dan DOD yang robust digunakan, user stories adalah
+bentuk Requirements Development yang kuat.</p>
+<p><strong>Pair Programming:</strong> Dua developer bekerja bersama di
+satu workstation. Satu sebagai “driver” (menulis kode), satu sebagai
+“navigator” (review kode). Meskipun meningkatkan biaya awal, terbayar
+lewat peningkatan kualitas kode.</p>
+<p><strong>Test Driven Development (TDD):</strong> 1. Developer menulis
+test case sederhana → akan gagal dulu 2. Tulis minimum code untuk lulus
+test 3. Bersihkan kode agar memenuhi standar performa dan coding - Ini
+adalah teknik Verification DAN Validation sekaligus - Hubungan kuat
+dengan RD (SP 3.1, 3.4, 3.5), Validation, dan Verification</p>
+<p><strong>Refactoring:</strong> Memperbaiki internal structure kode
+tanpa mengubah external functionality. Tujuannya: meningkatkan kualitas
+kode secara berkelanjutan.</p>
+<hr />
+<h2 id="verification-validation-ver-val-software-inspection">9.
+Verification &amp; Validation (VER &amp; VAL) + Software Inspection</h2>
+<h3 id="perbedaan-kunci-verification-vs-validation">🔑 Perbedaan Kunci:
+Verification vs Validation</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Verification</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“Did we <strong>build the product right</strong>?”</td>
+<td>“Did we <strong>build the right product</strong>?”</td>
+</tr>
+<tr class="even">
+<td>Apakah memenuhi spesifikasi/requirements?</td>
+<td>Apakah memenuhi kebutuhan pengguna sesungguhnya?</td>
+</tr>
+<tr class="odd">
+<td>Pastikan kita membangun dengan benar</td>
+<td>Pastikan kita membangun yang benar</td>
+</tr>
+<tr class="even">
+<td>Focus: requirements &amp; design</td>
+<td>Focus: user needs &amp; intended environment</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Keduanya menggunakan teknik yang serupa, keduanya berlaku di seluruh
+product lifecycle, dan bisa dilakukan concurrently. Bahkan satu
+aktivitas review bisa memenuhi Verification DAN Validation
+sekaligus.</p>
+</blockquote>
+<h3 id="verification-ver-maturity-level-3">🔵 VERIFICATION (VER) —
+Maturity Level 3</h3>
+<p><strong>Tujuan:</strong> Memastikan selected work products memenuhi
+specified requirements.</p>
+<h4 id="sg-1-prepare-for-verification">SG 1: Prepare for
+Verification</h4>
+<p><strong>SP 1.1 Select Work Products for Verification</strong>
+Identifikasi work products yang akan diverifikasi dan metode yang akan
+digunakan: - Work products: Software Requirement Document, Software
+Design, Source Code - Methods: Peer Reviews/Inspections, Static Analysis
+(SonarQube, Coverity), Traceability Audits, Testing, Demonstrations</p>
+<p><strong>SP 1.2 Establish the Verification Environment</strong>
+Siapkan environment untuk verifikasi: - Static Analysis Setup: server
+dengan automated tools dan specific rule sets - Dedicated Test Lab:
+isolated environment dengan berbagai OS/browser/hardware - Peer Review
+Infrastructure: shared digital workspaces dan checklists (Gerrit, GitHub
+PRs) - Unit Testing Frameworks: pre-configured environments dengan
+mocking libraries</p>
+<p><strong>SP 1.3 Establish Verification Procedures and
+Criteria</strong> Tentukan kriteria “verified” untuk setiap work
+product: - <em>Software Requirements (SRS):</em> Traceability,
+Testability, Unambiguity, Consistency - <em>Software Design:</em>
+Interface Integrity, Adherence to Architecture, Feasibility - <em>Source
+Code:</em> Coding Standards, Cyclomatic Complexity, Compiler Warning
+Level</p>
+<h4 id="sg-2-perform-peer-reviews">SG 2: Perform Peer Reviews</h4>
+<p><strong>SP 2.1 Prepare for Peer Reviews</strong> — kirim dokumen dan
+checklist 48 jam sebelum meeting <strong>SP 2.2 Conduct Peer
+Reviews</strong> — “Code Walkthrough”: developer menjelaskan logikanya
+sementara peers menunjukkan potensi edge-case failures atau violations
+<strong>SP 2.3 Analyze Peer Review Data</strong> — catat jumlah defects
+yang ditemukan, tipenya (“logic error” vs “typo”), waktu review →
+goldmine untuk process improvement</p>
+<h4 id="sg-3-verify-selected-work-products">SG 3: Verify Selected Work
+Products</h4>
+<p><strong>SP 3.1 Perform Verification</strong> — gunakan metode dan
+kriteria yang sudah ditetapkan <strong>SP 3.2 Analyze Verification
+Results</strong> — analisis data untuk melihat di mana produk gagal
+memenuhi requirements; cari trends (misal: “60% defects berhubungan
+dengan database connection strings”) <strong>SP 3.3 Perform Corrective
+Action</strong> — track defects ke closure (log di Jira, assign ke
+developer, re-verify fix)</p>
+<h3 id="validation-val-maturity-level-3">🟢 VALIDATION (VAL) — Maturity
+Level 3</h3>
+<p><strong>Tujuan:</strong> Mendemonstrasikan bahwa produk atau product
+component memenuhi intended use ketika ditempatkan di intended
+environment.</p>
+<h4 id="sg-1-prepare-for-validation">SG 1: Prepare for Validation</h4>
+<p><strong>SP 1.1 Select Products for Validation</strong> — produk dan
+product component requirements/designs, system, HW/SW, service
+documentation <strong>SP 1.2 Establish the Validation
+Environment</strong> — automated testing environment, dedicated
+computing/network, production environment, QA Engineer dan Testers
+<strong>SP 1.3 Establish Validation Procedures and Criteria</strong> —
+acceptance criteria customer, environmental performance thresholds
+(response time, availability)</p>
+<p><strong>Teknik Validasi:</strong> - Static: design reviews, program
+inspections, mathematical proofs - Dynamic: statistical testing,
+scenario-based testing, run-time checking - Process validation: SE
+processes meminimalisir chances of introducing defects</p>
+<h4 id="sg-2-validate-product-or-product-components">SG 2: Validate
+Product or Product Components</h4>
+<p><strong>SP 2.1 Perform Validation</strong> — prototype
+demonstrations, pilots, tests by end users <strong>SP 2.2 Analyze
+Validation Results</strong> — analisis apakah produk memenuhi intended
+use</p>
+<p><strong>Validation Perspectives:</strong> - Reliability validation:
+apakah measured reliability memenuhi specification? - Safety validation:
+apakah sistem beroperasi tanpa accidents? - Security validation: apakah
+sistem aman dari external attack?</p>
+<h3 id="software-review-inspection">🔎 Software Review &amp;
+Inspection</h3>
+<p>Reviews adalah cara ampuh mendeteksi dan mengoreksi defects
+<strong>lebih awal</strong> dalam development, sebelum makin mahal untuk
+diperbaiki.</p>
+<p><strong>Definisi:</strong> - <strong>Defect (Error):</strong> Masalah
+kualitas yang ditemukan sebelum software dirilis ke end users -
+<strong>Bug/Defect (post-release):</strong> Masalah kualitas yang
+ditemukan setelah software dirilis ke end users</p>
+<p><strong>Tipe-tipe Review (dari informal ke formal):</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipe</th>
+<th>Karakteristik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Buddy Checking</strong></td>
+<td>Informal, tidak ada checklist, tidak ada data collection, sulit
+dikontrol</td>
+</tr>
+<tr class="even">
+<td><strong>Walkthrough</strong></td>
+<td>Author “walk through” dokumen ke audiens peers. Sedikit persiapan,
+sedikit dokumentasi</td>
+</tr>
+<tr class="odd">
+<td><strong>Review by Circulation</strong></td>
+<td>Artifact beredar ke peers untuk dikomentari. Ada dokumentasi issues,
+minimal data collection</td>
+</tr>
+<tr class="even">
+<td><strong>Inspection (Fagan 1976)</strong></td>
+<td>Formal dan terstruktur, ada roles yang jelas, data dikumpulkan, ada
+quantitative goals, menggunakan inspection criteria yang jelas</td>
+</tr>
+</tbody>
+</table>
+<h3 id="proses-inspection-fagan-inspection">📋 Proses Inspection (Fagan
+Inspection)</h3>
+<p>Tahapan lengkap berdasarkan Gilb &amp; Graham:</p>
+<ol type="1">
+<li><strong>Entry</strong> — Author meminta artifact untuk di-inspect.
+Moderator memverifikasi entry criteria terpenuhi.</li>
+<li><strong>Planning</strong> — Moderator menentukan ukuran dan
+komposisi tim, goals, timing.</li>
+<li><strong>Kickoff Meeting</strong> — Roles di-assign, dokumen
+didistribusikan, checklist dibagikan.</li>
+<li><strong>Individual Checking</strong> — <strong>Mayoritas defects
+ditemukan di sini.</strong> Setiap reviewer membaca artifact dengan
+panduan checklist, mencatat issues dan severity.</li>
+<li><strong>Logging Meeting</strong> — Meeting terencana untuk mencatat
+issues yang ditemukan. Setiap issue dicatat satu kali saja.</li>
+<li><strong>Edit</strong> — Editor (biasanya author) mengatasi semua
+logged issues. Semua defects harus diperbaiki.</li>
+<li><strong>Follow Up dan Exit</strong> — Moderator memverifikasi semua
+defects ditangani. Hitung metrics.</li>
+</ol>
+<p><strong>Roles dalam Inspection:</strong> -
+<strong>Moderator/Leader</strong> — memimpin keseluruhan proses -
+<strong>Author/Producer</strong> — pencipta artifact yang di-inspect -
+<strong>Reviewer/Reader</strong> — membaca dan menemukan defects -
+<strong>Scribe</strong> — mencatat issues</p>
+<p><strong>Defect Classification:</strong> - <strong>Severity:</strong>
+Major (akan menyebabkan masalah jika tidak diperbaiki) atau Minor -
+<strong>Type:</strong> Missing, Extra, Wrong</p>
+<p><strong>Inspection Metrics:</strong> - Total Defects Found = A + B -
+C (A dan B adalah jumlah yang ditemukan masing-masing reviewer, C adalah
+yang ditemukan keduanya) - Estimated Total Defects = AB/C -
+<strong>Yield</strong> = Total Defects Found / Estimated Total Defects ×
+100% - <strong>Defect Density</strong> = Total Defects Found / Size -
+<strong>Inspection Rate</strong> = Size / Total Inspection Hours</p>
+<p><strong>Agile dan Reviews:</strong> - Dalam Scrum: ada Sprint Review
+setelah setiap iterasi selesai - XP: pair programming = proses inspeksi
+berkelanjutan — dua orang melihat setiap baris kode - Agile biasanya
+menggunakan review <strong>informal</strong>, tidak menggunakan formal
+inspection</p>
+<h3 id="scrum-ceremonies-yang-diperkuat-ver-val">Scrum Ceremonies yang
+Diperkuat VER &amp; VAL</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Ceremony</th>
+<th>VER/VAL Practices</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Continuous Build/Integration</td>
+<td>VER SG1, VAL SG1</td>
+</tr>
+<tr class="even">
+<td>Definition of Done</td>
+<td>VER SG1, VAL SG1</td>
+</tr>
+<tr class="odd">
+<td>Pair Programming</td>
+<td>VER SG2 (peer review), VAL SG2</td>
+</tr>
+<tr class="even">
+<td>Sprint Demo/Sprint Review</td>
+<td>VER SG3, VAL SG2</td>
+</tr>
+<tr class="odd">
+<td>Test Driven Development</td>
+<td>VER SG3, VAL SG2</td>
+</tr>
+<tr class="even">
+<td>User Stories</td>
+<td>VER SG1, VAL SG1</td>
+</tr>
+<tr class="odd">
+<td>Refactoring</td>
+<td>VER SG2, VAL SG2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="the-essence-of-se-agnostic-scaling-agile-asa-model">10. The
+Essence of SE &amp; Agnostic Scaling Agile (ASA) Model</h2>
+<h3 id="the-essence-of-software-engineering">🧩 The Essence of Software
+Engineering</h3>
+<p><strong>Konteks:</strong> Software Engineering tidak kekurangan
+teori. Setiap beberapa tahun muncul tren baru (OO → UML/RUP → CMMI → XP
+→ Scrum/Kanban). Semua bagus, tapi tidak ada yang memiliki
+segalanya.</p>
+<p><strong>The Essence</strong> dibuat pada 2014 oleh SEMAT (Software
+Engineering Method and Theory) dan OMG (Object Management Group): -
+Mendeskripsikan <strong>common ground</strong> pengembangan software →
+disebut <strong>“the kernel”</strong> - Merupakan standar internasional
+OMG - Agnostik terhadap metode — bisa mendeskripsikan metode
+pengembangan apapun - Membantu orang belajar tentang software dan
+praktiknya</p>
+<h3 id="the-essence-kernel">📐 The Essence Kernel</h3>
+<p>Kernel mendefinisikan konsep-konsep penting yang umum bagi semua yang
+bekerja di domain software engineering. Ini adalah skeletal practice
+framework di mana berbagai Practice bisa berhasil digunakan bersama.</p>
+<h3 id="elemen-elemen-essence">🔑 Elemen-Elemen Essence</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Elemen</th>
+<th>Definisi</th>
+<th>Contoh dalam Scrum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Activity</strong></td>
+<td>Pelaksanaan pekerjaan oleh satu orang atau lebih</td>
+<td>Coding, Daily Stand-Up, Backlog Refinement</td>
+</tr>
+<tr class="even">
+<td><strong>Alpha</strong></td>
+<td>Aspek utama/elemen kunci yang diperlukan untuk progress. Alpha state
+= indikator progress.</td>
+<td>Sprint Alpha: “scheduled” → “planned” → “reviewed”</td>
+</tr>
+<tr class="odd">
+<td><strong>Work Product</strong></td>
+<td>Artefak atau hasil kerja yang memiliki nilai</td>
+<td>Source Code, Project Plan, Kanban Board, Burndown Chart</td>
+</tr>
+<tr class="even">
+<td><strong>Competency</strong></td>
+<td>Kemampuan, pengetahuan, dan keterampilan yang diperlukan</td>
+<td>Leadership, Testing Skill, Development Skill</td>
+</tr>
+<tr class="odd">
+<td><strong>Pattern</strong></td>
+<td>Panduan umum (Role, Milestone, Game, Technique)</td>
+<td>Product Owner, Scrum Master, Milestones, Brainstorming</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kegunaan Essence:</strong> - Memberikan <em>common
+understanding</em> dan vocabulary untuk mendeskripsikan metode -
+Memungkinkan metode lebih mudah dipahami, direvisi, dibandingkan,
+dievaluasi - <strong>Scrum Essentials Cards</strong>: Ivar Jacobson
+(penggagas Essence) + Jeff Sutherland (penggagas Scrum) membuat gambaran
+Scrum dalam bahasa Essence</p>
+<h3 id="scaling-agile">📈 Scaling Agile</h3>
+<p><strong>Tiga Level Agile:</strong> 1. <strong>Team Level
+Agility</strong> — 1–2 tim, proyek skala kecil 2. <strong>Enterprise
+Agility (Scaled Agile)</strong> — 3–10+ tim, 24–100+ anggota. Framework:
+SAFe, Nexus, Scrum@Scale, Spotify Agile 3. <strong>Business Level
+Agility</strong> — Agile terintegrasi ke seluruh aspek bisnis (HR,
+finance, marketing, dll.)</p>
+<p><strong>Tantangan Scaling Agile (17th State of Agile Report,
+2023):</strong> - Mendefinisikan Large Scaled Agile framework yang
+sesuai organisasi - Membandingkan dan memilih framework yang paling
+sesuai - Agile tailoring untuk menyesuaikan keadaan dan karakteristik
+organisasi</p>
+<h3 id="the-essence-of-scaling-agile">🔑 The Essence of Scaling
+Agile</h3>
+<p>Elemen-elemen esensial yang harus ada agar Scaling Agile dapat
+berjalan dengan baik, <strong>tanpa terikat ke framework
+manapun</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Elemen</th>
+<th>Tipe</th>
+<th>Definisi</th>
+<th>Contoh</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Product Owner</td>
+<td>Pattern</td>
+<td>Menentukan fitur dan value</td>
+<td>SAFe PO, Nexus PO, Scrum@Scale PO</td>
+</tr>
+<tr class="even">
+<td>Agile Master</td>
+<td>Pattern</td>
+<td>Coach &amp; process leader</td>
+<td>SAFe Scrum Master, Nexus SM</td>
+</tr>
+<tr class="odd">
+<td>Development Team</td>
+<td>Pattern</td>
+<td>Tim self-organized cross-functional</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Integration</td>
+<td>Activity</td>
+<td>Aktivitas integrasi komponen</td>
+<td>Nexus NIT, SAFe ART/RTE, LeSS CI</td>
+</tr>
+<tr class="odd">
+<td>System Architect</td>
+<td>Pattern</td>
+<td>Mendefinisikan dan maintain arsitektur</td>
+<td>SAFe System Architect</td>
+</tr>
+<tr class="even">
+<td>Scaled Product Owner</td>
+<td>Pattern</td>
+<td>PO skala besar, koordinasi antar sub-PO</td>
+<td>SAFe Product Management, Spotify Trio</td>
+</tr>
+<tr class="odd">
+<td>Scaled Agile Master</td>
+<td>Pattern</td>
+<td>Koordinasi lintas tim</td>
+<td>Nexus IT, Spotify Tribe Leader</td>
+</tr>
+<tr class="even">
+<td>Team Backlog</td>
+<td>Work Product</td>
+<td>Daftar pekerjaan tim</td>
+<td>SAFe Team Backlog, Scrum Sprint Backlog</td>
+</tr>
+<tr class="odd">
+<td>Scaled Backlog</td>
+<td>Work Product</td>
+<td>Backlog lintas tim</td>
+<td>SAFe Program Backlog, Nexus Sprint Backlog</td>
+</tr>
+<tr class="even">
+<td>Cycle</td>
+<td>Alpha</td>
+<td>Iterasi Agile</td>
+<td>Sprint, Iteration (SAFe)</td>
+</tr>
+<tr class="odd">
+<td>Cycle Planning</td>
+<td>Activity</td>
+<td>Perencanaan siklus</td>
+<td>Sprint Planning</td>
+</tr>
+<tr class="even">
+<td>Scaled Cycle Planning</td>
+<td>Activity</td>
+<td>Perencanaan lintas tim, manage interdependencies</td>
+<td>PI Planning (SAFe), Nexus Sprint Planning</td>
+</tr>
+<tr class="odd">
+<td>Team Coordination Meeting</td>
+<td>Activity</td>
+<td>Sinkronisasi internal tim</td>
+<td>Daily Scrum</td>
+</tr>
+<tr class="even">
+<td>Scaled Coordination Meeting</td>
+<td>Activity</td>
+<td>Sinkronisasi lintas tim</td>
+<td>Nexus Daily Scrum, Scrum@Scale SDS</td>
+</tr>
+<tr class="odd">
+<td>User Review</td>
+<td>Activity</td>
+<td>Review hasil iterasi terintegrasi</td>
+<td>System Demo, Sprint Review</td>
+</tr>
+<tr class="even">
+<td>Requirement Management</td>
+<td>Activity</td>
+<td>Elicitation, refinement, prioritizing, dll.</td>
+<td>Backlog Refinement</td>
+</tr>
+<tr class="odd">
+<td>Success Criteria</td>
+<td>Work Product</td>
+<td>Kriteria keberhasilan berbagai level</td>
+<td>Definition of Done, Acceptance Criteria</td>
+</tr>
+<tr class="even">
+<td>Release Management</td>
+<td>Activity</td>
+<td>Pengelolaan release</td>
+<td>Release on Demand, Continuous Release</td>
+</tr>
+<tr class="odd">
+<td>Cycle Goal</td>
+<td>Work Product</td>
+<td>Tujuan dalam satu iterasi</td>
+<td>Sprint Goal, PI Objectives</td>
+</tr>
+<tr class="even">
+<td>Scaled Cycle Goal</td>
+<td>Work Product</td>
+<td>Tujuan siklus lintas tim</td>
+<td>Nexus Sprint Goal, PI Objectives</td>
+</tr>
+<tr class="odd">
+<td>Cycle Output</td>
+<td>Work Product</td>
+<td>Increment terintegrasi</td>
+<td>Increment, Solution</td>
+</tr>
+<tr class="even">
+<td>Continuous Improvement</td>
+<td>Alpha</td>
+<td>Peningkatan cara kerja</td>
+<td>Retrospective, SAFe IP Iteration</td>
+</tr>
+<tr class="odd">
+<td>Team Retrospective</td>
+<td>Activity</td>
+<td>Retrospektif tim</td>
+<td>Sprint Retrospective</td>
+</tr>
+<tr class="even">
+<td>Scaled Retrospective</td>
+<td>Activity</td>
+<td>Retrospektif lintas tim</td>
+<td>Inspect &amp; Adapt, Nexus Sprint Retro</td>
+</tr>
+<tr class="odd">
+<td>Value Management</td>
+<td>Activity</td>
+<td>Menjaga value bisnis</td>
+<td>SAFe Product Management</td>
+</tr>
+<tr class="even">
+<td>Configuration Management</td>
+<td>Alpha</td>
+<td>Version control &amp; audit</td>
+<td>Git, CI/CD pipelines</td>
+</tr>
+<tr class="odd">
+<td>Management Ownership</td>
+<td>Competency</td>
+<td>Dukungan manajemen</td>
+<td>SAFe Lean-Agile Leadership</td>
+</tr>
+<tr class="even">
+<td>Metrics and Standards</td>
+<td>Work Product</td>
+<td>Mengukur performa proses/kualitas</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agnostic-scaling-agile-asa-model">🏗️ Agnostic Scaling Agile
+(ASA) Model</h3>
+<p><strong>ASA Model</strong> adalah model yang menggambarkan Scaling
+Agile secara agnostik — tanpa bias ke salah satu framework Scaling Agile
+yang ada. Terdiri dari: 1. <strong>The Essence of Scaling Agile</strong>
+— elemen-elemen esensial 2. <strong>Mapping</strong> ke Practice Area
+(PA) pada CMMI v2 yang relevan</p>
+<p><strong>Kegunaan ASA Model:</strong> - Assessment Capability Level /
+Maturity Level proses Scaling Agile - Membantu mengukur
+<strong>readiness</strong> organisasi dalam implementasi Scaling Agile -
+Proses pemilihan framework scaling agile tertentu - Tailoring framework
+atau proses scaling agile - Panduan implementasi dan adopsi scaling
+agile secara bertahap</p>
+<h3 id="scaling-agile-maturity-level-berdasarkan-asa-model">📊 Scaling
+Agile Maturity Level (Berdasarkan ASA Model)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Maturity Level</th>
+<th>Syarat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ML 1</td>
+<td>Capability Level 1 pada semua elemen the Essence of Scaling
+Agile</td>
+</tr>
+<tr class="even">
+<td>ML 2</td>
+<td>Capability Level 2 pada semua elemen</td>
+</tr>
+<tr class="odd">
+<td>ML 3</td>
+<td>Capability Level 3 pada semua elemen (kecuali PA CM yang maksimum
+hanya bisa CL 2)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="hybrid-approach">🌐 Hybrid Approach</h3>
+<p>Kombinasi Waterfall + Agile semakin populer: - 71% organisasi
+menggunakan Agile methodologies (Digital.ai survey) - 42% menggunakan
+hybrid approach - PMI 2024: adopsi Agile dan hybrid meningkat 43% dari
+2020–2023, mencapai 56.1%</p>
+<p>The Essence dan ASA Model dapat digunakan sebagai tools untuk
+<strong>tailoring</strong> metodologi yang telah ada (baik Agile,
+konvensional, maupun campuran).</p>
+<hr />
+<h2 id="ringkasan-konsep-kunci-untuk-uas">💡 Ringkasan Konsep Kunci
+untuk UAS</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Konsep</th>
+<th>Inti yang Harus Dipahami</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Agile Hangover</strong></td>
+<td>Agile tanpa keunggulan teknis = produksi perangkat lunak berkualitas
+rendah dengan lebih cepat</td>
+</tr>
+<tr class="even">
+<td><strong>Software Craftsmanship</strong></td>
+<td>Ideologi profesionalisme pelengkap Agile — bukan pengganti. Fokus
+pada well-crafted code</td>
+</tr>
+<tr class="odd">
+<td><strong>TDD</strong></td>
+<td>Tulis test dulu (gagal), baru tulis minimum code, lalu bersihkan.
+Simultaneously Verification &amp; Validation</td>
+</tr>
+<tr class="even">
+<td><strong>CMMI Maturity Levels</strong></td>
+<td>1=Chaotic, 2=Managed/Repeatable, 3=Defined, 4=Quantitatively
+Managed, 5=Optimizing</td>
+</tr>
+<tr class="odd">
+<td><strong>Verification vs Validation</strong></td>
+<td>VER: “Build it right?” (sesuai spec). VAL: “Build the right thing?”
+(sesuai kebutuhan user)</td>
+</tr>
+<tr class="even">
+<td><strong>Staged vs Continuous</strong></td>
+<td>Staged: naik level bersama-sama. Continuous: tiap PA naik
+sendiri-sendiri</td>
+</tr>
+<tr class="odd">
+<td><strong>The Essence</strong></td>
+<td>Common ground, agnostik metode, kernel yang mendeskripsikan elemen
+esensial SE</td>
+</tr>
+<tr class="even">
+<td><strong>ASA Model</strong></td>
+<td>Model Scaling Agile agnostik yang memapping Essence + CMMI v2</td>
+</tr>
+<tr class="odd">
+<td><strong>Backlog Grooming</strong></td>
+<td>Merupakan salah satu ceremony yang paling kaya diperkuat oleh CMMI:
+REQM, RD, dan PP</td>
+</tr>
+<tr class="even">
+<td><strong>Technical Debt</strong></td>
+<td>Solusi less-optimal yang sengaja dipilih karena constraints. Harus
+dikelola agar tidak menumpuk</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Catatan belajar ini disusun berdasarkan slide materi UAS DTPL —
+Magister Teknologi Informasi, Universitas Indonesia</em></p>
+
+</main>
+
+<a id="back-to-top" href="#" title="Kembali ke atas">↑</a>
+
+<script>
+  const btn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Hide the TOC list that pandoc generated (we have sidebar now)
+  const tocList = document.querySelector('#daftar-isi + ol');
+  if (tocList) {
+    const tocH2 = document.getElementById('daftar-isi');
+    if (tocH2) tocH2.style.display = 'none';
+    tocList.style.display = 'none';
+    const hrAfter = tocH2 && tocH2.nextElementSibling && tocH2.nextElementSibling.tagName === 'OL'
+      ? tocH2.nextElementSibling.nextElementSibling : null;
+    if (hrAfter && hrAfter.tagName === 'HR') hrAfter.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
