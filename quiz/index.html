@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latihan Soal UAS — DTPL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --text: #1c1a18;
+      --muted: #6b6560;
+      --accent: #2d5a8e;
+      --accent-light: #e8eff8;
+      --border: #ddd8d0;
+      --highlight: #fff8e8;
+      --code-bg: #f0ede8;
+      --table-head: #f0ede8;
+      --note-bg: #fffbeb;
+      --note-border: #f59e0b;
+      --note-header: #92400e;
+      --answer-bg: #f0f7ee;
+      --answer-border: #4caf7d;
+      --answer-header: #1a5c35;
+      --tag-essay: #e8eff8;
+      --tag-essay-text: #2d5a8e;
+      --tag-case: #fef3c7;
+      --tag-case-text: #92400e;
+      --tag-def: #f0fdf4;
+      --tag-def-text: #166534;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    #sidebar {
+      width: 268px;
+      min-width: 268px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 28px 18px 40px;
+      font-size: 12.5px;
+    }
+    #sidebar .sidebar-brand {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    #sidebar .sidebar-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      font-family: 'DM Mono', monospace;
+    }
+    #sidebar .sidebar-section {
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin: 18px 0 8px;
+    }
+    #sidebar ol {
+      list-style: none;
+      padding: 0;
+      counter-reset: toc;
+    }
+    #sidebar ol li { counter-increment: toc; margin-bottom: 1px; }
+    #sidebar ol li a {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      line-height: 1.4;
+      transition: background 0.15s, color 0.15s;
+    }
+    #sidebar ol li a::before {
+      content: counter(toc, decimal-leading-zero);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      min-width: 20px;
+      flex-shrink: 0;
+    }
+    #sidebar ol li a:hover, #sidebar ol li a.active {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    /* MAIN */
+    #main {
+      flex: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 52px 100px;
+    }
+    .updated-at {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 2.1rem;
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-top: 3.5rem;
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    h3 { font-size: 1rem; font-weight: 600; margin-top: 1.6rem; margin-bottom: 0.45rem; color: var(--accent); }
+    h4 { font-size: 0.93rem; font-weight: 600; margin-top: 1.2rem; margin-bottom: 0.35rem; }
+    p { margin-bottom: 0.85rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ul, ol.content-list { padding-left: 1.5rem; margin-bottom: 0.85rem; }
+    li { margin-bottom: 0.3rem; }
+
+    /* QUESTION CARD */
+    .question-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 2.5rem;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .question-header {
+      padding: 18px 24px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .question-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 6px;
+      padding: 3px 9px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .question-title-wrap { flex: 1; }
+    .question-topic {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: 'DM Mono', monospace;
+    }
+    .question-title {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .question-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .tag-essay { background: var(--tag-essay); color: var(--tag-essay-text); }
+    .tag-case  { background: var(--tag-case);  color: var(--tag-case-text); }
+    .tag-def   { background: var(--tag-def);   color: var(--tag-def-text); }
+
+    /* SOAL BODY */
+    .question-body { padding: 20px 24px 4px; }
+    .soal-box {
+      background: var(--highlight);
+      border: 1px solid #f3e7b0;
+      border-left: 4px solid var(--note-border);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .soal-box blockquote {
+      border-left: none;
+      background: none;
+      padding: 0;
+      margin: 0.4rem 0;
+    }
+    .soal-box blockquote p {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .soal-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--note-header);
+      margin-bottom: 8px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* TOGGLE BUTTON */
+    .toggle-answer-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin: 4px 24px 20px;
+      background: none;
+      border: 1.5px solid var(--answer-border);
+      color: var(--answer-header);
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .toggle-answer-btn:hover { background: var(--answer-bg); }
+    .toggle-answer-btn .btn-icon { font-size: 0.75rem; transition: transform 0.2s; }
+    .toggle-answer-btn.open .btn-icon { transform: rotate(180deg); }
+
+    /* ANSWER BOX */
+    .answer-box {
+      display: none;
+      border-top: 1px solid #d4edda;
+      background: var(--answer-bg);
+      padding: 20px 24px 20px;
+    }
+    .answer-box.visible { display: block; }
+    .answer-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--answer-header);
+      margin-bottom: 14px;
+      font-family: 'DM Mono', monospace;
+    }
+    .answer-box p { margin-bottom: 0.8rem; font-size: 0.95rem; }
+    .answer-box ul, .answer-box ol.content-list { font-size: 0.95rem; margin-bottom: 0.8rem; }
+    .answer-box h3 { margin-top: 1.2rem; color: var(--answer-header); }
+    .answer-box h4 { color: var(--text); margin-top: 1rem; }
+    .answer-box blockquote {
+      border-left: 3px solid var(--answer-border);
+      background: #fff;
+      margin: 1rem 0;
+      padding: 10px 16px;
+      border-radius: 0 6px 6px 0;
+    }
+    .answer-box blockquote p {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      margin: 0;
+    }
+    .answer-box table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.88rem;
+    }
+    .answer-box th {
+      background: #d4edda;
+      font-weight: 600;
+      text-align: left;
+      padding: 8px 12px;
+      border: 1px solid #b2dfbc;
+    }
+    .answer-box td {
+      padding: 7px 12px;
+      border: 1px solid #c8e6c9;
+      vertical-align: top;
+    }
+    .answer-box tr:nth-child(even) td { background: #f6fdf7; }
+    .conclusion-box {
+      background: #fff;
+      border: 1px solid #b2dfbc;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 1rem;
+    }
+    .conclusion-box .conclusion-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--answer-header);
+      margin-bottom: 6px;
+      font-family: 'DM Mono', monospace;
+    }
+    .conclusion-box p { margin: 0; font-size: 0.93rem; }
+
+    /* divider */
+    hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+    /* progress bar */
+    .progress-bar-wrap {
+      background: var(--border);
+      border-radius: 99px;
+      height: 6px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+    .progress-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    /* back to top */
+    #back-to-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--accent);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 18px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    #back-to-top.visible { opacity: 1; }
+
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { padding: 28px 20px 60px; }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.55rem; }
+      #main { padding: 20px 14px 60px; }
+      .question-header { padding: 14px 16px 12px; }
+      .question-body { padding: 16px 16px 4px; }
+      .answer-box { padding: 16px 16px 16px; }
+      .toggle-answer-btn { margin: 4px 16px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="sidebar-brand">Latihan Soal UAS</div>
+  <div class="sidebar-sub">DTPL — MTI UI</div>
+
+  <div class="sidebar-section">Daftar Soal</div>
+  <ol>
+    <li><a href="#soal-1">Ultimate Goal of Software Dev</a></li>
+    <li><a href="#soal-2">Engineering Mindset & Constraint</a></li>
+    <li><a href="#soal-3">Framework, Methodology, Process</a></li>
+    <li><a href="#soal-4">Karakteristik Agility</a></li>
+    <li><a href="#soal-5">Agile Hangover</a></li>
+    <li><a href="#soal-6">Agile vs Craftsmanship Manifesto</a></li>
+    <li><a href="#soal-7">Working vs Well-Crafted Software</a></li>
+    <li><a href="#soal-8">Extreme Programming (XP)</a></li>
+    <li><a href="#soal-9">CMMI Maturity Levels</a></li>
+    <li><a href="#soal-10">Staged vs Continuous Representation</a></li>
+    <li><a href="#soal-11">CMMI: WHAT vs HOW</a></li>
+    <li><a href="#soal-12">Project Planning (PP)</a></li>
+    <li><a href="#soal-13">Estimation dalam PP</a></li>
+    <li><a href="#soal-14">Scrum dan Project Planning</a></li>
+    <li><a href="#soal-15">Project Monitoring & Control</a></li>
+    <li><a href="#soal-16">SG1 vs SG2 PMC</a></li>
+    <li><a href="#soal-17">Sprint vs Release Burn-Down</a></li>
+    <li><a href="#soal-18">Requirements Management (REQM)</a></li>
+    <li><a href="#soal-19">Bidirectional Traceability</a></li>
+    <li><a href="#soal-20">REQM ML2 vs RD ML3</a></li>
+    <li><a href="#soal-21">Kasus: Agile Hangover</a></li>
+    <li><a href="#soal-22">Kasus: Project Planning</a></li>
+    <li><a href="#soal-23">Kasus: PMC</a></li>
+    <li><a href="#soal-24">Kasus: REQM</a></li>
+    <li><a href="#soal-25">Kasus: Requirements Development</a></li>
+    <li><a href="#soal-26">Kasus: Verification & Validation</a></li>
+    <li><a href="#soal-27">Kasus: Maturity Level Assessment</a></li>
+    <li><a href="#soal-28">Kasus: Staged vs Continuous</a></li>
+    <li><a href="#soal-29">Kasus: Technical Debt</a></li>
+    <li><a href="#soal-30">Kasus: Integrasi Agile & CMMI</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+  <h1>📝 Latihan Soal UAS</h1>
+  <div class="updated-at">Dinamika Tim Perangkat Lunak (DTPL) — Magister Teknologi Informasi, UI</div>
+
+  <div class="progress-label" id="progress-label">0 dari 30 jawaban dibuka</div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 1 -->
+  <div class="question-card" id="soal-1">
+    <div class="question-header">
+      <span class="question-number">01</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Software Engineering</div>
+        <div class="question-title">Ultimate Goal of Software Development</div>
+        <div class="question-tags">
+          <span class="tag tag-essay">Esai</span>
+          <span class="tag tag-def">Konsep</span>
+        </div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Jelaskan makna dari pernyataan berikut:</p>
+        <blockquote><p>Deliver QUALITY products ON TIME and ON BUDGET which meet the customer's REAL NEEDS.</p></blockquote>
+        <p>Menurut Anda, mengapa keempat komponen tersebut harus dicapai secara bersamaan dan tidak dapat dipisahkan satu sama lain dalam pengembangan perangkat lunak?</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Pernyataan tersebut merupakan salah satu fondasi utama dalam Software Engineering. Tujuan pengembangan perangkat lunak bukan sekadar menghasilkan aplikasi yang dapat dijalankan, melainkan menghasilkan solusi yang memberikan nilai bagi pengguna dan organisasi secara berkelanjutan.</p>
+      <p>Komponen pertama adalah <strong>QUALITY</strong>. Perangkat lunak harus memiliki kualitas yang baik, baik dari sisi fungsional maupun non-fungsional. Sistem harus bekerja sesuai kebutuhan, memiliki tingkat reliabilitas yang memadai, aman digunakan, mudah dipelihara, dan memiliki performa yang sesuai harapan pengguna. Produk yang selesai tepat waktu tetapi penuh bug tidak dapat dianggap berhasil karena tidak memberikan manfaat yang optimal.</p>
+      <p>Komponen kedua adalah <strong>ON TIME</strong>. Dalam dunia bisnis, waktu sering kali menjadi faktor kritis. Produk yang terlambat dirilis dapat menyebabkan hilangnya peluang pasar, berkurangnya kepuasan pelanggan, bahkan kegagalan mencapai tujuan bisnis. Oleh karena itu, pengelolaan jadwal menjadi bagian penting dalam manajemen proyek perangkat lunak.</p>
+      <p>Komponen ketiga adalah <strong>ON BUDGET</strong>. Setiap proyek memiliki keterbatasan sumber daya. Pengeluaran yang jauh melampaui anggaran dapat menyebabkan proyek kehilangan nilai ekonominya. Bahkan apabila produk berhasil dibangun dan digunakan, proyek dapat tetap dianggap gagal apabila biaya yang dikeluarkan tidak sebanding dengan manfaat yang diperoleh.</p>
+      <p>Komponen keempat adalah <strong>MEET THE CUSTOMER'S REAL NEEDS</strong>. Inilah aspek yang sering dianggap paling penting. Banyak proyek berhasil memenuhi spesifikasi teknis tetapi gagal menyelesaikan masalah nyata yang dihadapi pengguna. Kondisi ini menunjukkan bahwa produk yang dibangun mungkin benar secara teknis, tetapi tidak tepat dari perspektif bisnis.</p>
+      <p>Keempat komponen tersebut tidak dapat dipisahkan karena keberhasilan proyek perangkat lunak bersifat multidimensional. Sebuah sistem yang berkualitas tetapi terlambat dirilis belum tentu berhasil. Sebaliknya, sistem yang selesai tepat waktu tetapi tidak memenuhi kebutuhan pengguna juga tidak memberikan nilai bisnis yang diharapkan.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Keberhasilan software development ditentukan oleh kemampuan organisasi menghasilkan produk yang berkualitas, tepat waktu, sesuai anggaran, dan memenuhi kebutuhan nyata pelanggan secara bersamaan. Seluruh pendekatan yang dipelajari dalam DTPL pada akhirnya bertujuan membantu organisasi mencapai keseimbangan tersebut.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 2 -->
+  <div class="question-card" id="soal-2">
+    <div class="question-header">
+      <span class="question-number">02</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Software Engineering</div>
+        <div class="question-title">Engineering Mindset dan Producing Under Constraint</div>
+        <div class="question-tags"><span class="tag tag-essay">Esai</span><span class="tag tag-def">Konsep</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Dalam materi DTPL dijelaskan bahwa engineering adalah <em>producing under constraint</em>. Jelaskan:</p>
+        <ol class="content-list">
+          <li>Apa yang dimaksud dengan <em>constraint</em> dalam konteks software engineering.</li>
+          <li>Apa yang dimaksud dengan <em>trade-off</em>.</li>
+          <li>Berikan contoh trade-off yang sering terjadi dalam proyek perangkat lunak.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Salah satu karakteristik utama seorang engineer adalah kemampuannya menghasilkan solusi dalam kondisi yang tidak ideal. Berbeda dengan penelitian akademis yang sering mencari solusi terbaik secara teoritis, engineering berfokus pada solusi yang paling realistis untuk diterapkan.</p>
+      <p>Dalam konteks software engineering, <strong>constraint</strong> adalah segala bentuk keterbatasan yang mempengaruhi pengambilan keputusan selama pengembangan perangkat lunak. Constraint dapat berupa keterbatasan waktu, anggaran, jumlah tenaga kerja, teknologi yang tersedia, regulasi, maupun kebutuhan bisnis yang berubah dengan cepat.</p>
+      <p>Karena adanya berbagai keterbatasan tersebut, engineer hampir tidak pernah memiliki kesempatan untuk menghasilkan solusi yang sempurna. Oleh sebab itu muncul konsep <strong>trade-off</strong>, yaitu proses memilih satu alternatif dengan konsekuensi harus mengorbankan sebagian keuntungan dari alternatif lainnya.</p>
+      <p>Sebagai contoh, sebuah tim mungkin ingin membangun sistem dengan arsitektur yang sangat fleksibel dan scalable. Namun pembangunan arsitektur tersebut membutuhkan waktu dan biaya yang lebih besar. Jika proyek memiliki deadline yang ketat, tim mungkin memutuskan menggunakan desain yang lebih sederhana agar produk dapat dirilis lebih cepat. Keputusan tersebut merupakan bentuk trade-off antara fleksibilitas jangka panjang dan kecepatan delivery.</p>
+      <p>Contoh trade-off lainnya yang sering terjadi:</p>
+      <ul>
+        <li>Quality vs Time</li>
+        <li>Cost vs Scope</li>
+        <li>Performance vs Maintainability</li>
+        <li>Security vs Convenience</li>
+        <li>Technical Debt vs Delivery Speed</li>
+      </ul>
+      <p>Kemampuan melakukan trade-off yang tepat merupakan salah satu kompetensi utama yang membedakan engineer yang baik dengan engineer yang hanya berfokus pada aspek teknis semata.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Engineering adalah aktivitas menghasilkan solusi terbaik di tengah berbagai keterbatasan. Karena tidak semua tujuan dapat dicapai secara maksimal sekaligus, engineer harus mampu melakukan trade-off yang tepat untuk menghasilkan nilai terbesar bagi organisasi dan pengguna.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 3 -->
+  <div class="question-card" id="soal-3">
+    <div class="question-header">
+      <span class="question-number">03</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Software Engineering</div>
+        <div class="question-title">Framework, Methodology, Process Method, dan Management Procedure</div>
+        <div class="question-tags"><span class="tag tag-def">Definisi</span><span class="tag tag-essay">Esai</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Jelaskan perbedaan antara:</p>
+        <ul>
+          <li>Framework</li>
+          <li>Methodology</li>
+          <li>Process Method</li>
+          <li>Management Procedure</li>
+        </ul>
+        <p>Berikan masing-masing satu contoh yang relevan dengan pengembangan perangkat lunak.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Dalam Software Engineering terdapat berbagai tingkatan panduan yang membantu organisasi mengembangkan perangkat lunak secara sistematis. Tingkatan tersebut sering disalahartikan sebagai hal yang sama, padahal masing-masing memiliki cakupan dan tujuan yang berbeda.</p>
+      <p><strong>Framework</strong> merupakan tingkat paling tinggi dan paling luas. Framework memberikan struktur konseptual yang menjelaskan area-area yang perlu diperhatikan organisasi untuk mencapai tujuan tertentu. Framework tidak menjelaskan langkah detail implementasi, melainkan memberikan panduan umum mengenai apa yang perlu dilakukan. Contohnya adalah CMMI dan Essence.</p>
+      <p><strong>Methodology</strong> berada satu tingkat di bawah framework. Methodology memberikan pendekatan yang lebih konkret mengenai bagaimana pengembangan perangkat lunak dilakukan. Contohnya adalah Scrum, Extreme Programming (XP), Rational Unified Process (RUP), dan Waterfall.</p>
+      <p><strong>Process Method</strong> menjelaskan teknik atau metode spesifik yang digunakan dalam aktivitas tertentu. Misalnya Black Box Testing, White Box Testing, Object-Oriented Analysis (OOA), atau Object-Oriented Design (OOD).</p>
+      <p><strong>Management Procedure</strong> merupakan aturan operasional yang mengatur pelaksanaan aktivitas sehari-hari dalam organisasi. Contohnya adalah prosedur change request, release management, configuration management, atau defect management.</p>
+      <p>Hubungan keempatnya bersifat hierarkis. Framework memberikan arah strategis, methodology menjelaskan pendekatan kerja, process method menjelaskan teknik pelaksanaan, sedangkan management procedure mengatur tata kelola operasional.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Framework, methodology, process method, dan management procedure memiliki tingkat abstraksi yang berbeda. Memahami perbedaan ini penting agar organisasi dapat menerapkan praktik pengembangan perangkat lunak secara konsisten dan terstruktur.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 4 -->
+  <div class="question-card" id="soal-4">
+    <div class="question-header">
+      <span class="question-number">04</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Agile</div>
+        <div class="question-title">Karakteristik Agility</div>
+        <div class="question-tags"><span class="tag tag-def">Definisi</span><span class="tag tag-essay">Esai</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Jelaskan lima karakteristik utama agility menurut materi DTPL. Kemudian jelaskan bagaimana karakteristik tersebut membantu organisasi menghadapi perubahan kebutuhan bisnis yang cepat.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Agility merupakan kemampuan organisasi untuk merespons perubahan secara cepat dan efektif. Dalam lingkungan bisnis modern, perubahan kebutuhan pelanggan, teknologi, dan kondisi pasar terjadi sangat cepat sehingga organisasi memerlukan kemampuan adaptasi yang tinggi.</p>
+      <p>Karakteristik pertama adalah <strong>effective response to change</strong>. Organisasi harus mampu menyesuaikan produk dan proses ketika terjadi perubahan kebutuhan. Fokusnya bukan menghindari perubahan, melainkan mengelola perubahan secara efektif.</p>
+      <p>Karakteristik kedua adalah <strong>effective communication among stakeholders</strong>. Komunikasi yang baik memungkinkan informasi penting disampaikan secara cepat dan akurat. Banyak kegagalan proyek bukan disebabkan masalah teknis, melainkan masalah komunikasi.</p>
+      <p>Karakteristik ketiga adalah <strong>drawing the customer onto the team</strong>. Pelanggan tidak hanya menjadi penerima hasil akhir, tetapi menjadi bagian aktif dalam proses pengembangan sehingga kebutuhan mereka dapat dipahami lebih baik.</p>
+      <p>Karakteristik keempat adalah <strong>organizing a team so that it is in control of the work performed</strong>. Tim diberi otonomi dan tanggung jawab untuk mengelola pekerjaannya sendiri sehingga dapat mengambil keputusan lebih cepat.</p>
+      <p>Karakteristik kelima adalah <strong>rapid and incremental delivery</strong>. Produk dikembangkan secara bertahap melalui iterasi pendek sehingga nilai bisnis dapat diberikan lebih cepat dan feedback dapat diperoleh lebih awal.</p>
+      <p>Kelima karakteristik tersebut membantu organisasi menghadapi perubahan karena memungkinkan deteksi masalah lebih cepat, pengambilan keputusan lebih cepat, dan adaptasi yang lebih fleksibel dibanding pendekatan tradisional yang sangat bergantung pada rencana jangka panjang.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Agility bukan hanya tentang kecepatan, tetapi tentang kemampuan beradaptasi secara efektif melalui komunikasi yang baik, kolaborasi dengan pelanggan, tim yang mandiri, dan delivery yang bersifat inkremental.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 5 -->
+  <div class="question-card" id="soal-5">
+    <div class="question-header">
+      <span class="question-number">05</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Agile</div>
+        <div class="question-title">Agile Hangover</div>
+        <div class="question-tags"><span class="tag tag-essay">Esai</span><span class="tag tag-def">Konsep</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Banyak organisasi mengklaim telah berhasil menerapkan Agile karena seluruh ritual Scrum telah dijalankan secara konsisten. Apakah pernyataan tersebut selalu benar?</p>
+        <p>Jelaskan konsep Agile Hangover dan analisis mengapa sebuah organisasi dapat mengalami Agile Hangover meskipun seluruh praktik Scrum dijalankan secara disiplin.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Pernyataan tersebut tidak selalu benar. Menjalankan seluruh ritual Scrum secara konsisten tidak otomatis berarti organisasi telah berhasil menerapkan Agile dengan baik.</p>
+      <p>Salah satu fenomena yang sering muncul adalah <strong>Agile Hangover</strong>. Agile Hangover merupakan kondisi ketika organisasi telah mengadopsi Agile secara luas tetapi tidak memperoleh manfaat yang diharapkan dalam hal kualitas produk, produktivitas, maupun kepuasan pelanggan.</p>
+      <p>Organisasi yang mengalami Agile Hangover biasanya sangat disiplin dalam menjalankan berbagai ritual Scrum seperti Daily Standup, Sprint Planning, Sprint Review, dan Sprint Retrospective. Namun pada saat yang sama mereka tetap menghadapi berbagai masalah seperti: defect yang tinggi, technical debt yang meningkat, kualitas kode yang buruk, biaya maintenance yang besar, dan kesulitan menambahkan fitur baru.</p>
+      <p>Penyebab utama Agile Hangover adalah organisasi terlalu fokus pada proses dan ritual tetapi mengabaikan aspek <em>technical excellence</em>. Scrum sebenarnya merupakan framework manajemen pekerjaan, bukan panduan teknis pengembangan perangkat lunak.</p>
+      <p>Akibatnya, tim dapat menjadi sangat sibuk menjalankan berbagai meeting tanpa benar-benar meningkatkan kualitas perangkat lunak yang dihasilkan. Kondisi ini sering disebut sebagai <strong>Zombie Scrum</strong>, yaitu Scrum yang dijalankan secara mekanis tanpa memahami nilai yang ingin dicapai.</p>
+      <p>Software Craftsmanship muncul sebagai respons terhadap masalah tersebut. Gerakan ini menekankan bahwa Agile harus dilengkapi dengan praktik-praktik teknis seperti Test Driven Development (TDD), Refactoring, Pair Programming, dan Continuous Integration agar mampu menghasilkan well-crafted software.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Agile Hangover menunjukkan bahwa keberhasilan Agile tidak dapat diukur hanya dari kepatuhan terhadap ritual Scrum. Organisasi juga harus memperhatikan kualitas teknis perangkat lunak agar Agile benar-benar menghasilkan nilai bisnis yang berkelanjutan.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 6 -->
+  <div class="question-card" id="soal-6">
+    <div class="question-header">
+      <span class="question-number">06</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Software Craftsmanship</div>
+        <div class="question-title">Agile Manifesto vs Software Craftsmanship Manifesto</div>
+        <div class="question-tags"><span class="tag tag-essay">Esai</span><span class="tag tag-def">Perbandingan</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Bandingkan Agile Manifesto dan Software Craftsmanship Manifesto. Dalam jawaban Anda:</p>
+        <ol class="content-list">
+          <li>Jelaskan tujuan utama masing-masing manifesto.</li>
+          <li>Jelaskan hubungan keduanya.</li>
+          <li>Analisis mengapa Software Craftsmanship muncul setelah Agile Manifesto.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Agile Manifesto diperkenalkan pada tahun 2001 sebagai respons terhadap metode pengembangan perangkat lunak yang dianggap terlalu berat, birokratis, dan sulit beradaptasi terhadap perubahan. Agile menekankan bahwa pengembangan perangkat lunak harus lebih fokus pada manusia, kolaborasi, perangkat lunak yang berjalan, dan kemampuan merespons perubahan dibandingkan proses yang kaku.</p>
+      <p>Empat nilai utama Agile Manifesto adalah: Individuals and Interactions over Processes and Tools; Working Software over Comprehensive Documentation; Customer Collaboration over Contract Negotiation; dan Responding to Change over Following a Plan.</p>
+      <p>Namun setelah Agile diadopsi secara luas, muncul fenomena di mana banyak organisasi berhasil meningkatkan kecepatan delivery tetapi gagal menjaga kualitas teknis perangkat lunak. Banyak tim menghasilkan software yang berjalan, tetapi sulit dipelihara, sulit dikembangkan, dan penuh technical debt. Kondisi tersebut melahirkan <strong>Software Craftsmanship Manifesto</strong>.</p>
+      <p>Empat nilai utama Software Craftsmanship adalah: Not only working software, but also <em>well-crafted software</em>; Not only responding to change, but also <em>steadily adding value</em>; Not only individuals and interactions, but also <em>a community of professionals</em>; Not only customer collaboration, but also <em>productive partnerships</em>.</p>
+      <p>Perbedaan utama keduanya terletak pada fokus. Agile menekankan efektivitas proses dan kemampuan beradaptasi, sedangkan Software Craftsmanship menambahkan fokus pada kualitas teknis dan profesionalisme pengembang. Munculnya Craftsmanship dapat dipandang sebagai koreksi terhadap implementasi Agile yang terlalu berorientasi pada proses.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Software Craftsmanship bukan pengganti Agile, melainkan pelengkap. Agile membantu organisasi bekerja lebih adaptif, sedangkan Software Craftsmanship membantu organisasi menghasilkan perangkat lunak yang lebih berkualitas dan mudah dipelihara.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 7 -->
+  <div class="question-card" id="soal-7">
+    <div class="question-header">
+      <span class="question-number">07</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Software Craftsmanship</div>
+        <div class="question-title">Working Software vs Well-Crafted Software</div>
+        <div class="question-tags"><span class="tag tag-def">Definisi</span><span class="tag tag-essay">Esai</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Salah satu nilai dalam Software Craftsmanship Manifesto adalah:</p>
+        <blockquote><p>Not only working software, but also well-crafted software.</p></blockquote>
+        <p>Jelaskan perbedaan antara working software dan well-crafted software. Mengapa perbedaan tersebut menjadi sangat penting dalam proyek perangkat lunak jangka panjang?</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p><strong>Working software</strong> adalah perangkat lunak yang mampu menjalankan fungsi yang diminta oleh pengguna. Selama fitur bekerja sesuai kebutuhan fungsional, software dapat dianggap "working".</p>
+      <p>Namun Software Craftsmanship berpendapat bahwa working software saja tidak cukup. <strong>Well-crafted software</strong> adalah software yang: mudah dipahami, mudah diuji, mudah diubah, mudah dipelihara, memiliki desain yang baik, dan memiliki struktur kode yang jelas.</p>
+      <p>Dari perspektif pengguna, dua sistem mungkin terlihat sama karena sama-sama dapat menjalankan fungsi yang diinginkan. Namun dari perspektif developer, kualitas internal kedua sistem tersebut bisa sangat berbeda.</p>
+      <p>Sebagai contoh, sebuah aplikasi e-commerce dapat memiliki fitur checkout yang berfungsi sempurna. Akan tetapi jika implementasi kode checkout tersebut penuh duplikasi, sulit dipahami, dan tidak memiliki automated testing, maka aplikasi tersebut hanya memenuhi kategori working software.</p>
+      <p>Dalam jangka panjang, software yang hanya "working" cenderung mengalami: technical debt tinggi, biaya maintenance besar, risiko bug meningkat, dan kesulitan menambahkan fitur baru. Sebaliknya, well-crafted software memungkinkan organisasi beradaptasi lebih cepat terhadap perubahan bisnis karena basis kodenya tetap sehat.</p>
+      <p>Prinsip yang sering dikaitkan dengan konsep ini adalah:</p>
+      <blockquote><p>Always leave the code cleaner than we found it.</p></blockquote>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Working software berfokus pada hasil jangka pendek, sedangkan well-crafted software memperhatikan keberlanjutan jangka panjang. Dalam proyek yang terus berkembang, kualitas internal perangkat lunak menjadi faktor yang sangat menentukan keberhasilan organisasi.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 8 -->
+  <div class="question-card" id="soal-8">
+    <div class="question-header">
+      <span class="question-number">08</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Software Craftsmanship</div>
+        <div class="question-title">Extreme Programming (XP)</div>
+        <div class="question-tags"><span class="tag tag-essay">Esai</span><span class="tag tag-def">Konsep</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Komunitas Software Craftsmanship sering merekomendasikan Extreme Programming (XP). Jelaskan:</p>
+        <ol class="content-list">
+          <li>Hubungan antara XP dan Software Craftsmanship.</li>
+          <li>Empat praktik utama XP yang mendukung Software Craftsmanship.</li>
+          <li>Bagaimana praktik-praktik tersebut membantu meningkatkan kualitas perangkat lunak.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Extreme Programming (XP) merupakan salah satu metodologi Agile yang paling menekankan aspek <em>technical excellence</em>. Jika Scrum lebih fokus pada pengelolaan pekerjaan dan koordinasi tim, maka XP lebih fokus pada bagaimana perangkat lunak dibangun dengan kualitas yang tinggi. Karena alasan tersebut, komunitas Software Craftsmanship sering menjadikan XP sebagai metodologi yang paling dekat dengan nilai-nilai craftsmanship.</p>
+      <h3>Test Driven Development (TDD)</h3>
+      <p>Pada TDD, pengembang menulis test terlebih dahulu sebelum menulis implementasi kode. Manfaat: meningkatkan kualitas desain, mengurangi defect, dan mempermudah refactoring.</p>
+      <h3>Pair Programming</h3>
+      <p>Dua programmer bekerja bersama dalam satu workstation. Manfaat: meningkatkan kualitas desain, mengurangi kesalahan, dan mempercepat transfer pengetahuan.</p>
+      <h3>Refactoring</h3>
+      <p>Refactoring adalah aktivitas memperbaiki struktur internal kode tanpa mengubah perilaku eksternal sistem. Manfaat: mengurangi technical debt, meningkatkan maintainability, dan menjaga kualitas desain.</p>
+      <h3>Continuous Integration</h3>
+      <p>Developer secara rutin menggabungkan perubahan kode ke repository utama dan menjalankan automated testing. Manfaat: mendeteksi masalah lebih awal, mengurangi konflik integrasi, dan meningkatkan stabilitas sistem.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>XP merupakan metodologi yang sangat selaras dengan Software Craftsmanship karena menyediakan praktik teknis konkret yang membantu menghasilkan well-crafted software.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 9 -->
+  <div class="question-card" id="soal-9">
+    <div class="question-header">
+      <span class="question-number">09</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI</div>
+        <div class="question-title">CMMI Maturity Levels</div>
+        <div class="question-tags"><span class="tag tag-def">Definisi</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Jelaskan lima Maturity Level pada CMMI. Kemudian analisis perbedaan karakteristik organisasi pada Level 1 (Initial), Level 3 (Defined), dan Level 5 (Optimizing) dari sudut pandang proses, kualitas, dan kemampuan organisasi dalam menghadapi perubahan.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>CMMI menggunakan lima tingkat kematangan untuk menggambarkan kemampuan proses suatu organisasi.</p>
+      <h3>Level 1 — Initial</h3>
+      <p>Proses bersifat ad hoc dan chaotic. Keberhasilan proyek sangat bergantung pada individu tertentu. Karakteristik: proses tidak konsisten, sulit diprediksi, kualitas tidak stabil, keberhasilan sulit diulang.</p>
+      <h3>Level 2 — Managed</h3>
+      <p>Proses mulai direncanakan, dipantau, dan dikendalikan pada level proyek.</p>
+      <h3>Level 3 — Defined</h3>
+      <p>Organisasi memiliki standar proses yang terdokumentasi dan digunakan secara konsisten. Karakteristik: proses organisasi sudah terdefinisi, pelaksanaan proyek lebih konsisten, knowledge dapat diwariskan, ketergantungan pada individu berkurang.</p>
+      <h3>Level 4 — Quantitatively Managed</h3>
+      <p>Proses diukur secara statistik dan kuantitatif.</p>
+      <h3>Level 5 — Optimizing</h3>
+      <p>Organisasi melakukan continuous improvement berbasis data. Karakteristik: perbaikan proses berkelanjutan, inovasi proses secara sistematis, kemampuan adaptasi sangat tinggi, defect sangat rendah.</p>
+      <table>
+        <thead><tr><th>Aspek</th><th>Level 1</th><th>Level 3</th><th>Level 5</th></tr></thead>
+        <tbody>
+          <tr><td>Proses</td><td>Ad hoc</td><td>Terstandar</td><td>Continuous Improvement</td></tr>
+          <tr><td>Kualitas</td><td>Tidak stabil</td><td>Konsisten</td><td>Sangat tinggi</td></tr>
+          <tr><td>Prediktabilitas</td><td>Rendah</td><td>Sedang–Tinggi</td><td>Sangat tinggi</td></tr>
+          <tr><td>Adaptasi</td><td>Reaktif</td><td>Proaktif</td><td>Optimisasi berkelanjutan</td></tr>
+        </tbody>
+      </table>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Semakin tinggi maturity level organisasi, semakin baik kemampuan organisasi menghasilkan proyek yang berkualitas, dapat diprediksi, dan terus berkembang melalui perbaikan berkelanjutan.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 10 -->
+  <div class="question-card" id="soal-10">
+    <div class="question-header">
+      <span class="question-number">10</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI</div>
+        <div class="question-title">Staged vs Continuous Representation</div>
+        <div class="question-tags"><span class="tag tag-def">Perbandingan</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>CMMI menyediakan dua pendekatan utama yaitu Staged Representation dan Continuous Representation. Jelaskan:</p>
+        <ol class="content-list">
+          <li>Perbedaan mendasar antara kedua pendekatan tersebut.</li>
+          <li>Keunggulan dan kelemahan masing-masing pendekatan.</li>
+          <li>Dalam kondisi seperti apa sebuah organisasi lebih tepat menggunakan Staged dibanding Continuous, dan sebaliknya.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>Staged Representation</h3>
+      <p>Pendekatan ini menggunakan konsep Maturity Level (1–5). Organisasi harus meningkatkan sekumpulan Process Area sesuai urutan yang telah ditentukan untuk memastikan fondasi yang kuat sebelum bergerak ke tingkat yang lebih tinggi.</p>
+      <p><strong>Kelebihan:</strong> roadmap jelas, mudah digunakan sebagai benchmark, cocok untuk sertifikasi. <strong>Kekurangan:</strong> kurang fleksibel, organisasi harus meningkatkan banyak area sekaligus.</p>
+      <h3>Continuous Representation</h3>
+      <p>Pendekatan ini menggunakan Capability Level (0–3). Setiap Process Area dapat ditingkatkan secara independen.</p>
+      <p><strong>Kelebihan:</strong> lebih fleksibel, fokus pada area yang paling membutuhkan perbaikan. <strong>Kekurangan:</strong> sulit dibandingkan antar organisasi, tidak memberikan roadmap sejelas staged.</p>
+      <p>Misalkan sebuah organisasi memiliki masalah serius pada Requirements Management tetapi area lain sudah cukup baik — dalam kondisi tersebut <strong>Continuous Representation</strong> lebih sesuai. Sebaliknya, apabila organisasi ingin melakukan transformasi proses secara menyeluruh atau mengejar sertifikasi tertentu, maka <strong>Staged Representation</strong> biasanya lebih tepat.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Staged Representation berorientasi pada kematangan organisasi secara keseluruhan, sedangkan Continuous Representation berorientasi pada peningkatan capability pada area tertentu. Pemilihan pendekatan harus disesuaikan dengan tujuan perbaikan proses yang ingin dicapai organisasi.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 11 -->
+  <div class="question-card" id="soal-11">
+    <div class="question-header">
+      <span class="question-number">11</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI &amp; Agile</div>
+        <div class="question-title">CMMI: WHAT vs HOW</div>
+        <div class="question-tags"><span class="tag tag-essay">Esai</span><span class="tag tag-def">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Dalam materi DTPL dijelaskan bahwa:</p>
+        <blockquote><p>CMMI menjelaskan WHAT, sedangkan Agile/Scrum menjelaskan HOW.</p></blockquote>
+        <p>Jelaskan makna dari pernyataan tersebut. Kemudian analisis mengapa CMMI dan Scrum tidak dapat dipandang sebagai dua pendekatan yang saling bertentangan.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Salah satu kesalahpahaman yang sering muncul adalah anggapan bahwa CMMI dan Agile merupakan dua pendekatan yang saling menggantikan. Pada kenyataannya, keduanya berada pada level abstraksi yang berbeda sehingga justru dapat saling melengkapi.</p>
+      <p>CMMI pada dasarnya merupakan sebuah framework peningkatan proses organisasi. Fokus utama CMMI adalah menjelaskan <strong>apa saja praktik yang perlu dimiliki oleh organisasi berkinerja tinggi</strong> — CMMI menjelaskan <em>WHAT should be done</em>.</p>
+      <p>Sebagai contoh, pada Process Area Project Planning (PP), CMMI menjelaskan bahwa organisasi perlu melakukan estimasi ruang lingkup, estimasi effort dan biaya, mengidentifikasi risiko, dan memperoleh komitmen terhadap rencana. Namun CMMI tidak menjelaskan secara rinci bagaimana aktivitas tersebut dilakukan dalam kehidupan sehari-hari.</p>
+      <p>Di sinilah Agile dan Scrum berperan: Scrum menjelaskan <em>HOW to do it</em>. Misalnya: Product Backlog membantu estimasi ruang lingkup, Sprint Planning membantu memperoleh komitmen tim, Backlog Grooming membantu memahami requirement, dan Daily Standup membantu monitoring proyek.</p>
+      <p>Dengan demikian Scrum dapat dipandang sebagai salah satu cara implementasi yang mendukung pencapaian praktik-praktik yang direkomendasikan CMMI. Konflik antara Agile dan CMMI biasanya muncul karena interpretasi yang keliru. Padahal tujuan keduanya sama, yaitu meningkatkan keberhasilan proyek perangkat lunak.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>CMMI menjelaskan apa yang perlu dimiliki organisasi agar prosesnya matang, sedangkan Scrum menjelaskan bagaimana aktivitas tersebut dapat dilakukan secara praktis. Oleh karena itu keduanya dapat digunakan secara bersamaan untuk meningkatkan keberhasilan proyek.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 12 -->
+  <div class="question-card" id="soal-12">
+    <div class="question-header">
+      <span class="question-number">12</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — Project Planning</div>
+        <div class="question-title">Project Planning (PP)</div>
+        <div class="question-tags"><span class="tag tag-def">Definisi</span><span class="tag tag-essay">Esai</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Project Planning merupakan salah satu Process Area pada Maturity Level 2. Jelaskan:</p>
+        <ol class="content-list">
+          <li>Tujuan utama Project Planning.</li>
+          <li>Tiga Specific Goals (SG) yang terdapat pada Project Planning.</li>
+          <li>Mengapa Project Planning menjadi fondasi penting sebelum aktivitas monitoring dan control dapat dilakukan.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Project Planning (PP) merupakan salah satu Process Area paling fundamental dalam CMMI, berada pada Maturity Level 2. Tujuan utama PP adalah:</p>
+      <blockquote><p>Establish and maintain plans that define project activities.</p></blockquote>
+      <p>Artinya organisasi harus memiliki rencana yang jelas mengenai apa yang akan dikerjakan, siapa yang mengerjakan, kapan pekerjaan dilakukan, dan sumber daya apa yang dibutuhkan.</p>
+      <h3>SG 1 – Establish Estimates</h3>
+      <p>Tujuannya adalah menghasilkan estimasi yang realistis mengenai proyek. Aktivitas yang dilakukan meliputi: estimasi scope, estimasi work products, estimasi lifecycle, serta estimasi effort dan cost.</p>
+      <h3>SG 2 – Develop a Project Plan</h3>
+      <p>Tujuannya adalah membangun rencana proyek yang komprehensif. Aktivitasnya meliputi: penjadwalan, identifikasi risiko, perencanaan resource, stakeholder involvement, dan penyusunan project plan.</p>
+      <h3>SG 3 – Obtain Commitment to the Plan</h3>
+      <p>Tujuannya adalah memastikan seluruh pihak memahami dan menyetujui rencana yang telah dibuat. Komitmen sangat penting karena sebuah rencana yang baik tidak akan berguna apabila tidak didukung oleh pihak yang terlibat.</p>
+      <p>Project Planning menjadi fondasi bagi aktivitas monitoring karena monitoring selalu membutuhkan baseline sebagai pembanding. Tanpa rencana: tidak ada target, tidak ada milestone, tidak ada estimasi, dan tidak ada indikator keberhasilan. Akibatnya aktivitas monitoring menjadi tidak bermakna.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Project Planning merupakan fondasi utama manajemen proyek karena menyediakan baseline yang akan digunakan untuk monitoring, control, dan evaluasi kinerja proyek.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 13 -->
+  <div class="question-card" id="soal-13">
+    <div class="question-header">
+      <span class="question-number">13</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — Project Planning</div>
+        <div class="question-title">Estimation dalam Project Planning</div>
+        <div class="question-tags"><span class="tag tag-essay">Esai</span><span class="tag tag-def">SP Detail</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Dalam Process Area Project Planning terdapat aktivitas estimasi yang sangat penting. Jelaskan peran dari SP 1.1, SP 1.2, SP 1.3, dan SP 1.4. Kemudian jelaskan hubungan keempat aktivitas tersebut dengan keberhasilan proyek perangkat lunak.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Kesalahan estimasi merupakan salah satu penyebab utama kegagalan proyek perangkat lunak. Oleh karena itu SG 1 pada Project Planning secara khusus berfokus pada aktivitas estimasi.</p>
+      <h3>SP 1.1 Estimate the Scope of the Project</h3>
+      <p>Aktivitas ini bertujuan menentukan batasan proyek: apa yang termasuk dan tidak termasuk dalam proyek. Output yang umum digunakan adalah WBS atau Product Backlog.</p>
+      <h3>SP 1.2 Establish Estimates of Work Product and Task Attributes</h3>
+      <p>Setelah scope diketahui, organisasi perlu mengidentifikasi deliverables dan pekerjaan yang diperlukan untuk menghasilkan deliverables tersebut, misalnya: requirement document, source code, test case, dan deployment package.</p>
+      <h3>SP 1.3 Define Project Lifecycle Phases</h3>
+      <p>Organisasi perlu menentukan pendekatan lifecycle yang digunakan (Waterfall, Scrum, Incremental, Hybrid). Keputusan ini mempengaruhi cara proyek direncanakan dan dikelola.</p>
+      <h3>SP 1.4 Estimate Effort and Cost</h3>
+      <p>Tahap ini mengubah seluruh informasi sebelumnya menjadi estimasi effort (person-days, person-months) dan biaya. Estimasi ini menjadi dasar dalam pengambilan keputusan bisnis.</p>
+      <p>Keempat aktivitas tersebut saling berkaitan: scope menentukan pekerjaan, pekerjaan menentukan lifecycle, lifecycle menentukan effort, dan effort menentukan biaya. Kesalahan pada salah satu aktivitas akan mempengaruhi seluruh hasil estimasi proyek.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Keempat SP pada SG 1 membentuk rantai estimasi yang saling terkait. Kualitas estimasi sangat menentukan keberhasilan proyek dalam memenuhi target waktu, biaya, dan kualitas.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 14 -->
+  <div class="question-card" id="soal-14">
+    <div class="question-header">
+      <span class="question-number">14</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — Project Planning</div>
+        <div class="question-title">Scrum dan Project Planning</div>
+        <div class="question-tags"><span class="tag tag-essay">Analisis</span><span class="tag tag-def">Mapping</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Dalam Scrum dikenal artefak Product Backlog, Sprint Backlog, Epic, User Story, dan Definition of Done. Analisis bagaimana artefak-artefak tersebut dapat digunakan untuk mendukung Process Area Project Planning pada CMMI. Berikan penjelasan yang menghubungkan konsep Scrum dengan minimal tiga Specific Practice pada PP.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Salah satu kekuatan Scrum adalah kemampuannya menerjemahkan aktivitas Project Planning ke dalam artefak dan ceremony yang sederhana.</p>
+      <h3>Hubungan dengan SP 1.1 — Estimate the Scope</h3>
+      <p>Pada Scrum, scope proyek direpresentasikan melalui Product Backlog. Epic dan User Story membantu organisasi mengidentifikasi ruang lingkup pekerjaan yang perlu dilakukan. Product Backlog berperan sebagai bentuk modern dari Work Breakdown Structure (WBS).</p>
+      <h3>Hubungan dengan SP 1.2 — Estimates of Work Product Attributes</h3>
+      <p>Story Point digunakan untuk memperkirakan ukuran pekerjaan. Backlog Grooming membantu tim memahami kompleksitas dan atribut dari setiap pekerjaan.</p>
+      <h3>Hubungan dengan SP 1.4 — Estimate Effort and Cost</h3>
+      <p>Velocity tim digunakan untuk memperkirakan durasi penyelesaian backlog dan dapat digunakan untuk memperkirakan effort dan biaya proyek.</p>
+      <h3>Hubungan dengan SP 2.7 — Establish the Project Plan</h3>
+      <p>Product Backlog dapat dipandang sebagai bentuk Project Plan dalam Scrum. Backlog terus diperbarui dan digunakan sebagai acuan utama pengembangan.</p>
+      <h3>Hubungan dengan SP 3.3 — Obtain Plan Commitment</h3>
+      <p>Sprint Planning membantu tim menyepakati pekerjaan yang akan diselesaikan selama sprint — merupakan bentuk komitmen terhadap rencana kerja jangka pendek.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Artefak dan ceremony Scrum tidak menggantikan Project Planning, tetapi menyediakan mekanisme praktis untuk melaksanakan berbagai Specific Practice dalam PP.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 15 -->
+  <div class="question-card" id="soal-15">
+    <div class="question-header">
+      <span class="question-number">15</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — PMC</div>
+        <div class="question-title">Project Monitoring and Control (PMC)</div>
+        <div class="question-tags"><span class="tag tag-def">Definisi</span><span class="tag tag-essay">Esai</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Jelaskan tujuan utama dari Process Area Project Monitoring and Control (PMC). Kemudian jelaskan mengapa aktivitas monitoring saja tidak cukup tanpa adanya corrective action.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Project Monitoring and Control (PMC) merupakan Process Area yang bertujuan memastikan proyek tetap berjalan sesuai rencana yang telah dibuat. Tujuan utama PMC adalah:</p>
+      <blockquote><p>Provide an understanding of the project's progress so that appropriate corrective actions can be taken when performance deviates significantly from the plan.</p></blockquote>
+      <p>Terdapat dua kata kunci penting: <em>understanding of progress</em> dan <em>corrective action</em>. Monitoring bertujuan mengumpulkan informasi mengenai kondisi proyek saat ini (jadwal, biaya, kualitas, risiko, penggunaan resource).</p>
+      <p>Namun monitoring saja tidak cukup. Misalnya jika organisasi hanya mengetahui bahwa jadwal terlambat dua minggu, budget melebihi rencana, dan defect meningkat — tetapi tidak melakukan tindakan apa pun, maka monitoring tidak memberikan manfaat nyata.</p>
+      <p>Karena itu PMC juga menekankan corrective action, yang dapat berupa: menambah resource, mengubah prioritas pekerjaan, mengurangi scope, merevisi jadwal, atau memperbarui rencana proyek.</p>
+      <p>Monitoring tanpa corrective action hanya menghasilkan laporan masalah. Monitoring yang disertai corrective action menghasilkan perbaikan kinerja proyek.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>PMC tidak hanya bertujuan mengetahui kondisi proyek, tetapi juga memastikan organisasi mampu mengambil tindakan yang tepat ketika terjadi penyimpangan dari rencana. Monitoring dan corrective action merupakan dua aktivitas yang tidak dapat dipisahkan.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 16 -->
+  <div class="question-card" id="soal-16">
+    <div class="question-header">
+      <span class="question-number">16</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — PMC</div>
+        <div class="question-title">SG1 vs SG2 dalam PMC</div>
+        <div class="question-tags"><span class="tag tag-essay">Analisis</span><span class="tag tag-def">Konsep</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Dalam PMC terdapat dua Specific Goals utama: <em>Monitor the Project Against the Plan</em> dan <em>Manage Corrective Action to Closure</em>. Jelaskan hubungan kedua SG tersebut. Mengapa sebuah organisasi tidak dapat hanya berfokus pada monitoring tanpa memastikan corrective action diselesaikan hingga tuntas?</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Project Monitoring and Control dibangun di atas dua aktivitas besar yang saling melengkapi: memahami kondisi proyek, dan memperbaiki penyimpangan yang ditemukan.</p>
+      <p><strong>SG 1 — Monitor the Project Against the Plan</strong> berfokus pada aktivitas observasi dan evaluasi. Output utama dari SG ini adalah informasi mengenai kondisi proyek saat ini dibandingkan rencana (jadwal, biaya, risiko, keterlibatan stakeholder, komitmen tim, progress pekerjaan).</p>
+      <p>Namun informasi saja tidak cukup. Di sinilah peran <strong>SG 2 — Manage Corrective Action to Closure</strong>. SG kedua memastikan bahwa setiap masalah yang ditemukan: dianalisis, ditentukan tindakan perbaikannya, dilaksanakan, dan dipantau sampai selesai. Tanpa SG kedua, organisasi hanya akan menjadi "pengumpul data".</p>
+      <p>Hubungan antara kedua SG dapat dianalogikan seperti dokter: SG 1 = proses diagnosis, SG 2 = proses pengobatan. Diagnosis tanpa pengobatan tidak menyelesaikan masalah pasien. Demikian pula monitoring tanpa corrective action tidak menyelesaikan masalah proyek.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>SG 1 menghasilkan pemahaman terhadap kondisi proyek, sedangkan SG 2 memastikan organisasi mengambil tindakan yang diperlukan untuk memperbaiki penyimpangan. Keduanya harus berjalan secara berurutan dan saling melengkapi.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 17 -->
+  <div class="question-card" id="soal-17">
+    <div class="question-header">
+      <span class="question-number">17</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — PMC</div>
+        <div class="question-title">Sprint Burn-Down vs Release Burn-Down Chart</div>
+        <div class="question-tags"><span class="tag tag-def">Perbandingan</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Dalam Scrum dikenal Sprint Burn-Down Chart dan Release Burn-Down Chart. Bandingkan kedua artefak tersebut dari sudut pandang: (1) tujuan penggunaan, (2) informasi yang diberikan, dan (3) pengambilan keputusan proyek. Kemudian analisis bagaimana keduanya dapat mendukung Process Area PMC dalam CMMI.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>Sprint Burn-Down Chart</h3>
+      <p>Digunakan untuk memonitor progress selama satu sprint. Fokusnya adalah pekerjaan yang tersisa, pencapaian target sprint, dan progress harian tim. Grafik ini membantu menjawab: <em>"Apakah sprint ini akan selesai tepat waktu?"</em> Digunakan terutama oleh Development Team dan Scrum Master.</p>
+      <h3>Release Burn-Down Chart</h3>
+      <p>Memiliki cakupan yang lebih luas — mencakup keseluruhan release dan beberapa sprint sekaligus. Fokusnya adalah trajectory penyelesaian backlog. Menjawab: <em>"Apakah seluruh release akan selesai sesuai target?"</em> Digunakan oleh Product Owner dan stakeholder.</p>
+      <h3>Hubungan dengan PMC</h3>
+      <p>Sprint Burn-Down mendukung SP 1.6 (Conduct Progress Reviews) dan SP 1.1 (Monitor Project Planning Parameters) karena membantu memonitor progress harian sprint.</p>
+      <p>Release Burn-Down mendukung SP 1.1, SP 1.2 (Monitor Commitments), dan SP 1.5 (Monitor Stakeholder Involvement) karena memberikan gambaran apakah release masih berada pada jalur yang direncanakan.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Sprint Burn-Down berfokus pada kontrol operasional jangka pendek, sedangkan Release Burn-Down berfokus pada kontrol strategis jangka menengah. Keduanya merupakan alat penting untuk mendukung aktivitas monitoring dalam PMC.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 18 -->
+  <div class="question-card" id="soal-18">
+    <div class="question-header">
+      <span class="question-number">18</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — REQM</div>
+        <div class="question-title">Requirements Management (REQM)</div>
+        <div class="question-tags"><span class="tag tag-def">Konsep</span><span class="tag tag-essay">Esai</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Requirements sering disebut sebagai <em>"contract of understanding"</em> antara customer dan development team. Jelaskan: (1) mengapa requirements memiliki peran yang sangat penting, (2) mengapa requirements secara alami akan berubah, dan (3) mengapa perubahan requirements harus dikelola secara sistematis. Gunakan konsep REQM untuk mendukung jawaban Anda.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Requirements merupakan fondasi dari seluruh aktivitas pengembangan perangkat lunak. Hampir semua keputusan yang dibuat selama proyek bergantung pada requirements. Requirements sering disebut sebagai <em>Contract of Understanding</em> karena berfungsi sebagai kesepahaman antara customer dan developer mengenai apa yang akan dibangun.</p>
+      <p>Requirements memiliki beberapa fungsi penting: <strong>Basis for Agreement</strong> (dasar kesepakatan antar stakeholder), <strong>Scope Definition</strong> (menentukan ruang lingkup pekerjaan), <strong>Success Criteria</strong> (acuan untuk menentukan keberhasilan), dan <strong>Performance Obligation</strong> (konsekuensi hukum dalam beberapa proyek).</p>
+      <p>Namun requirements hampir selalu berubah karena kebutuhan bisnis berubah, kondisi pasar berubah, regulasi berubah, teknologi berubah, dan stakeholder memperoleh pemahaman baru.</p>
+      <p>Dalam REQM terdapat beberapa praktik penting: Understand Requirements, Obtain Commitment, Manage Requirement Changes, Maintain Traceability, dan Ensure Alignment. Tanpa pengelolaan yang baik, perubahan requirement dapat menyebabkan scope creep, konflik antar stakeholder, rework yang besar, dan keterlambatan proyek.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Requirements merupakan fondasi proyek perangkat lunak. Karena sifatnya yang dinamis, organisasi harus memiliki mekanisme REQM yang baik agar perubahan dapat dikelola tanpa mengganggu keberhasilan proyek.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 19 -->
+  <div class="question-card" id="soal-19">
+    <div class="question-header">
+      <span class="question-number">19</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — REQM</div>
+        <div class="question-title">Bidirectional Traceability</div>
+        <div class="question-tags"><span class="tag tag-def">Definisi</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Dalam REQM terdapat konsep Bidirectional Traceability. Jelaskan: (1) apa yang dimaksud dengan Bidirectional Traceability, (2) mengapa organisasi membutuhkan kemampuan tersebut, dan (3) risiko apa yang dapat muncul apabila traceability tidak dijaga dengan baik. Sertakan contoh sederhana dalam proyek perangkat lunak.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <p>Bidirectional Traceability adalah kemampuan untuk menelusuri hubungan antara requirement dan work product dalam dua arah.</p>
+      <p>Arah pertama: <em>Requirement → Design → Code → Test</em>. Arah kedua: <em>Code/Test → Requirement</em>.</p>
+      <p>Dengan kemampuan ini organisasi dapat mengetahui: requirement mana yang sudah diimplementasikan, requirement mana yang belum, kode mana yang mendukung requirement tertentu, dan dampak perubahan requirement terhadap sistem.</p>
+      <p>Sebagai contoh, misalkan terdapat requirement: <em>"Sistem harus mendukung login menggunakan Google."</em> Dengan traceability yang baik, organisasi dapat menelusuri user story terkait, modul implementasi login, test case yang memverifikasi login, dan dokumentasi desain yang relevan. Jika requirement tersebut berubah, tim dapat langsung mengetahui komponen mana yang harus dimodifikasi.</p>
+      <p>Tanpa traceability yang baik, organisasi menghadapi berbagai risiko: requirement terlupakan, implementasi tidak lengkap, testing tidak mencakup seluruh requirement, impact analysis menjadi sulit, dan biaya maintenance meningkat.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Bidirectional Traceability membantu organisasi menjaga keterhubungan antara requirement dan seluruh artefak proyek sehingga perubahan dapat dikelola dengan lebih aman dan efisien.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 20 -->
+  <div class="question-card" id="soal-20">
+    <div class="question-header">
+      <span class="question-number">20</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">CMMI — REQM &amp; RD</div>
+        <div class="question-title">Mengapa REQM di ML 2 dan RD di ML 3?</div>
+        <div class="question-tags"><span class="tag tag-essay">Analisis</span><span class="tag tag-def">Konsep</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Soal</div>
+      <div class="soal-box">
+        <p>Requirements Development (RD) berada pada Maturity Level 3, sedangkan Requirements Management (REQM) berada pada Maturity Level 2. Analisis alasan mengapa SEI menempatkan kedua Process Area tersebut pada level yang berbeda. Jelaskan hubungan antara Requirements Management, Requirements Development, dan Organizational Maturity, serta dampaknya terhadap keberhasilan proyek.</p>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>Requirements Management (REQM) — ML 2</h3>
+      <p>REQM berfokus pada kemampuan mengelola requirement yang sudah ada. Aktivitasnya meliputi: memahami requirement, memperoleh komitmen, mengelola perubahan, menjaga traceability, dan menjaga alignment. Kemampuan ini dianggap sebagai kemampuan dasar yang harus dimiliki organisasi terlebih dahulu.</p>
+      <h3>Requirements Development (RD) — ML 3</h3>
+      <p>RD memiliki cakupan yang lebih luas: elicitation, analisis kebutuhan stakeholder, transformasi kebutuhan menjadi requirement, identifikasi interface, dan validasi requirement. RD menuntut kemampuan organisasi yang lebih matang karena organisasi tidak hanya mengelola requirement, tetapi juga mampu menghasilkan requirement yang berkualitas.</p>
+      <p>SEI berpendapat bahwa organisasi harus mampu mengelola requirement terlebih dahulu sebelum mampu mengembangkan requirement secara sistematis. Logikanya: jika sebuah organisasi belum mampu menyimpan requirement dengan baik, mengelola perubahan, dan menjaga traceability — maka organisasi juga belum siap melakukan aktivitas pengembangan requirement yang lebih kompleks.</p>
+      <p>Hubungan keduanya dapat digambarkan: REQM = Foundation, RD = Advanced Capability.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>REQM dan RD memiliki hubungan yang erat tetapi berada pada tingkat kematangan yang berbeda. REQM membangun fondasi pengelolaan requirement, sedangkan RD membangun kemampuan organisasi untuk menghasilkan requirement yang berkualitas secara sistematis.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 21 -->
+  <div class="question-card" id="soal-21">
+    <div class="question-header">
+      <span class="question-number">21</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: PT Digital Nusantara — Agile Hangover</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>PT Digital Nusantara telah menerapkan Scrum selama hampir tiga tahun. Seluruh ritual Scrum berjalan dengan disiplin. Manajemen merasa transformasi Agile berjalan sukses karena seluruh tim mengikuti proses yang telah ditentukan.</p>
+        <p>Namun dalam satu tahun terakhir muncul berbagai masalah: jumlah defect produksi meningkat, waktu memperbaiki bug semakin lama, dan setiap penambahan fitur baru sering menyebabkan masalah pada modul lain. Beberapa developer senior mengeluhkan basis kode semakin sulit dipahami dan technical debt terus bertambah.</p>
+        <ol class="content-list">
+          <li>Analisis apakah organisasi tersebut mengalami Agile Hangover.</li>
+          <li>Jelaskan akar permasalahan dari perspektif Agile dan Software Craftsmanship.</li>
+          <li>Rekomendasikan langkah-langkah perbaikan.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Analisis Agile Hangover</h3>
+      <p>Ya, organisasi tersebut sangat mungkin mengalami Agile Hangover. Agile Hangover terjadi ketika organisasi berhasil mengadopsi ritual dan proses Agile tetapi gagal memperoleh manfaat yang seharusnya. Pada kasus ini seluruh ceremony Scrum berjalan dengan baik, namun indikator kualitas justru memburuk: defect meningkat, maintenance semakin sulit, technical debt meningkat, dan perubahan fitur semakin mahal. Kondisi ini adalah <strong>Zombie Scrum</strong> — Scrum dijalankan secara mekanis tanpa menghasilkan perbaikan nyata.</p>
+      <h3>b. Akar Permasalahan</h3>
+      <p>Dari perspektif Agile, organisasi hanya mengadopsi aspek manajemen proyek tanpa memahami prinsip-prinsip Agile secara menyeluruh. Dari perspektif Software Craftsmanship, masalah utamanya terletak pada kurangnya <em>technical excellence</em>. Organisasi jarang melakukan refactoring, minim automated testing, tidak memiliki code review yang baik, dan terlalu fokus pada delivery jangka pendek.</p>
+      <h3>c. Rekomendasi Perbaikan</h3>
+      <ul>
+        <li><strong>Test Driven Development (TDD)</strong> — meningkatkan kualitas kode dan mengurangi defect.</li>
+        <li><strong>Refactoring</strong> — mengurangi technical debt yang sudah terakumulasi.</li>
+        <li><strong>Pair Programming</strong> — meningkatkan kualitas desain dan transfer knowledge.</li>
+        <li><strong>Continuous Integration</strong> — mendeteksi masalah lebih awal.</li>
+        <li><strong>Technical Debt Backlog</strong> — technical debt harus diprioritaskan, bukan diabaikan.</li>
+        <li><strong>Definition of Done yang lebih ketat</strong> — misalnya: seluruh test lulus, code review selesai, dokumentasi diperbarui.</li>
+      </ul>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Kasus ini menunjukkan bahwa Agile tanpa technical excellence dapat menghasilkan Agile Hangover. Solusinya bukan meninggalkan Agile, tetapi memperkuatnya melalui prinsip dan praktik Software Craftsmanship.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 22 -->
+  <div class="question-card" id="soal-22">
+    <div class="question-header">
+      <span class="question-number">22</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Startup Kesehatan — Project Planning</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Sebuah perusahaan startup memperoleh proyek pengembangan aplikasi kesehatan dengan durasi enam bulan. Karena ingin segera memulai pengembangan, tim langsung membagi pekerjaan kepada programmer tanpa melakukan estimasi formal mengenai ruang lingkup, effort, kebutuhan sumber daya, maupun risiko proyek.</p>
+        <p>Pada bulan ketiga, tim menyadari bahwa beberapa fitur yang dijanjikan kepada klien tidak mungkin diselesaikan sesuai jadwal. Selain itu, kebutuhan tenaga kerja dan anggaran ternyata jauh lebih besar dari perkiraan awal.</p>
+        <ol class="content-list">
+          <li>Identifikasi aktivitas Project Planning yang tidak dilakukan dengan baik.</li>
+          <li>Jelaskan dampak dari kegagalan melakukan estimasi dan perencanaan.</li>
+          <li>Bagaimana PP dapat membantu mencegah masalah tersebut?</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Aktivitas PP yang Tidak Dilakukan</h3>
+      <p>Hampir seluruh aktivitas utama Project Planning tidak dilakukan. Pada SG 1: SP 1.1 Estimate Scope, SP 1.2 Estimate Work Products, dan SP 1.4 Estimate Effort and Cost tidak dilakukan. Pada SG 2: SP 2.1 Establish Budget and Schedule, SP 2.2 Identify Project Risks, dan SP 2.4 Plan Resources tidak dilakukan. Akibatnya proyek berjalan tanpa baseline yang jelas.</p>
+      <h3>b. Dampak Kegagalan Estimasi</h3>
+      <p>Kegagalan estimasi biasanya menghasilkan tiga konsekuensi utama: <strong>Schedule Overrun</strong> (timeline menjadi tidak realistis), <strong>Cost Overrun</strong> (biaya meningkat karena kebutuhan sumber daya tidak dihitung dengan baik), dan <strong>Scope Misalignment</strong> (janji kepada pelanggan tidak sesuai dengan kapasitas tim). Risiko proyek juga menjadi sulit dikendalikan karena sejak awal tidak pernah diidentifikasi.</p>
+      <h3>c. Bagaimana PP Membantu</h3>
+      <p>Project Planning menyediakan mekanisme sistematis untuk memahami proyek sebelum pengerjaan dimulai. Melalui PP organisasi dapat memahami ruang lingkup, memperkirakan effort dan biaya, mengidentifikasi risiko, dan merencanakan resource. Dengan informasi tersebut manajemen dapat membuat komitmen yang lebih realistis kepada pelanggan.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Kasus ini merupakan contoh klasik kegagalan akibat lemahnya Project Planning. Sebagian besar masalah yang muncul sebenarnya dapat dideteksi sejak awal apabila aktivitas PP dilakukan dengan baik.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 23 -->
+  <div class="question-card" id="soal-23">
+    <div class="question-header">
+      <span class="question-number">23</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Proyek ERP — Project Monitoring & Control</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Sebuah proyek pengembangan sistem ERP berjalan selama sembilan bulan. Manajer proyek tidak pernah melakukan review progress secara formal karena menganggap seluruh anggota tim telah bekerja sesuai tanggung jawab masing-masing.</p>
+        <p>Menjelang akhir proyek, ditemukan bahwa jadwal telah terlambat hampir dua bulan dan beberapa deliverable utama belum selesai. Kondisi tersebut baru diketahui ketika pelanggan meminta laporan status proyek secara resmi.</p>
+        <ol class="content-list">
+          <li>Analisis kegagalan proyek tersebut dari perspektif PMC.</li>
+          <li>SP PMC apa yang kemungkinan tidak dijalankan?</li>
+          <li>Tindakan apa yang seharusnya dilakukan?</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Analisis Kegagalan PMC</h3>
+      <p>Kasus ini menunjukkan kegagalan mendasar pada aktivitas monitoring proyek. Tujuan PMC adalah memahami kondisi proyek agar corrective action dapat dilakukan ketika terjadi penyimpangan. Pada kasus ini organisasi tidak memiliki mekanisme untuk mengetahui apakah proyek masih sesuai rencana. Akibatnya keterlambatan baru diketahui ketika sudah terlalu besar untuk diperbaiki secara mudah. Masalah utama bukan keterlambatannya, tetapi keterlambatan dalam mendeteksi keterlambatan tersebut.</p>
+      <h3>b. SP yang Kemungkinan Gagal Dijalankan</h3>
+      <ul>
+        <li><strong>SP 1.1</strong> — Jadwal dan progress tidak dimonitor.</li>
+        <li><strong>SP 1.6 Conduct Progress Reviews</strong> — Tidak ada review progress berkala.</li>
+        <li><strong>SP 1.7 Conduct Milestone Reviews</strong> — Tidak ada evaluasi milestone.</li>
+        <li><strong>SP 2.1 Analyze Issues</strong> — Masalah tidak dianalisis sejak awal.</li>
+        <li><strong>SP 2.2 Take Corrective Action</strong> — Tidak ada tindakan korektif.</li>
+      </ul>
+      <h3>c. Tindakan yang Seharusnya Dilakukan</h3>
+      <p>Manajer proyek perlu: melakukan progress review berkala, memonitor milestone, menggunakan dashboard atau burn-down chart, mengidentifikasi risiko lebih awal, dan mengambil corrective action ketika muncul penyimpangan. Dengan demikian masalah dapat ditangani saat masih kecil dan lebih mudah diperbaiki.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>PMC bukan sekadar aktivitas pelaporan, tetapi mekanisme untuk mendeteksi dan memperbaiki penyimpangan proyek sebelum menjadi masalah besar.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 24 -->
+  <div class="question-card" id="soal-24">
+    <div class="question-header">
+      <span class="question-number">24</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Marketplace UMKM — Requirements Management</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Tim pengembang sedang membangun aplikasi marketplace untuk UMKM. Product Owner sering menerima masukan baru dari stakeholder dan langsung meminta tim mengubah fitur yang sedang dikerjakan.</p>
+        <p>Perubahan requirement terjadi hampir setiap minggu. Banyak user story yang berubah sebelum selesai dikerjakan, beberapa requirement hilang dari backlog, dan tim mulai kesulitan memahami versi requirement yang terbaru.</p>
+        <ol class="content-list">
+          <li>Jelaskan masalah yang terjadi berdasarkan perspektif REQM.</li>
+          <li>SP REQM apa yang paling relevan?</li>
+          <li>Bagaimana Scrum seharusnya digunakan?</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Masalah dari Perspektif REQM</h3>
+      <p>Masalah utama pada kasus ini adalah <em>requirement chaos</em>. Perubahan requirement sebenarnya normal dalam Agile. Yang menjadi masalah adalah perubahan tersebut tidak dikelola dengan baik. Gejala yang muncul: requirement hilang, requirement berubah tanpa dokumentasi, tim kehilangan pemahaman bersama, backlog menjadi tidak stabil. Hal ini menunjukkan lemahnya penerapan REQM.</p>
+      <h3>b. SP REQM yang Paling Relevan</h3>
+      <ul>
+        <li><strong>SP 1.3 Manage Requirements Changes</strong> — Perubahan requirement harus dicatat dan dikelola.</li>
+        <li><strong>SP 1.4 Maintain Bidirectional Traceability</strong> — Perubahan harus dapat ditelusuri.</li>
+        <li><strong>SP 1.5 Ensure Alignment</strong> — Pekerjaan proyek harus tetap selaras dengan requirement terbaru.</li>
+      </ul>
+      <h3>c. Bagaimana Scrum Seharusnya Digunakan</h3>
+      <p>Scrum tidak melarang perubahan requirement, namun mengelolanya melalui Product Backlog, Sprint Planning, Sprint Backlog, dan Backlog Grooming. Perubahan baru seharusnya masuk ke Product Backlog dan diprioritaskan untuk sprint berikutnya. Sprint Backlog sebaiknya tetap stabil selama sprint berlangsung. Pendekatan ini memungkinkan organisasi tetap adaptif tanpa menciptakan kekacauan.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Kasus ini menunjukkan pentingnya REQM dalam lingkungan Agile. Agile menerima perubahan, tetapi perubahan harus tetap dikelola secara sistematis.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 25 -->
+  <div class="question-card" id="soal-25">
+    <div class="question-header">
+      <span class="question-number">25</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Rumah Sakit — Requirements Development</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Sebuah rumah sakit meminta sistem antrean digital yang "lebih baik daripada sistem saat ini". Tim pengembang langsung mulai membuat desain dan backlog berdasarkan asumsi mereka sendiri tanpa melakukan wawancara mendalam kepada pengguna akhir.</p>
+        <p>Setelah sistem selesai dibangun, pihak rumah sakit menyampaikan bahwa kebutuhan terpenting sebenarnya adalah kemampuan memprioritaskan pasien lansia, pasien darurat, dan pasien dengan kebutuhan khusus. Fitur tersebut tidak tersedia dalam sistem yang telah dikembangkan.</p>
+        <ol class="content-list">
+          <li>Analisis kesalahan yang terjadi dari perspektif Requirements Development.</li>
+          <li>SP apa yang seharusnya dilakukan?</li>
+          <li>Bagaimana elicitation meningkatkan kualitas requirement?</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Analisis Kesalahan dari Perspektif RD</h3>
+      <p>Kesalahan terbesar adalah tim langsung melompat ke solusi tanpa memahami kebutuhan stakeholder terlebih dahulu. Dalam RD, aktivitas pertama adalah memahami kebutuhan stakeholder. Pada kasus ini tim tidak melakukan elicitation, tidak memvalidasi kebutuhan, dan mengandalkan asumsi internal. Akibatnya sistem yang dibangun tidak merepresentasikan kebutuhan pengguna sebenarnya.</p>
+      <h3>b. SP yang Seharusnya Dilakukan</h3>
+      <p><strong>SP 1.1 Elicit Needs</strong> — Tim harus menggali kebutuhan stakeholder secara aktif (bukan sekadar menerima apa yang disampaikan, tetapi proactively mengidentifikasi kebutuhan yang tidak dinyatakan secara eksplisit).</p>
+      <p><strong>SP 1.2 Transform Stakeholder Needs into Customer Requirements</strong> — Kebutuhan tersebut kemudian diterjemahkan menjadi requirement yang jelas dan terukur.</p>
+      <p><strong>SP 3.1 Establish Operational Concepts and Scenarios</strong> — Tim perlu memahami bagaimana sistem akan digunakan dalam dunia nyata.</p>
+      <h3>c. Elicitation Meningkatkan Kualitas Requirement</h3>
+      <p>Elicitation membantu tim memahami kebutuhan eksplisit, kebutuhan implisit, constraint, dan prioritas stakeholder. Teknik yang dapat digunakan: interview, workshop, observation, questionnaire, scenario analysis. Semakin baik proses elicitation, semakin kecil kemungkinan organisasi membangun produk yang salah.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Kasus ini menunjukkan bahwa kegagalan proyek sering kali bukan disebabkan implementasi yang buruk, melainkan kegagalan memahami kebutuhan pengguna sejak awal. RD hadir untuk mencegah kondisi tersebut melalui proses elicitation dan analisis requirement yang sistematis.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 26 -->
+  <div class="question-card" id="soal-26">
+    <div class="question-header">
+      <span class="question-number">26</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Verification vs Validation</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Sebuah tim berhasil mengembangkan sistem sesuai spesifikasi yang disepakati pada awal proyek. Seluruh pengujian internal menunjukkan hasil yang baik dan hampir tidak ditemukan defect selama proses testing.</p>
+        <p>Namun setelah sistem digunakan beberapa bulan, pelanggan menyampaikan bahwa sebagian besar fitur yang dikembangkan tidak membantu menyelesaikan masalah operasional yang mereka hadapi sehari-hari.</p>
+        <ol class="content-list">
+          <li>Analisis kondisi tersebut menggunakan konsep Verification dan Validation.</li>
+          <li>Mengapa proyek dapat berhasil dari satu perspektif tetapi gagal dari perspektif lainnya?</li>
+          <li>Apa yang dapat dilakukan organisasi agar kondisi serupa tidak terjadi?</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Analisis Verification dan Validation</h3>
+      <p>Kasus ini merupakan contoh klasik perbedaan antara Verification dan Validation. Dari perspektif <strong>Verification</strong>, proyek dapat dianggap berhasil. Sistem berhasil dibangun sesuai spesifikasi yang telah disepakati. Verification menjawab pertanyaan: <em>"Are we building the product right?"</em> — dan jawabannya adalah "ya".</p>
+      <p>Namun dari perspektif <strong>Validation</strong>, proyek mengalami kegagalan. Validation menjawab pertanyaan: <em>"Are we building the right product?"</em> Meskipun sistem bekerja dengan baik, ternyata sistem tersebut tidak menyelesaikan masalah utama pengguna. Produk yang dibangun benar secara teknis tetapi salah secara bisnis.</p>
+      <h3>b. Mengapa Bisa Terjadi</h3>
+      <p>Verification berorientasi pada kesesuaian terhadap spesifikasi. Validation berorientasi pada kesesuaian terhadap kebutuhan pengguna. Apabila spesifikasi yang digunakan sejak awal tidak benar-benar merepresentasikan kebutuhan pengguna, maka tim dapat membangun sistem yang sempurna secara teknis tetapi tidak memberikan nilai bisnis. Hal ini sering terjadi ketika: elicitation requirement kurang baik, keterlibatan pengguna rendah, dan asumsi bisnis tidak tervalidasi.</p>
+      <h3>c. Langkah Pencegahan</h3>
+      <p>Organisasi perlu meningkatkan aktivitas Requirements Development dan Validation sejak awal proyek: melakukan elicitation yang lebih mendalam, melibatkan pengguna akhir secara aktif, melakukan prototyping lebih awal, melakukan Sprint Review bersama stakeholder, dan menggunakan feedback pengguna secara iteratif.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Keberhasilan Verification tidak menjamin keberhasilan Validation. Proyek yang sukses harus memenuhi keduanya secara bersamaan.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 27 -->
+  <div class="question-card" id="soal-27">
+    <div class="question-header">
+      <span class="question-number">27</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Maturity Level Assessment</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Sebuah perusahaan software memiliki standar proses organisasi yang terdokumentasi dengan baik. Seluruh proyek menggunakan template yang sama, prosedur yang sama, dan aktivitas pengembangan yang relatif konsisten.</p>
+        <p>Meskipun demikian, organisasi belum memiliki mekanisme pengukuran statistik untuk kualitas maupun produktivitas proyek. Sebagian besar keputusan masih didasarkan pada pengalaman dan penilaian subjektif manajer proyek.</p>
+        <ol class="content-list">
+          <li>Pada Maturity Level berapa organisasi tersebut kemungkinan berada?</li>
+          <li>Mengapa organisasi belum dapat dianggap berada pada level berikutnya?</li>
+          <li>Langkah apa yang perlu dilakukan?</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Maturity Level Saat Ini</h3>
+      <p>Organisasi tersebut kemungkinan berada pada <strong>Maturity Level 3 (Defined)</strong>. Indikator yang mendukung: proses terdokumentasi, standar organisasi tersedia, penggunaan proses konsisten antar proyek, adanya template dan prosedur formal. Pada level ini organisasi telah bergerak dari pendekatan proyek individual menuju pendekatan organisasi yang terstandarisasi.</p>
+      <h3>b. Mengapa Belum Level 4</h3>
+      <p>Level berikutnya adalah <strong>Level 4 (Quantitatively Managed)</strong>. Untuk mencapai level tersebut organisasi harus mulai mengelola proses menggunakan data dan pendekatan kuantitatif. Pada kasus ini keputusan masih didasarkan pada pengalaman, intuisi, dan penilaian subjektif. Belum terdapat: statistical process control, quantitative objectives, process performance baseline, dan predictive analysis.</p>
+      <h3>c. Langkah yang Perlu Dilakukan</h3>
+      <p>Organisasi perlu mulai membangun budaya pengukuran: menentukan KPI proyek, mengumpulkan data defect, mengukur productivity metrics, mengembangkan process performance baseline, dan menerapkan Quantitative Project Management (QPM). Dengan data yang cukup, organisasi dapat mulai mengelola proyek secara lebih objektif dan prediktif.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Organisasi telah berhasil mencapai konsistensi proses pada Level 3, namun perlu mengembangkan kemampuan pengukuran kuantitatif untuk mencapai Level 4.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 28 -->
+  <div class="question-card" id="soal-28">
+    <div class="question-header">
+      <span class="question-number">28</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Staged vs Continuous Representation</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Sebuah perusahaan ingin meningkatkan kualitas proses pengembangan perangkat lunaknya. Tim manajemen menyadari bahwa area Requirements Management memiliki banyak masalah, sedangkan area lain seperti Configuration Management dan Project Planning sudah berjalan cukup baik.</p>
+        <p>Sebagian manajemen mengusulkan peningkatan secara bertahap berdasarkan Maturity Level, sedangkan sebagian lainnya ingin fokus terlebih dahulu pada area yang paling bermasalah.</p>
+        <ol class="content-list">
+          <li>Jelaskan perbedaan pendekatan yang digunakan oleh kedua kelompok manajemen tersebut.</li>
+          <li>Analisis kelebihan dan kekurangan masing-masing pendekatan.</li>
+          <li>Pendekatan mana yang lebih sesuai untuk kasus ini?</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Perbedaan Pendekatan</h3>
+      <p>Kelompok pertama menggunakan pendekatan <strong>Staged Representation</strong> — berfokus pada peningkatan kematangan organisasi secara keseluruhan sesuai urutan Maturity Level. Kelompok kedua menggunakan pendekatan <strong>Continuous Representation</strong> — berfokus pada peningkatan capability dari Process Area tertentu tanpa harus meningkatkan seluruh area secara bersamaan.</p>
+      <h3>b. Kelebihan dan Kekurangan</h3>
+      <p><strong>Staged:</strong> Kelebihan: roadmap jelas, mudah untuk benchmark, cocok untuk sertifikasi. Kekurangan: kurang fleksibel, membutuhkan effort besar.</p>
+      <p><strong>Continuous:</strong> Kelebihan: lebih fleksibel, fokus pada area yang paling bermasalah, hasil dapat terlihat lebih cepat. Kekurangan: sulit dibandingkan antar organisasi, tidak memberikan roadmap organisasi yang sejelas staged.</p>
+      <h3>c. Pendekatan yang Lebih Sesuai</h3>
+      <p>Berdasarkan kasus, <strong>Continuous Representation</strong> lebih sesuai. Alasannya: masalah utama hanya terdapat pada REQM, area lain sudah relatif baik, dan organisasi ingin memperoleh perbaikan yang lebih terfokus. Melalui Continuous Representation organisasi dapat mengalokasikan sumber daya pada area yang memberikan dampak terbesar terlebih dahulu.</p>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Pemilihan representasi harus disesuaikan dengan tujuan organisasi. Untuk kasus ini Continuous Representation memberikan keuntungan yang lebih besar karena memungkinkan fokus pada area yang paling bermasalah.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 29 -->
+  <div class="question-card" id="soal-29">
+    <div class="question-header">
+      <span class="question-number">29</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Technical Debt & Software Craftsmanship</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Karena tekanan pasar yang tinggi, sebuah startup memutuskan untuk mempercepat peluncuran produk dengan mengurangi aktivitas testing, mengabaikan beberapa code review, dan menunda refactoring hingga versi berikutnya.</p>
+        <p>Dalam jangka pendek strategi tersebut berhasil karena produk dapat dirilis lebih cepat daripada kompetitor. Namun enam bulan kemudian produktivitas tim menurun drastis karena sebagian besar waktu habis untuk memperbaiki bug dan memahami kode yang semakin kompleks.</p>
+        <ol class="content-list">
+          <li>Analisis kasus tersebut menggunakan konsep Technical Debt.</li>
+          <li>Hubungkan dengan Software Craftsmanship.</li>
+          <li>Strategi menyeimbangkan kebutuhan bisnis dan kualitas teknis.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Analisis Technical Debt</h3>
+      <p>Kasus ini merupakan ilustrasi yang sangat jelas mengenai Technical Debt. Technical Debt terjadi ketika organisasi mengambil keputusan teknis jangka pendek untuk memperoleh keuntungan jangka pendek, tetapi harus membayar konsekuensinya di masa depan. Pada kasus ini organisasi secara sadar mengurangi testing, mengurangi code review, dan menunda refactoring. Keputusan tersebut mempercepat delivery, namun "utang" yang dihasilkan muncul dalam bentuk: bug yang meningkat, maintenance yang mahal, dan produktivitas yang menurun.</p>
+      <h3>b. Hubungan dengan Software Craftsmanship</h3>
+      <p>Software Craftsmanship menekankan pentingnya menghasilkan well-crafted software. Praktik-praktik yang diabaikan pada kasus ini justru merupakan praktik yang sangat dihargai dalam Craftsmanship: automated testing, code review, refactoring, dan continuous improvement. Dari perspektif Craftsmanship, organisasi terlalu fokus pada delivery jangka pendek dan mengabaikan kualitas internal perangkat lunak, sehingga kehilangan kemampuan untuk menambah nilai secara berkelanjutan.</p>
+      <h3>c. Strategi Menyeimbangkan</h3>
+      <p>Kebutuhan bisnis dan kualitas teknis tidak harus dipandang sebagai dua tujuan yang saling bertentangan. Strategi yang dapat dilakukan:</p>
+      <ul>
+        <li>Menyisihkan kapasitas sprint untuk technical debt</li>
+        <li>Menerapkan Definition of Done yang ketat</li>
+        <li>Melakukan refactoring secara berkala</li>
+        <li>Menggunakan automated testing</li>
+        <li>Mengukur technical debt secara eksplisit</li>
+      </ul>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Technical Debt yang tidak dikelola akan mengurangi kemampuan organisasi untuk berinovasi. Software Craftsmanship hadir untuk memastikan kualitas teknis tetap terjaga meskipun organisasi menghadapi tekanan bisnis.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SOAL 30 -->
+  <div class="question-card" id="soal-30">
+    <div class="question-header">
+      <span class="question-number">30</span>
+      <div class="question-title-wrap">
+        <div class="question-topic">Studi Kasus</div>
+        <div class="question-title">Kasus: Integrasi Agile, Scrum, dan CMMI</div>
+        <div class="question-tags"><span class="tag tag-case">Kasus</span><span class="tag tag-essay">Analisis</span></div>
+      </div>
+    </div>
+    <div class="question-body">
+      <div class="soal-label">Kasus</div>
+      <div class="soal-box">
+        <p>Direktur sebuah perusahaan menyatakan bahwa setelah menggunakan Scrum, organisasi tidak lagi memerlukan dokumentasi formal, pengelolaan requirement yang ketat, maupun aktivitas monitoring yang terstruktur. Menurutnya, Agile hanya membutuhkan kolaborasi tim dan working software.</p>
+        <p>Beberapa bulan kemudian organisasi mulai mengalami kesulitan melakukan onboarding anggota baru, kesulitan menelusuri alasan perubahan requirement, dan sering terjadi perbedaan persepsi mengenai status proyek. Manajemen mulai mempertanyakan apakah Agile memang tidak cocok diterapkan dalam organisasi mereka.</p>
+        <ol class="content-list">
+          <li>Analisis kesalahan pemahaman yang terjadi.</li>
+          <li>Bagaimana Agile dan CMMI saling melengkapi?</li>
+          <li>Berikan rekomendasi implementasi.</li>
+        </ol>
+      </div>
+    </div>
+    <button class="toggle-answer-btn" onclick="toggleAnswer(this)"><span class="btn-icon">▼</span> Lihat Pembahasan</button>
+    <div class="answer-box">
+      <div class="answer-label">Pembahasan</div>
+      <h3>a. Analisis Kesalahan Pemahaman</h3>
+      <p>Kesalahan utama adalah interpretasi yang terlalu ekstrem terhadap Agile Manifesto. Agile tidak mengatakan bahwa dokumentasi tidak diperlukan, requirement tidak perlu dikelola, atau monitoring tidak diperlukan. Agile hanya menyatakan bahwa Working Software <em>valued more than</em> Comprehensive Documentation — artinya dokumentasi tetap diperlukan, tetapi harus memberikan nilai. Pada kasus ini organisasi salah mengartikan Agile sebagai ketiadaan proses.</p>
+      <h3>b. Bagaimana Agile dan CMMI Saling Melengkapi</h3>
+      <p>CMMI dan Agile beroperasi pada level yang berbeda. CMMI menjelaskan <em>What should be done</em>, sedangkan Scrum menjelaskan <em>How to do it</em>. Contohnya: REQM membutuhkan pengelolaan requirement — Scrum menyediakan Product Backlog, Backlog Grooming, Sprint Planning untuk mendukungnya. PMC membutuhkan monitoring proyek — Scrum menyediakan Daily Standup, Burn-Down Chart, dan Sprint Review.</p>
+      <h3>c. Rekomendasi Implementasi</h3>
+      <ul>
+        <li><strong>Untuk Requirement:</strong> gunakan Product Backlog yang terkelola dengan baik, lakukan Backlog Grooming secara rutin.</li>
+        <li><strong>Untuk Monitoring:</strong> gunakan Burn-Down Chart, lakukan Sprint Review secara konsisten.</li>
+        <li><strong>Untuk Dokumentasi:</strong> dokumentasi secukupnya, fokus pada informasi yang memberikan nilai.</li>
+        <li><strong>Untuk Governance:</strong> pertahankan praktik-praktik penting dari CMMI, gunakan Scrum sebagai mekanisme implementasi.</li>
+      </ul>
+      <div class="conclusion-box"><div class="conclusion-label">Kesimpulan</div><p>Kasus ini bukan menunjukkan kegagalan Agile, melainkan kegagalan memahami Agile. Agile dan CMMI dapat berjalan bersama secara efektif apabila organisasi memahami bahwa keduanya memiliki tujuan yang sama, yaitu meningkatkan keberhasilan proyek perangkat lunak.</p></div>
+    </div>
+  </div>
+
+</main>
+
+<a id="back-to-top" href="#" title="Kembali ke atas">&#8593;</a>
+
+<script>
+  // Toggle answer visibility
+  function toggleAnswer(btn) {
+    const card = btn.closest('.question-card');
+    const answerBox = card.querySelector('.answer-box');
+    const isOpen = answerBox.classList.contains('visible');
+    answerBox.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.innerHTML = isOpen
+      ? '<span class="btn-icon">▼</span> Lihat Pembahasan'
+      : '<span class="btn-icon">▼</span> Sembunyikan';
+    updateProgress();
+  }
+
+  // Progress bar
+  function updateProgress() {
+    const total = 30;
+    const opened = document.querySelectorAll('.answer-box.visible').length;
+    document.getElementById('progress-bar').style.width = (opened / total * 100) + '%';
+    document.getElementById('progress-label').textContent = opened + ' dari ' + total + ' jawaban dibuka';
+  }
+
+  // Sidebar active state
+  const btn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 400));
+
+  const cards = document.querySelectorAll('.question-card[id]');
+  const links = document.querySelectorAll('#sidebar a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('#sidebar a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+  cards.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
