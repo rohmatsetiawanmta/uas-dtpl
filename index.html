@@ -45,7 +45,13 @@
       background: var(--accent-light); color: var(--accent);
     }
     #main { flex: 1; max-width: 820px; margin: 0 auto; padding: 48px 52px 80px; }
-    h1 { font-family: 'Lora', serif; font-size: 2.1rem; font-weight: 600; line-height: 1.25; margin-bottom: 8px; }
+    .updated-at {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    h1 { font-family: 'Lora', serif; font-size: 2.1rem; font-weight: 600; line-height: 1.25; margin-bottom: 6px; }
     h2 {
       font-family: 'Lora', serif; font-size: 1.45rem; font-weight: 600;
       margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.5rem;
@@ -59,20 +65,14 @@
     ul, ol { padding-left: 1.5rem; margin-bottom: 0.85rem; }
     li { margin-bottom: 0.3rem; }
     li p { margin-bottom: 0.2rem; }
-
-    /* SP/SG blocks */
     .sp-block {
-      border-left: 3px solid var(--sp-border);
-      background: var(--sp-bg);
-      border-radius: 0 6px 6px 0;
-      margin: 0.8rem 0;
-      padding: 10px 16px;
+      border-left: 3px solid var(--sp-border); background: var(--sp-bg);
+      border-radius: 0 6px 6px 0; margin: 0.8rem 0; padding: 10px 16px;
     }
     .sp-term { font-weight: 700; font-size: 0.95rem; margin-bottom: 5px; color: var(--text); }
     .sp-desc { margin: 0; font-size: 0.95rem; }
     .sp-list { margin: 4px 0 0 0; padding-left: 1.3rem; font-size: 0.95rem; }
     .sp-list li { margin-bottom: 0.2rem; }
-
     code {
       font-family: 'DM Mono', monospace; font-size: 0.82em;
       background: var(--code-bg); padding: 2px 6px; border-radius: 3px; color: #8b4513;
@@ -116,12 +116,14 @@
     <li><a href="#cmmi-agile-scrum-requirements-development-rd">CMMI: Requirements Development</a></li>
     <li><a href="#verification-validation-ver-val-software-inspection">Verification &amp; Validation</a></li>
     <li><a href="#the-essence-of-se-agnostic-scaling-agile-asa-model">Essence &amp; ASA Model</a></li>
+    <li><a href="#topik-tambahan-konsep-cmmi-yang-sering-diuji">Topik Tambahan: Konsep CMMI</a></li>
   </ol>
 </nav>
 
 <main id="main">
 <h1 id="catatan-belajar-uas-dinamika-tim-perangkat-lunak-dtpl">📚
 Catatan Belajar UAS — Dinamika Tim Perangkat Lunak (DTPL)</h1>
+<div class="updated-at">Updated at 03/06/2026 05:41:25</div>
 <p><strong>Topik Utama: Software Craftsmanship, Agile, CMMI, dan Scaling
 Agile</strong></p>
 <hr />
@@ -1580,6 +1582,171 @@ dikelola agar tidak menumpuk</td>
 <hr />
 <p><em>Catatan belajar ini disusun berdasarkan slide materi UAS DTPL —
 Magister Teknologi Informasi, Universitas Indonesia</em></p>
+<hr />
+<h2 id="topik-tambahan-konsep-cmmi-yang-sering-diuji">11. Topik
+Tambahan: Konsep CMMI yang Sering Diuji</h2>
+<h3 id="software-crises">🚨 Software Crises</h3>
+<p>Latar belakang lahirnya CMMI. Software crises ditandai dengan: -
+Gagalnya produk perangkat lunak (kualitas buruk) - Over budget - Lewat
+tenggat waktu penyelesaian</p>
+<p><strong>Penyebabnya</strong> adalah pengelolaan proses rekayasa
+perangkat lunak yang tidak baik: - Rumusan spesifikasi dan rancangan
+yang buruk - Tidak konsistennya antara rancangan dan implementasi -
+Tidak adanya Change Management - Tidak adanya mekanisme kontrol
+kualitas</p>
+<h3 id="process-area-pa-components">🧱 Process Area (PA) Components</h3>
+<p>Setiap PA di CMMI tersusun atas komponen-komponen berikut:</p>
+<div class="sp-block"><div class="sp-term"><strong>Komponen Required (wajib dipenuhi):</strong></div><ul class="sp-list"><li><strong>Specific Goals (SG)</strong> — tujuan spesifik yang harus
+dicapai PA tersebut</li><li><strong>Generic Goals (GG)</strong> — tujuan
+generik yang berlaku untuk semua PA (tentang
+<em>institutionalization</em>)</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Komponen Expected (diharapkan ada):</strong></div><ul class="sp-list"><li><strong>Specific Practices (SP)</strong> — praktik-praktik yang
+diharapkan dilakukan untuk mencapai SG</li><li><strong>Generic Practices
+(GP)</strong> — praktik-praktik generik untuk mencapai GG</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Komponen Informative (informatif/panduan):</strong></div><ul class="sp-list"><li><strong>Example Work Products</strong> — contoh hasil kerja</li><li><strong>Subpractices</strong> — detail lebih lanjut dari SP</li><li><strong>Generic Practice Elaborations</strong> — penjelasan tambahan
+GP</li></ul></div>
+<h3 id="generic-goals-gg-generic-practices-gp">⚙️ Generic Goals (GG)
+&amp; Generic Practices (GP)</h3>
+<p>Generic Goals dan Generic Practices berlaku untuk
+<strong>semua</strong> Process Area — itulah kenapa disebut “generic”.
+Mereka mendeskripsikan apa yang harus dilakukan agar sebuah proses dapat
+<strong>diinstitusionalisasi</strong> (menjadi kebiasaan organisasi,
+bukan hanya kebiasaan individu).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Progression</th>
+<th>Generic Goal</th>
+<th>Generic Practices</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Performed process</strong></td>
+<td>GG 1: Achieve Specific Goals</td>
+<td>GP 1.1: Perform Specific Practices</td>
+</tr>
+<tr class="even">
+<td><strong>Managed process</strong></td>
+<td>GG 2: Institutionalize a Managed Process</td>
+<td>GP 2.1: Establish an Organizational Policy</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GP 2.2: Plan the Process</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>GP 2.3: Provide Resources</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GP 2.4: Assign Responsibility</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>GP 2.5: Train People</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GP 2.6: Control Work Products</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>GP 2.7: Identify and Involve Relevant Stakeholders</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GP 2.8: Monitor and Control the Process</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>GP 2.9: Objectively Evaluate Adherence</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GP 2.10: Review Status with Higher Level Management</td>
+</tr>
+<tr class="even">
+<td><strong>Defined process</strong></td>
+<td>GG 3: Institutionalize a Defined Process</td>
+<td>GP 3.1: Establish a Defined Process</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GP 3.2: Collect Process Related Experiences</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Penting:</strong> GG dan GP ini menjelaskan <em>mengapa</em>
+Capability Level 1, 2, 3 berbeda. Naik dari CL1 ke CL2 = memenuhi GG2
+(semua GP 2.x). Naik ke CL3 = memenuhi GG3 (GP 3.1 dan 3.2) di atas
+GG2.</p>
+</blockquote>
+<h3 id="performed-managed-defined-process">🔄 Performed, Managed,
+Defined Process</h3>
+<p>Tiga jenis proses ini sesuai dengan Capability Level 1, 2, 3:</p>
+<p><strong>Performed Process (CL 1)</strong> Proses yang menyelesaikan
+pekerjaan yang diperlukan untuk memenuhi Specific Goals sebuah PA. Cukup
+melakukan SP-nya saja (GP 1.1).</p>
+<p><strong>Managed Process (CL 2)</strong> Performed process yang: -
+Direncanakan dan dijalankan sesuai kebijakan - Menggunakan orang-orang
+terampil dengan resource yang cukup - Melibatkan relevant stakeholders -
+Dipantau, dikontrol, dan di-review - Dievaluasi kesesuaiannya dengan
+deskripsi proses</p>
+<p><strong>Defined Process (CL 3)</strong> Managed process yang: -
+Di-<em>tailor</em> dari organizational set of standard processes sesuai
+tailoring guidelines - Memiliki process description yang terpelihara -
+Berkontribusi pada organizational process assets</p>
+<p>Ringkasnya: <strong>CL1 = dikerjakan, CL2 = dikelola dengan
+kebijakan, CL3 = berasal dari standar organisasi</strong>.</p>
+<h3 id="agile-ceremonies-yang-hanya-ada-di-daftar">📋 Agile Ceremonies:
+Yang Hanya Ada di Daftar</h3>
+<p>Empat ceremony ini ada di daftar 24 Agile/Scrum Ceremonies dalam buku
+referensi, tapi tidak memiliki slide penjelasan mendalam — muncul
+terutama dalam konteks mapping ke CMMI:</p>
+<p><strong>Scrum Board / Task Board</strong> Papan visual (fisik atau
+digital) yang menampilkan status pekerjaan tim dalam sprint. Biasanya
+berkolom: To Do → In Progress → Review → Done. Digunakan untuk
+transparansi dan monitoring real-time. Dalam CMMI, dapat mendukung PMC
+SP 1.1 (Monitor Project Planning Parameters) dan SP 1.6 (Conduct
+Progress Reviews).</p>
+<p><strong>Scrum of Scrums</strong> Teknik koordinasi untuk multiple
+Scrum teams. Perwakilan dari setiap tim bertemu secara rutin (biasanya
+harian atau beberapa kali seminggu) untuk mensinkronisasi,
+mengidentifikasi dependencies, dan mengatasi hambatan lintas tim. Ini
+adalah bentuk sederhana dari Scaled Agile. Dalam konteks ASA Model, ini
+setara dengan <strong>Scaled Coordination Meeting</strong>.</p>
+<p><strong>Open Space Technology</strong> Teknik fasilitasi
+meeting/workshop berskala besar yang bersifat self-organizing. Peserta
+sendiri yang menentukan agenda topik yang akan dibahas. Cocok untuk
+eksplorasi ide, problem-solving, atau retrospektif besar. Dipetakan ke
+CMMI Process Area yang terkait dengan Organizational Process Focus
+(OPF).</p>
+<p><strong>Velocity</strong> Ukuran kecepatan tim Agile — jumlah story
+points yang berhasil di-<em>complete</em> dalam satu sprint. Velocity
+digunakan untuk: - Memperkirakan berapa banyak pekerjaan yang bisa
+selesai di sprint berikutnya - Membuat Release Planning yang realistis -
+Memantau konsistensi performa tim dari sprint ke sprint Dalam CMMI,
+Velocity dipetakan ke <strong>Measurement and Analysis (MA)</strong> —
+karena merupakan metric yang dikumpulkan dan digunakan untuk pengambilan
+keputusan.</p>
 
 </main>
 
