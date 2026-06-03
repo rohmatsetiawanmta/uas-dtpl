@@ -9,207 +9,97 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7f5f0;
-      --surface: #ffffff;
-      --text: #1c1a18;
-      --muted: #6b6560;
-      --accent: #2d5a8e;
-      --accent-light: #e8eff8;
-      --border: #ddd8d0;
-      --highlight: #fff8e8;
-      --code-bg: #f0ede8;
-      --table-head: #f0ede8;
+      --bg: #f7f5f0; --surface: #ffffff; --text: #1c1a18;
+      --muted: #6b6560; --accent: #2d5a8e; --accent-light: #e8eff8;
+      --border: #ddd8d0; --highlight: #fff8e8;
+      --code-bg: #f0ede8; --table-head: #f0ede8; --sp-bg: #f4f8fd; --sp-border: #c8d8ee;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg); color: var(--text);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.75;
-      display: flex;
-      min-height: 100vh;
+      font-size: 16px; line-height: 1.75; display: flex; min-height: 100vh;
     }
-
     #sidebar {
-      width: 260px;
-      min-width: 260px;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      padding: 28px 20px;
-      font-size: 13px;
+      width: 260px; min-width: 260px; position: sticky; top: 0;
+      height: 100vh; overflow-y: auto; background: var(--surface);
+      border-right: 1px solid var(--border); padding: 28px 20px; font-size: 13px;
     }
-
     #sidebar .sidebar-title {
-      font-weight: 600;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-bottom: 16px;
+      font-weight: 600; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px;
     }
-
-    #sidebar ol {
-      list-style: none;
-      padding: 0;
-      counter-reset: toc;
-    }
-
-    #sidebar ol li {
-      counter-increment: toc;
-      margin-bottom: 2px;
-    }
-
+    #sidebar ol { list-style: none; padding: 0; counter-reset: toc; }
+    #sidebar ol li { counter-increment: toc; margin-bottom: 2px; }
     #sidebar ol li a {
-      display: flex;
-      gap: 10px;
-      align-items: baseline;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 5px 8px;
-      border-radius: 4px;
-      line-height: 1.4;
-      transition: background 0.15s, color 0.15s;
+      display: flex; gap: 10px; align-items: baseline; color: var(--muted);
+      text-decoration: none; padding: 5px 8px; border-radius: 4px;
+      line-height: 1.4; transition: background 0.15s, color 0.15s;
     }
-
     #sidebar ol li a::before {
-      content: counter(toc);
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--accent);
-      min-width: 14px;
-      flex-shrink: 0;
+      content: counter(toc); font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--accent); min-width: 14px; flex-shrink: 0;
     }
-
-    #sidebar ol li a:hover,
-    #sidebar ol li a.active {
-      background: var(--accent-light);
-      color: var(--accent);
+    #sidebar ol li a:hover, #sidebar ol li a.active {
+      background: var(--accent-light); color: var(--accent);
     }
-
-    #main {
-      flex: 1;
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 48px 52px 80px;
-    }
-
-    h1 {
-      font-family: 'Lora', serif;
-      font-size: 2.1rem;
-      font-weight: 600;
-      line-height: 1.25;
-      margin-bottom: 8px;
-    }
-
+    #main { flex: 1; max-width: 820px; margin: 0 auto; padding: 48px 52px 80px; }
+    h1 { font-family: 'Lora', serif; font-size: 2.1rem; font-weight: 600; line-height: 1.25; margin-bottom: 8px; }
     h2 {
-      font-family: 'Lora', serif;
-      font-size: 1.45rem;
-      font-weight: 600;
-      margin-top: 3rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
+      font-family: 'Lora', serif; font-size: 1.45rem; font-weight: 600;
+      margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.5rem;
       border-bottom: 2px solid var(--border);
     }
-
-    h3 {
-      font-size: 1.02rem;
-      font-weight: 600;
-      margin-top: 1.8rem;
-      margin-bottom: 0.5rem;
-      color: var(--accent);
-    }
-
-    h4 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-top: 1.3rem;
-      margin-bottom: 0.4rem;
-    }
-
+    h3 { font-size: 1.02rem; font-weight: 600; margin-top: 1.8rem; margin-bottom: 0.5rem; color: var(--accent); }
+    h4 { font-size: 0.95rem; font-weight: 600; margin-top: 1.3rem; margin-bottom: 0.4rem; }
     p { margin-bottom: 0.85rem; }
-
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-
     ul, ol { padding-left: 1.5rem; margin-bottom: 0.85rem; }
-    li { margin-bottom: 0.25rem; }
+    li { margin-bottom: 0.3rem; }
     li p { margin-bottom: 0.2rem; }
 
-    code {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.82em;
-      background: var(--code-bg);
-      padding: 2px 6px;
-      border-radius: 3px;
-      color: #8b4513;
-    }
-
-    pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 16px 20px;
-      overflow-x: auto;
-      margin-bottom: 1rem;
-    }
-
-    pre code { background: none; padding: 0; color: var(--text); font-size: 0.88em; }
-
-    blockquote {
-      border-left: 3px solid var(--accent);
-      background: var(--highlight);
-      margin: 1.2rem 0;
-      padding: 12px 20px;
+    /* SP/SG blocks */
+    .sp-block {
+      border-left: 3px solid var(--sp-border);
+      background: var(--sp-bg);
       border-radius: 0 6px 6px 0;
+      margin: 0.8rem 0;
+      padding: 10px 16px;
     }
+    .sp-term { font-weight: 700; font-size: 0.95rem; margin-bottom: 5px; color: var(--text); }
+    .sp-desc { margin: 0; font-size: 0.95rem; }
+    .sp-list { margin: 4px 0 0 0; padding-left: 1.3rem; font-size: 0.95rem; }
+    .sp-list li { margin-bottom: 0.2rem; }
 
+    code {
+      font-family: 'DM Mono', monospace; font-size: 0.82em;
+      background: var(--code-bg); padding: 2px 6px; border-radius: 3px; color: #8b4513;
+    }
+    pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; overflow-x: auto; margin-bottom: 1rem; }
+    pre code { background: none; padding: 0; color: var(--text); font-size: 0.88em; }
+    blockquote {
+      border-left: 3px solid var(--accent); background: var(--highlight);
+      margin: 1.2rem 0; padding: 12px 20px; border-radius: 0 6px 6px 0;
+    }
     blockquote p { margin: 0; font-family: 'Lora', serif; font-style: italic; }
-
     table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.9rem; }
     th { background: var(--table-head); font-weight: 600; text-align: left; padding: 9px 14px; border: 1px solid var(--border); font-size: 0.85rem; }
     td { padding: 8px 14px; border: 1px solid var(--border); vertical-align: top; }
     tr:nth-child(even) td { background: #faf9f7; }
-
     hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
-
     #back-to-top {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      background: var(--accent);
-      color: white;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      font-size: 18px;
-      opacity: 0;
-      transition: opacity 0.2s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      position: fixed; bottom: 28px; right: 28px; background: var(--accent);
+      color: white; width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 18px; opacity: 0;
+      transition: opacity 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     #back-to-top.visible { opacity: 1; }
-
-    @media (max-width: 900px) {
-      #sidebar { display: none; }
-      #main { padding: 32px 24px 60px; }
-    }
-    @media (max-width: 600px) {
-      h1 { font-size: 1.6rem; }
-      #main { padding: 24px 16px 60px; }
-      table { font-size: 0.82rem; }
-    }
-  </style>
+    @media (max-width: 900px) { #sidebar { display: none; } #main { padding: 32px 24px 60px; } }
+    @media (max-width: 600px) { h1 { font-size: 1.6rem; } #main { padding: 24px 16px 60px; } table { font-size: 0.82rem; } }
+</style>
 </head>
 <body>
 
@@ -287,9 +177,7 @@ Engineering Framework Hierarchy</h3>
 <strong>Process Method</strong> — misal: OOA, OOD, Black Box Testing 4.
 <strong>Management Procedures</strong> — Rules &amp; Policy: Change
 Request, Inspection, Release</p>
-<p><strong>Framework standar internasional yang relevan:</strong> -
-ISO-12207: Software Engineering - ISO-15288: System Engineering -
-ISO-9001: Quality - CMMI for System and Software Engineering</p>
+<div class="sp-block"><div class="sp-term"><strong>Framework standar internasional yang relevan:</strong></div><ul class="sp-list"><li>ISO-12207: Software Engineering</li><li>ISO-15288: System Engineering</li><li>ISO-9001: Quality</li><li>CMMI for System and Software Engineering</li></ul></div>
 <hr />
 <h2 id="agile-software-development-agile-hangover">2. Agile Software
 Development &amp; Agile Hangover</h2>
@@ -324,10 +212,9 @@ birokratisasi yang muncul setelah penerapan Agile yang berlebihan, kaku,
 atau buruk — di mana tim lebih fokus pada ritual daripada memberikan
 nilai. Ditandai dengan <em>“zombie Scrum”</em> — tim menjalankan Scrum
 secara mekanis tanpa jiwa.</p>
-<p><strong>Kondisi yang sering terjadi:</strong> - Hanya memaksimalkan
-peningkatan <em>proses</em> tapi mengabaikan <em>keunggulan teknis</em>
-- Lupa bahwa hasil terpenting adalah (kualitas) perangkat lunak itu
-sendiri</p>
+<div class="sp-block"><div class="sp-term"><strong>Kondisi yang sering terjadi:</strong></div><ul class="sp-list"><li>Hanya memaksimalkan
+peningkatan <em>proses</em> tapi mengabaikan <em>keunggulan teknis</em></li><li>Lupa bahwa hasil terpenting adalah (kualitas) perangkat lunak itu
+sendiri</li></ul></div>
 <p><strong>Solusi:</strong> Inilah kenapa <strong>Software
 Craftsmanship</strong> hadir — untuk melengkapi Agile dengan keunggulan
 teknis.</p>
@@ -580,8 +467,8 @@ Untuk program 200.000 baris kode dari 1.300 proyek:</p>
 <p><strong>Defect rate kira-kira berkurang setengah setiap naik satu
 maturity level.</strong></p>
 </blockquote>
-<p><strong>Waktu rata-rata untuk naik level:</strong> - Level 1 → 2: ~25
-bulan - Level 2 → 3: ~22 bulan - Level 3 → 4: ~36.5 bulan</p>
+<div class="sp-block"><div class="sp-term"><strong>Waktu rata-rata untuk naik level:</strong></div><ul class="sp-list"><li>Level 1 → 2: ~25
+bulan</li><li>Level 2 → 3: ~22 bulan</li><li>Level 3 → 4: ~36.5 bulan</li></ul></div>
 <h3 id="process-areas-pa-di-cmmi-dev-v1.3">🗂️ Process Areas (PA) di
 CMMI-DEV v1.3</h3>
 <p><strong>22 Process Area, diorganisir ke 4 kategori:</strong></p>
@@ -633,18 +520,17 @@ CMMI-DEV v1.3</h3>
 </tr>
 </tbody>
 </table>
-<p><strong>Keterangan singkatan:</strong> - PP = Project Planning, PMC =
-Project Monitoring and Control - REQM = Requirements Management, SAM =
-Supplier Agreement Management - RD = Requirements Development, TS =
-Technical Solution - PI = Product Integration, VER = Verification, VAL =
-Validation - IPM = Integrated Project Management, RSKM = Risk Management
-- OPD = Organizational Process Definition, OPF = Organizational Process
-Focus - OT = Organizational Training, OPP = Organizational Process
-Performance - QPM = Quantitative Project Management, OPM =
-Organizational Performance Management - CAR = Causal Analysis and
-Resolution, DAR = Decision Analysis and Resolution - CM = Configuration
+<div class="sp-block"><div class="sp-term"><strong>Keterangan singkatan:</strong></div><ul class="sp-list"><li>PP = Project Planning, PMC =
+Project Monitoring and Control</li><li>REQM = Requirements Management, SAM =
+Supplier Agreement Management</li><li>RD = Requirements Development, TS =
+Technical Solution</li><li>PI = Product Integration, VER = Verification, VAL =
+Validation</li><li>IPM = Integrated Project Management, RSKM = Risk Management</li><li>OPD = Organizational Process Definition, OPF = Organizational Process
+Focus</li><li>OT = Organizational Training, OPP = Organizational Process
+Performance</li><li>QPM = Quantitative Project Management, OPM =
+Organizational Performance Management</li><li>CAR = Causal Analysis and
+Resolution, DAR = Decision Analysis and Resolution</li><li>CM = Configuration
 Management, MA = Measurement and Analysis, PPQA = Process and Product
-Quality Assurance</p>
+Quality Assurance</li></ul></div>
 <h3 id="staged-vs-continuous-representation">⚖️ Staged vs Continuous
 Representation</h3>
 <table>
@@ -683,10 +569,9 @@ Representation</h3>
 </tr>
 </tbody>
 </table>
-<p><strong>Capability Levels (Continuous):</strong> - CL 0: Incomplete -
-CL 1: Performed — melakukan specific practices - CL 2: Managed —
-direncanakan, dipantau, dan dikontrol - CL 3: Defined —
-di-<em>tailor</em> dari standard process organisasi</p>
+<div class="sp-block"><div class="sp-term"><strong>Capability Levels (Continuous):</strong></div><ul class="sp-list"><li>CL 0: Incomplete</li><li>CL 1: Performed — melakukan specific practices</li><li>CL 2: Managed —
+direncanakan, dipantau, dan dikontrol</li><li>CL 3: Defined —
+di-<em>tailor</em> dari standard process organisasi</li></ul></div>
 <h3 id="cmmi-v1.3-vs-cmmi-v2.0">🔄 CMMI v1.3 vs CMMI v2.0</h3>
 <p>Perubahan utama di CMMI v2.0 (dirilis Maret 2018): - “Process Area” →
 “<strong>Practice Area</strong>”: menekankan bahwa ini bukan kumpulan
@@ -714,73 +599,71 @@ Maturity Level 2</h3>
 mendefinisikan aktivitas proyek.</p>
 <p><strong>Output utama:</strong> Project Plan — sebagai dasar untuk
 menjalankan dan mengontrol proyek.</p>
-<p><strong>Project Plan menjawab:</strong> - Why? — Apa masalah/value
-proposition proyek ini? - What? — Apa pekerjaan yang akan dilakukan? -
-Who? — Siapa yang terlibat dan perannya? - When? — Timeline dan
-milestone-nya?</p>
+<div class="sp-block"><div class="sp-term"><strong>Project Plan menjawab:</strong></div><ul class="sp-list"><li>Why?</li><li>Apa masalah/value
+proposition proyek ini?</li><li>What?</li><li>Apa pekerjaan yang akan dilakukan?</li><li>Who?</li><li>Siapa yang terlibat dan perannya?</li><li>When?</li><li>Timeline dan
+milestone-nya?</li></ul></div>
 <h4 id="sg-1-establish-estimates">SG 1: Establish Estimates</h4>
 <p>Membuat perkiraan untuk parameter perencanaan proyek.</p>
-<p><strong>SP 1.1 Estimate the Scope of the Project</strong> - Buat Work
-Breakdown Structure (WBS) top-level - Dalam Scrum, WBS setara dengan
+<div class="sp-block"><div class="sp-term"><strong>SP 1.1 Estimate the Scope of the Project</strong></div><ul class="sp-list"><li>Buat Work
+Breakdown Structure (WBS) top-level</li><li>Dalam Scrum, WBS setara dengan
 <strong>Epics/Stories yang tersusun dalam prioritized backlog</strong>
-dengan metadata (Definition of Done, sizing) - Diperkuat oleh: Backlog
+dengan metadata (Definition of Done, sizing)</li><li>Diperkuat oleh: Backlog
 Grooming, Definition of Done, Release Planning, Sprint Planning, Team
-Estimating Game</p>
-<p><strong>SP 1.2 Establish Estimates of Work Product and Task
-Attributes</strong> - Identifikasi deliverables standar (Requirements
-Doc, Project Plan, Source Code) dan custom (Prototype, Mockups) - Break
-down tasks untuk setiap deliverable - Dalam Scrum: parent dan children
+Estimating Game</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.2 Establish Estimates of Work Product and Task
+Attributes</strong></div><ul class="sp-list"><li>Identifikasi deliverables standar (Requirements
+Doc, Project Plan, Source Code) dan custom (Prototype, Mockups)</li><li>Break
+down tasks untuk setiap deliverable</li><li>Dalam Scrum: parent dan children
 user stories di-<em>size</em> menggunakan story sizing saat Backlog
-Grooming</p>
-<p><strong>SP 1.3 Define Project Lifecycle Phases</strong> - Pilih
-lifecycle yang paling sesuai: Waterfall, Agile, dll. - Dalam Scrum:
+Grooming</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.3 Define Project Lifecycle Phases</strong></div><ul class="sp-list"><li>Pilih
+lifecycle yang paling sesuai: Waterfall, Agile, dll.</li><li>Dalam Scrum:
 Release Planning yang menstrukturisasi Sprints di dalamnya dengan durasi
-dan konten yang terdefinisi</p>
-<p><strong>SP 1.4 Estimate Effort and Cost</strong> - Kutip dalam
-<em>man-days</em> per task - Dalam Scrum: sizing of stories digunakan
-untuk memperkirakan durasi sprint</p>
+dan konten yang terdefinisi</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.4 Estimate Effort and Cost</strong></div><ul class="sp-list"><li>Kutip dalam
+<em>man-days</em> per task</li><li>Dalam Scrum: sizing of stories digunakan
+untuk memperkirakan durasi sprint</li></ul></div>
 <h4 id="sg-2-develop-a-project-plan">SG 2: Develop a Project Plan</h4>
-<p><strong>SP 2.1 Establish the Budget and Schedule</strong> - Tetapkan
+<div class="sp-block"><div class="sp-term"><strong>SP 2.1 Establish the Budget and Schedule</strong></div><ul class="sp-list"><li>Tetapkan
 Key Milestone: titik kritis di mana progress dapat diukur (misal:
-Release v1, UAT) - Buat Schedule Baseline menggunakan WBS (biasanya di
-MS Project) - Dalam Scrum: Release Planning (SP 2.2, 2.6, 2.1, 2.7)</p>
-<p><strong>SP 2.2 Identify Project Risks</strong> - Dokumentasikan
+Release v1, UAT)</li><li>Buat Schedule Baseline menggunakan WBS (biasanya di
+MS Project)</li><li>Dalam Scrum: Release Planning (SP 2.2, 2.6, 2.1, 2.7)</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.2 Identify Project Risks</strong></div><ul class="sp-list"><li>Dokumentasikan
 risiko yang diketahui: perubahan staf, kebutuhan bisnis yang berkembang,
-kebijakan yang berubah - Beri nilai setiap risiko: urgensi, kemungkinan
-terjadi, dampak - Buat mitigation plan dan assign owner untuk setiap
-risiko - Dalam Scrum: Release Planning, Technical Debt (SP 2.2)</p>
-<p><strong>SP 2.3 Plan Data Management</strong> - Identifikasi data yang
-perlu dikelola: Plans, reports, schedules, test cases, dll. - Atur
-access level, version control, backup/archiving - Dalam Scrum: ini
-dikuatkan oleh Configuration Management</p>
-<p><strong>SP 2.4 Plan the Project’s Resources</strong> - Identifikasi
-semua resource: orang, fasilitas, tools, perangkat - Rencanakan ukuran
-tim dan peran (kalau belum bisa nama, setidaknya job role) - Dalam
-Scrum: ini tercakup dalam Release Planning</p>
-<p><strong>SP 2.5 Plan Needed Knowledge and Skills</strong> - Technical
-skills: BA, System Architect, Programmer, QA - Management skills: PM,
-Change Mgmt, Configuration Mgmt - Dalam Scrum: Team Agreements dapat
-mencakup ini</p>
-<p><strong>SP 2.6 Plan Stakeholder Involvement</strong> - Identifikasi
-siapa saja stakeholder dan kapan keterlibatan mereka diperlukan -
-Pastikan Senior Management terlibat dan ter-inform - Dalam Scrum:
-Release Planning (SP 2.6)</p>
-<p><strong>SP 2.7 Establish the Project Plan</strong> - Publikasikan
-draft plan yang profesional - Tampilan plan mencerminkan tingkat
-komitmen - Dalam Scrum: <strong>Product Backlog</strong> adalah setara
+kebijakan yang berubah</li><li>Beri nilai setiap risiko: urgensi, kemungkinan
+terjadi, dampak</li><li>Buat mitigation plan dan assign owner untuk setiap
+risiko</li><li>Dalam Scrum: Release Planning, Technical Debt (SP 2.2)</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.3 Plan Data Management</strong></div><ul class="sp-list"><li>Identifikasi data yang
+perlu dikelola: Plans, reports, schedules, test cases, dll.</li><li>Atur
+access level, version control, backup/archiving</li><li>Dalam Scrum: ini
+dikuatkan oleh Configuration Management</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.4 Plan the Project’s Resources</strong></div><ul class="sp-list"><li>Identifikasi
+semua resource: orang, fasilitas, tools, perangkat</li><li>Rencanakan ukuran
+tim dan peran (kalau belum bisa nama, setidaknya job role)</li><li>Dalam
+Scrum: ini tercakup dalam Release Planning</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.5 Plan Needed Knowledge and Skills</strong></div><ul class="sp-list"><li>Technical
+skills: BA, System Architect, Programmer, QA</li><li>Management skills: PM,
+Change Mgmt, Configuration Mgmt</li><li>Dalam Scrum: Team Agreements dapat
+mencakup ini</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.6 Plan Stakeholder Involvement</strong></div><ul class="sp-list"><li>Identifikasi
+siapa saja stakeholder dan kapan keterlibatan mereka diperlukan</li><li>Pastikan Senior Management terlibat dan ter-inform</li><li>Dalam Scrum:
+Release Planning (SP 2.6)</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.7 Establish the Project Plan</strong></div><ul class="sp-list"><li>Publikasikan
+draft plan yang profesional</li><li>Tampilan plan mencerminkan tingkat
+komitmen</li><li>Dalam Scrum: <strong>Product Backlog</strong> adalah setara
 dengan Project Plan. Product Owner + Scrum Team berkolaborasi saat
-Release Planning, Sprint Planning, dan Backlog Grooming</p>
+Release Planning, Sprint Planning, dan Backlog Grooming</li></ul></div>
 <h4 id="sg-3-obtain-commitment-to-the-plan">SG 3: Obtain Commitment to
 the Plan</h4>
-<p><strong>SP 3.1 Review Plans that Affect the Project</strong> →
+<div class="sp-block"><div class="sp-term"><strong>SP 3.1 Review Plans that Affect the Project</strong></div><p class="sp-desc">→
 dikuatkan oleh Sprint Planning <strong>SP 3.2 Reconcile Work and
 Resource Levels</strong> → Sprint Planning <strong>SP 3.3 Obtain Plan
 Commitment</strong> → Sprint Planning, Release Planning, Technical
-Debt</p>
-<p><strong>Kata kunci Commitment:</strong> - <strong>Agreement</strong>
-— semua pihak setuju dengan atribut proyek - <strong>Alignment</strong>
-— bergerak bersama ke arah yang sama - <strong>Cooperation</strong> —
-mengakui pentingnya bekerja sama</p>
+Debt</p></div>
+<div class="sp-block"><div class="sp-term"><strong>Kata kunci Commitment:</strong></div><ul class="sp-list"><li><strong>Agreement</strong>
+— semua pihak setuju dengan atribut proyek</li><li><strong>Alignment</strong>
+— bergerak bersama ke arah yang sama</li><li><strong>Cooperation</strong> —
+mengakui pentingnya bekerja sama</li></ul></div>
 <h4 id="mapping-pp-ke-scrum-ceremonies">Mapping PP ke Scrum
 Ceremonies</h4>
 <table>
@@ -840,64 +723,63 @@ Facilitate Correction, Adjustment, and Focus: perubahan yang tidak
 terkontrol bisa menyebabkan kegagalan proyek</p>
 <h3 id="sg-1-monitor-the-project-against-the-plan">SG 1: Monitor the
 Project Against the Plan</h3>
-<p><strong>SP 1.1 Monitor Project Planning Parameters</strong> Monitor:
-scope, schedule, budget, resources - Schedule selalu diperbaharui dan
-jelas — bisa menjadi communication tool - Budget: track konsumsi agar
-selalu sejajar dengan aktivitas proyek - Dalam Scrum: dikuatkan oleh
-Daily Standup dan Release Burn-Down Chart</p>
-<p><strong>SP 1.2 Monitor Commitments</strong> Monitor komitmen terkait
-deliverables, kualitas, dan komunikasi. - Dalam Scrum: Daily Standup
+<div class="sp-block"><div class="sp-term"><strong>SP 1.1 Monitor Project Planning Parameters</strong></div><ul class="sp-list"><li>Monitor:
+scope, schedule, budget, resources</li><li>Schedule selalu diperbaharui dan
+jelas — bisa menjadi communication tool</li><li>Budget: track konsumsi agar
+selalu sejajar dengan aktivitas proyek</li><li>Dalam Scrum: dikuatkan oleh
+Daily Standup dan Release Burn-Down Chart</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.2 Monitor Commitments</strong></div><ul class="sp-list"><li>Monitor komitmen terkait
+deliverables, kualitas, dan komunikasi.</li><li>Dalam Scrum: Daily Standup
 (format “what I did, what I’m doing, what’s blocking me”), Release
-Burn-Down Chart</p>
-<p><strong>SP 1.3 Monitor Project Risks</strong> Risiko yang sudah
-didokumentasikan di PP harus terus dipantau. - Dalam Scrum: Daily
+Burn-Down Chart</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.3 Monitor Project Risks</strong></div><ul class="sp-list"><li>Risiko yang sudah
+didokumentasikan di PP harus terus dipantau.</li><li>Dalam Scrum: Daily
 Standup — risiko harus diangkat sebagai agenda spesifik, bukan hanya
-saat ada blocker</p>
-<p><strong>SP 1.4 Monitor Data Management</strong> Pastikan work
-products terpelihara dan tersedia dengan baik.</p>
-<p><strong>SP 1.5 Monitor Stakeholder Involvement</strong> Stakeholder
-bisa keluar-masuk proyek; pastikan keterlibatan mereka terencana. -
-Dalam Scrum: Release Burn-Down Chart digunakan dan di-review dengan
-stakeholder saat Sprint Demo dan Retrospective</p>
-<p><strong>SP 1.6 Conduct Progress Reviews</strong> Review berkala untuk
+saat ada blocker</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.4 Monitor Data Management</strong></div><p class="sp-desc">Pastikan work
+products terpelihara dan tersedia dengan baik.</p></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.5 Monitor Stakeholder Involvement</strong></div><ul class="sp-list"><li>Stakeholder
+bisa keluar-masuk proyek; pastikan keterlibatan mereka terencana.</li><li>Dalam Scrum: Release Burn-Down Chart digunakan dan di-review dengan
+stakeholder saat Sprint Demo dan Retrospective</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.6 Conduct Progress Reviews</strong></div><ul class="sp-list"><li>Review berkala untuk
 progress, performance, dan issues. PM membandingkan aktual dengan
-estimasi. - Dalam Scrum: <strong>Daily Standup</strong>, <strong>Release
-Burn-Down Chart</strong>, <strong>Sprint Burn-Down Chart</strong></p>
-<p><strong>SP 1.7 Conduct Milestone Reviews</strong> - Critical path
-dates: milestone pada fase proyek (misal: Deployment) - Critical path
-work products: Release 1, Prototype, dll. - Dalam Scrum: <strong>Sprint
-Demo/Sprint Review</strong> (akhir setiap sprint = milestone review)</p>
+estimasi.</li><li>Dalam Scrum: <strong>Daily Standup</strong>, <strong>Release
+Burn-Down Chart</strong>, <strong>Sprint Burn-Down Chart</strong></li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.7 Conduct Milestone Reviews</strong></div><ul class="sp-list"><li>Critical path
+dates: milestone pada fase proyek (misal: Deployment)</li><li>Critical path
+work products: Release 1, Prototype, dll.</li><li>Dalam Scrum: <strong>Sprint
+Demo/Sprint Review</strong> (akhir setiap sprint = milestone review)</li></ul></div>
 <h3 id="sg-2-manage-corrective-action-to-closure">SG 2: Manage
 Corrective Action to Closure</h3>
-<p><strong>SP 2.1 Analyze Issues</strong> — identifikasi dan analisis
-issues untuk menilai dampak dan urgensi</p>
-<p><strong>SP 2.2 Take Corrective Action:</strong> - Remove the Issue —
-eliminasi jika ternyata bukan masalah nyata - Change Project Activities
-— misal: tambah resource, kerja overtime untuk schedule issue - Change
+<div class="sp-block"><div class="sp-term"><strong>SP 2.1 Analyze Issues</strong></div><p class="sp-desc">identifikasi dan analisis
+issues untuk menilai dampak dan urgensi</p></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.2 Take Corrective Action:</strong></div><ul class="sp-list"><li>Remove the Issue —
+eliminasi jika ternyata bukan masalah nyata</li><li>Change Project Activities
+— misal: tambah resource, kerja overtime untuk schedule issue</li><li>Change
 the Plan — jika realita tidak bisa dihindari, realign ekspektasi dan
-modifikasi plan</p>
-<p><strong>SP 2.3 Manage Corrective Actions</strong> — pastikan semua
-actions ditindaklanjuti hingga tuntas (closure)</p>
+modifikasi plan</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.3 Manage Corrective Actions</strong></div><p class="sp-desc">pastikan semua
+actions ditindaklanjuti hingga tuntas (closure)</p></div>
 <h3 id="scrum-ceremonies-yang-memperkuat-pmc">📊 Scrum Ceremonies yang
 Memperkuat PMC</h3>
-<p><strong>Daily Standup/Daily Scrum</strong> - Mengidentifikasi issues
-dan risiko lebih awal (“fail fast”) - Meningkatkan kolaborasi antar
-anggota tim - Memperkuat: SP 1.1 (Monitor Parameters), SP 1.2 (Monitor
+<div class="sp-block"><div class="sp-term"><strong>Daily Standup/Daily Scrum</strong></div><ul class="sp-list"><li>Mengidentifikasi issues
+dan risiko lebih awal (“fail fast”)</li><li>Meningkatkan kolaborasi antar
+anggota tim</li><li>Memperkuat: SP 1.1 (Monitor Parameters), SP 1.2 (Monitor
 Commitments), SP 1.3 (Monitor Risks), SP 1.6 (Progress Reviews), SP 1.7
-(Milestone Reviews)</p>
-<p><strong>Release Burn-Down Chart</strong> - Menggambarkan trajectory
-keseluruhan release berdasarkan sprint - Berdasarkan
+(Milestone Reviews)</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Release Burn-Down Chart</strong></div><ul class="sp-list"><li>Menggambarkan trajectory
+keseluruhan release berdasarkan sprint</li><li>Berdasarkan
 <strong>velocity</strong> (story points yang bisa di-“burn down” per
-sprint) - Membantu Product Owner dan tim memahami apakah functionality
-akan terdelivery sesuai rencana - Memperkuat: SP 1.1, 1.2, 1.5, 1.6</p>
-<p><strong>Sprint Burn-Down Chart</strong> - Menggambarkan effort yang
-tersisa untuk menyelesaikan sprint - <em>Burn-Up chart</em> adalah
+sprint)</li><li>Membantu Product Owner dan tim memahami apakah functionality
+akan terdelivery sesuai rencana</li><li>Memperkuat: SP 1.1, 1.2, 1.5, 1.6</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Sprint Burn-Down Chart</strong></div><ul class="sp-list"><li>Menggambarkan effort yang
+tersisa untuk menyelesaikan sprint</li><li><em>Burn-Up chart</em> adalah
 kebalikannya: melacak seberapa banyak pekerjaan yang sudah selesai
-(kurva naik) - Memperkuat: SP 1.5, 1.6</p>
-<p><strong>Sprint Demo / Sprint Review</strong> - Teknik kolaboratif
+(kurva naik)</li><li>Memperkuat: SP 1.5, 1.6</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Sprint Demo / Sprint Review</strong></div><ul class="sp-list"><li>Teknik kolaboratif
 iteratif dan inkremental memastikan stakeholder aware terhadap value
-yang delivered - Memperkuat: SP 1.2, 1.5, 1.6, 1.7 (SG 1) dan SP 2.3 (SG
-2)</p>
+yang delivered</li><li>Memperkuat: SP 1.2, 1.5, 1.6, 1.7 (SG 1) dan SP 2.3 (SG
+2)</li></ul></div>
 <h4 id="mapping-pmc-ke-scrum-ceremonies">Mapping PMC ke Scrum
 Ceremonies</h4>
 <table>
@@ -951,36 +833,35 @@ baik</p>
 requirements dengan plans dan work products proyek.</p>
 <h3 id="sg-1-manage-requirements-5-specific-practices">SG 1: Manage
 Requirements (5 Specific Practices)</h3>
-<p><strong>SP 1.1 Understand Requirements</strong> - Kembangkan
-pemahaman dengan requirements providers tentang makna requirements -
-Dalam Scrum: <strong>Backlog Grooming</strong> — product owner, Scrum
+<div class="sp-block"><div class="sp-term"><strong>SP 1.1 Understand Requirements</strong></div><ul class="sp-list"><li>Kembangkan
+pemahaman dengan requirements providers tentang makna requirements</li><li>Dalam Scrum: <strong>Backlog Grooming</strong> — product owner, Scrum
 master, dan tim membahas clarifying questions hingga size dan complexity
-user story dipahami - Bisa didemonstrasikan: attend backlog grooming
+user story dipahami</li><li>Bisa didemonstrasikan: attend backlog grooming
 session, lihat story points ter-assign, backlog terdokumentasi di
-board/tool</p>
-<p><strong>SP 1.2 Obtain Commitment to Requirements</strong> - Dapatkan
-komitmen dari peserta proyek terhadap requirements - Dalam Scrum:
+board/tool</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.2 Obtain Commitment to Requirements</strong></div><ul class="sp-list"><li>Dapatkan
+komitmen dari peserta proyek terhadap requirements</li><li>Dalam Scrum:
 Backlog Grooming — semua anggota review user stories baru/yang
-dimodifikasi/yang dihapus - Penting: CMMI menekankan dialog dengan
+dimodifikasi/yang dihapus</li><li>Penting: CMMI menekankan dialog dengan
 <strong>extended stakeholders</strong> untuk menghindari
-misunderstanding</p>
-<p><strong>SP 1.3 Manage Requirements Changes</strong> - Kelola
-perubahan requirements seiring berkembangnya proyek - Dalam Scrum: Epics
+misunderstanding</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.3 Manage Requirements Changes</strong></div><ul class="sp-list"><li>Kelola
+perubahan requirements seiring berkembangnya proyek</li><li>Dalam Scrum: Epics
 dan user stories terhubung ke tasks dan Definition of Done di tool
-seperti Jira atau Version One - CMMI fokus pada <strong>capture of
+seperti Jira atau Version One</li><li>CMMI fokus pada <strong>capture of
 change purpose and history</strong> — tanpa ini, bisa mendekati
-chaos</p>
-<p><strong>SP 1.4 Maintain Bidirectional Traceability of
-Requirements</strong> - Maintain traceability dua arah antara
-requirements dan work products - Dalam Scrum: mapping dari Epics →
-Parent User Stories → Child User Stories - Bidirectional traceability
+chaos</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.4 Maintain Bidirectional Traceability of
+Requirements</strong></div><ul class="sp-list"><li>Maintain traceability dua arah antara
+requirements dan work products</li><li>Dalam Scrum: mapping dari Epics →
+Parent User Stories → Child User Stories</li><li>Bidirectional traceability
 membantu memvalidasi bahwa stories terimplementasi dan mengidentifikasi
-gaps</p>
-<p><strong>SP 1.5 Ensure Alignment Between Project Work and
-Requirements</strong> - Pastikan project plans dan work products tetap
-aligned dengan requirements - Dalam Scrum: Backlog grooming memastikan
+gaps</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.5 Ensure Alignment Between Project Work and
+Requirements</strong></div><ul class="sp-list"><li>Pastikan project plans dan work products tetap
+aligned dengan requirements</li><li>Dalam Scrum: Backlog grooming memastikan
 user stories aligned dengan kebutuhan, skills, environments, dan
-architecture yang diperlukan</p>
+architecture yang diperlukan</li></ul></div>
 <h3 id="tips-menghadapi-requirements-yang-selalu-berubah-dalam-scrum">⚡
 Tips Menghadapi Requirements yang Selalu Berubah (dalam Scrum)</h3>
 <ol type="1">
@@ -1021,56 +902,50 @@ Requirements didokumentasikan sebagai: user stories, scenarios, use
 cases, product backlogs.</p>
 <h3 id="sg-1-develop-customer-requirements">SG 1: Develop Customer
 Requirements</h3>
-<p><strong>SP 1.1 Elicit Needs</strong> - Elicit kebutuhan, ekspektasi,
+<div class="sp-block"><div class="sp-term"><strong>SP 1.1 Elicit Needs</strong></div><ul class="sp-list"><li>Elicit kebutuhan, ekspektasi,
 constraints, dan interfaces stakeholder untuk semua fase lifecycle
-produk - <em>Eliciting</em> lebih dari sekadar mengumpulkan requirements
+produk</li><li><em>Eliciting</em> lebih dari sekadar mengumpulkan requirements
 — proactively mengidentifikasi requirements tambahan yang tidak
-dinyatakan eksplisit - Teknik: technology demonstrations,
-questionnaires, interviews, scenarios, Interface Control Working Groups
-- Dalam Scrum: Backlog Grooming, Epics, User Stories</p>
-<p><strong>SP 1.2 Transform Stakeholder Needs into Customer
-Requirements</strong> - Terjemahkan kebutuhan stakeholder menjadi
-prioritized customer requirements - Establis prioritasi customer
-functional dan quality attribute requirements - Dalam Scrum: Epic
-dipecah menjadi User Story yang lebih kecil saat Backlog Grooming</p>
+dinyatakan eksplisit</li><li>Teknik: technology demonstrations,
+questionnaires, interviews, scenarios, Interface Control Working Groups</li><li>Dalam Scrum: Backlog Grooming, Epics, User Stories</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.2 Transform Stakeholder Needs into Customer
+Requirements</strong></div><ul class="sp-list"><li>Terjemahkan kebutuhan stakeholder menjadi
+prioritized customer requirements</li><li>Establis prioritasi customer
+functional dan quality attribute requirements</li><li>Dalam Scrum: Epic
+dipecah menjadi User Story yang lebih kecil saat Backlog Grooming</li></ul></div>
 <h3 id="sg-2-develop-product-requirements">SG 2: Develop Product
 Requirements</h3>
-<p><strong>SP 2.1 Establish Product and Product Component
-Requirements</strong> - Tetapkan product dan product component
-requirements berdasarkan customer requirements - Dalam Scrum: modifikasi
+<div class="sp-block"><div class="sp-term"><strong>SP 2.1 Establish Product and Product Component
+Requirements</strong></div><ul class="sp-list"><li>Tetapkan product dan product component
+requirements berdasarkan customer requirements</li><li>Dalam Scrum: modifikasi
 user stories oleh PO = aspek “maintained”; parent/children user stories
-= lebih specific data</p>
-<p><strong>SP 2.2 Allocate Product Component Requirements</strong> -
-Alokasikan requirements ke setiap product component - Dalam Scrum:
+= lebih specific data</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.2 Allocate Product Component Requirements</strong></div><ul class="sp-list"><li>Alokasikan requirements ke setiap product component</li><li>Dalam Scrum:
 requirements dialokasikan ke delivery increment untuk feed sprint
-planning</p>
-<p><strong>SP 2.3 Identify Interface Requirements</strong> -
-Identifikasi interface antara fungsi-fungsi (atau objek-objek atau
-entitas logis lainnya) - Dalam Scrum: interface requirements
-diidentifikasi dan diaddress melalui user stories</p>
+planning</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 2.3 Identify Interface Requirements</strong></div><ul class="sp-list"><li>Identifikasi interface antara fungsi-fungsi (atau objek-objek atau
+entitas logis lainnya)</li><li>Dalam Scrum: interface requirements
+diidentifikasi dan diaddress melalui user stories</li></ul></div>
 <h3 id="sg-3-analyze-and-validate-requirements">SG 3: Analyze and
 Validate Requirements</h3>
-<p><strong>SP 3.1 Establish Operational Concepts and Scenarios</strong>
-- Kembangkan konsep operasional dan skenario penggunaan produk - Dalam
+<div class="sp-block"><div class="sp-term"><strong>SP 3.1 Establish Operational Concepts and Scenarios</strong></div><ul class="sp-list"><li>Kembangkan konsep operasional dan skenario penggunaan produk</li><li>Dalam
 Scrum: user stories dalam format “As an XXX, I need to XXX so that I can
-XXX” - Dikuatkan oleh: Backlog Grooming, Test Driven Development</p>
-<p><strong>SP 3.2 Establish a Definition of Required Functionality and
-Quality Attributes</strong> - Definisikan functionality yang dibutuhkan
-dan quality attributes - Dalam Scrum: acceptance criteria dan quality
-attributes dalam user story mendefinisikan “what success looks like”</p>
-<p><strong>SP 3.3 Analyze Requirements</strong> - Pastikan requirements
-necessary dan sufficient - Hapus konflik, pastikan setiap requirement
-satisfy higher-level requirements - Dalam Scrum: PO dan tim menganalisis
-epics dan user stories saat Backlog Grooming</p>
-<p><strong>SP 3.4 Analyze Requirements to Achieve Balance</strong> -
-Gunakan proven models, simulations, dan prototyping untuk analisis
-keseimbangan - Dalam Scrum: stories diprioritaskan 1 to n untuk
-memastikan stories paling critical diimplementasikan pertama</p>
-<p><strong>SP 3.5 Validate Requirements</strong> - Pastikan produk yang
-dihasilkan akan berfungsi sebagaimana dimaksud di environment pengguna -
-Teknik: analysis, simulations, prototyping, demonstrations - Dalam
+XXX”</li><li>Dikuatkan oleh: Backlog Grooming, Test Driven Development</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 3.2 Establish a Definition of Required Functionality and
+Quality Attributes</strong></div><ul class="sp-list"><li>Definisikan functionality yang dibutuhkan
+dan quality attributes</li><li>Dalam Scrum: acceptance criteria dan quality
+attributes dalam user story mendefinisikan “what success looks like”</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 3.3 Analyze Requirements</strong></div><ul class="sp-list"><li>Pastikan requirements
+necessary dan sufficient</li><li>Hapus konflik, pastikan setiap requirement
+satisfy higher-level requirements</li><li>Dalam Scrum: PO dan tim menganalisis
+epics dan user stories saat Backlog Grooming</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 3.4 Analyze Requirements to Achieve Balance</strong></div><ul class="sp-list"><li>Gunakan proven models, simulations, dan prototyping untuk analisis
+keseimbangan</li><li>Dalam Scrum: stories diprioritaskan 1 to n untuk
+memastikan stories paling critical diimplementasikan pertama</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 3.5 Validate Requirements</strong></div><ul class="sp-list"><li>Pastikan produk yang
+dihasilkan akan berfungsi sebagaimana dimaksud di environment pengguna</li><li>Teknik: analysis, simulations, prototyping, demonstrations</li><li>Dalam
 Scrum: Backlog Grooming membuat stories untuk
-prototype/simulasi/demonstrasi; TDD memastikan continuous validation</p>
+prototype/simulasi/demonstrasi; TDD memastikan continuous validation</li></ul></div>
 <h3 id="beberapa-teknikceremony-scrum-yang-diperkuat-oleh-rd">📋
 Beberapa Teknik/Ceremony Scrum yang Diperkuat oleh RD</h3>
 <p><strong>Epics:</strong> Dikuatkan oleh RD SP 1.1 dan SP 1.2. Epic
@@ -1139,79 +1014,76 @@ Maturity Level 3</h3>
 specified requirements.</p>
 <h4 id="sg-1-prepare-for-verification">SG 1: Prepare for
 Verification</h4>
-<p><strong>SP 1.1 Select Work Products for Verification</strong>
-Identifikasi work products yang akan diverifikasi dan metode yang akan
-digunakan: - Work products: Software Requirement Document, Software
-Design, Source Code - Methods: Peer Reviews/Inspections, Static Analysis
-(SonarQube, Coverity), Traceability Audits, Testing, Demonstrations</p>
-<p><strong>SP 1.2 Establish the Verification Environment</strong>
-Siapkan environment untuk verifikasi: - Static Analysis Setup: server
-dengan automated tools dan specific rule sets - Dedicated Test Lab:
-isolated environment dengan berbagai OS/browser/hardware - Peer Review
+<div class="sp-block"><div class="sp-term"><strong>SP 1.1 Select Work Products for Verification</strong></div><ul class="sp-list"><li>Identifikasi work products yang akan diverifikasi dan metode yang akan
+digunakan:</li><li>Work products: Software Requirement Document, Software
+Design, Source Code</li><li>Methods: Peer Reviews/Inspections, Static Analysis
+(SonarQube, Coverity), Traceability Audits, Testing, Demonstrations</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.2 Establish the Verification Environment</strong></div><ul class="sp-list"><li>Siapkan environment untuk verifikasi:</li><li>Static Analysis Setup: server
+dengan automated tools dan specific rule sets</li><li>Dedicated Test Lab:
+isolated environment dengan berbagai OS/browser/hardware</li><li>Peer Review
 Infrastructure: shared digital workspaces dan checklists (Gerrit, GitHub
-PRs) - Unit Testing Frameworks: pre-configured environments dengan
-mocking libraries</p>
-<p><strong>SP 1.3 Establish Verification Procedures and
-Criteria</strong> Tentukan kriteria “verified” untuk setiap work
-product: - <em>Software Requirements (SRS):</em> Traceability,
-Testability, Unambiguity, Consistency - <em>Software Design:</em>
-Interface Integrity, Adherence to Architecture, Feasibility - <em>Source
+PRs)</li><li>Unit Testing Frameworks: pre-configured environments dengan
+mocking libraries</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>SP 1.3 Establish Verification Procedures and
+Criteria</strong></div><ul class="sp-list"><li>Tentukan kriteria “verified” untuk setiap work
+product:</li><li><em>Software Requirements (SRS):</em> Traceability,
+Testability, Unambiguity, Consistency</li><li><em>Software Design:</em>
+Interface Integrity, Adherence to Architecture, Feasibility</li><li><em>Source
 Code:</em> Coding Standards, Cyclomatic Complexity, Compiler Warning
-Level</p>
+Level</li></ul></div>
 <h4 id="sg-2-perform-peer-reviews">SG 2: Perform Peer Reviews</h4>
-<p><strong>SP 2.1 Prepare for Peer Reviews</strong> — kirim dokumen dan
+<div class="sp-block"><div class="sp-term"><strong>SP 2.1 Prepare for Peer Reviews</strong></div><p class="sp-desc">kirim dokumen dan
 checklist 48 jam sebelum meeting <strong>SP 2.2 Conduct Peer
 Reviews</strong> — “Code Walkthrough”: developer menjelaskan logikanya
 sementara peers menunjukkan potensi edge-case failures atau violations
 <strong>SP 2.3 Analyze Peer Review Data</strong> — catat jumlah defects
 yang ditemukan, tipenya (“logic error” vs “typo”), waktu review →
-goldmine untuk process improvement</p>
+goldmine untuk process improvement</p></div>
 <h4 id="sg-3-verify-selected-work-products">SG 3: Verify Selected Work
 Products</h4>
-<p><strong>SP 3.1 Perform Verification</strong> — gunakan metode dan
+<div class="sp-block"><div class="sp-term"><strong>SP 3.1 Perform Verification</strong></div><p class="sp-desc">gunakan metode dan
 kriteria yang sudah ditetapkan <strong>SP 3.2 Analyze Verification
 Results</strong> — analisis data untuk melihat di mana produk gagal
 memenuhi requirements; cari trends (misal: “60% defects berhubungan
 dengan database connection strings”) <strong>SP 3.3 Perform Corrective
 Action</strong> — track defects ke closure (log di Jira, assign ke
-developer, re-verify fix)</p>
+developer, re-verify fix)</p></div>
 <h3 id="validation-val-maturity-level-3">🟢 VALIDATION (VAL) — Maturity
 Level 3</h3>
 <p><strong>Tujuan:</strong> Mendemonstrasikan bahwa produk atau product
 component memenuhi intended use ketika ditempatkan di intended
 environment.</p>
 <h4 id="sg-1-prepare-for-validation">SG 1: Prepare for Validation</h4>
-<p><strong>SP 1.1 Select Products for Validation</strong> — produk dan
+<div class="sp-block"><div class="sp-term"><strong>SP 1.1 Select Products for Validation</strong></div><p class="sp-desc">produk dan
 product component requirements/designs, system, HW/SW, service
 documentation <strong>SP 1.2 Establish the Validation
 Environment</strong> — automated testing environment, dedicated
 computing/network, production environment, QA Engineer dan Testers
 <strong>SP 1.3 Establish Validation Procedures and Criteria</strong> —
 acceptance criteria customer, environmental performance thresholds
-(response time, availability)</p>
-<p><strong>Teknik Validasi:</strong> - Static: design reviews, program
-inspections, mathematical proofs - Dynamic: statistical testing,
-scenario-based testing, run-time checking - Process validation: SE
-processes meminimalisir chances of introducing defects</p>
+(response time, availability)</p></div>
+<div class="sp-block"><div class="sp-term"><strong>Teknik Validasi:</strong></div><ul class="sp-list"><li>Static: design reviews, program
+inspections, mathematical proofs</li><li>Dynamic: statistical testing,
+scenario-based testing, run-time checking</li><li>Process validation: SE
+processes meminimalisir chances of introducing defects</li></ul></div>
 <h4 id="sg-2-validate-product-or-product-components">SG 2: Validate
 Product or Product Components</h4>
-<p><strong>SP 2.1 Perform Validation</strong> — prototype
+<div class="sp-block"><div class="sp-term"><strong>SP 2.1 Perform Validation</strong></div><p class="sp-desc">prototype
 demonstrations, pilots, tests by end users <strong>SP 2.2 Analyze
 Validation Results</strong> — analisis apakah produk memenuhi intended
-use</p>
-<p><strong>Validation Perspectives:</strong> - Reliability validation:
-apakah measured reliability memenuhi specification? - Safety validation:
-apakah sistem beroperasi tanpa accidents? - Security validation: apakah
-sistem aman dari external attack?</p>
+use</p></div>
+<div class="sp-block"><div class="sp-term"><strong>Validation Perspectives:</strong></div><ul class="sp-list"><li>Reliability validation:
+apakah measured reliability memenuhi specification?</li><li>Safety validation:
+apakah sistem beroperasi tanpa accidents?</li><li>Security validation: apakah
+sistem aman dari external attack?</li></ul></div>
 <h3 id="software-review-inspection">🔎 Software Review &amp;
 Inspection</h3>
 <p>Reviews adalah cara ampuh mendeteksi dan mengoreksi defects
 <strong>lebih awal</strong> dalam development, sebelum makin mahal untuk
 diperbaiki.</p>
-<p><strong>Definisi:</strong> - <strong>Defect (Error):</strong> Masalah
-kualitas yang ditemukan sebelum software dirilis ke end users -
-<strong>Bug/Defect (post-release):</strong> Masalah kualitas yang
-ditemukan setelah software dirilis ke end users</p>
+<div class="sp-block"><div class="sp-term"><strong>Definisi:</strong></div><ul class="sp-list"><li><strong>Defect (Error):</strong> Masalah
+kualitas yang ditemukan sebelum software dirilis ke end users</li><li><strong>Bug/Defect (post-release):</strong> Masalah kualitas yang
+ditemukan setelah software dirilis ke end users</li></ul></div>
 <p><strong>Tipe-tipe Review (dari informal ke formal):</strong></p>
 <table>
 <colgroup>
@@ -1267,25 +1139,17 @@ logged issues. Semua defects harus diperbaiki.</li>
 <li><strong>Follow Up dan Exit</strong> — Moderator memverifikasi semua
 defects ditangani. Hitung metrics.</li>
 </ol>
-<p><strong>Roles dalam Inspection:</strong> -
-<strong>Moderator/Leader</strong> — memimpin keseluruhan proses -
-<strong>Author/Producer</strong> — pencipta artifact yang di-inspect -
-<strong>Reviewer/Reader</strong> — membaca dan menemukan defects -
-<strong>Scribe</strong> — mencatat issues</p>
-<p><strong>Defect Classification:</strong> - <strong>Severity:</strong>
-Major (akan menyebabkan masalah jika tidak diperbaiki) atau Minor -
-<strong>Type:</strong> Missing, Extra, Wrong</p>
-<p><strong>Inspection Metrics:</strong> - Total Defects Found = A + B -
-C (A dan B adalah jumlah yang ditemukan masing-masing reviewer, C adalah
-yang ditemukan keduanya) - Estimated Total Defects = AB/C -
-<strong>Yield</strong> = Total Defects Found / Estimated Total Defects ×
-100% - <strong>Defect Density</strong> = Total Defects Found / Size -
-<strong>Inspection Rate</strong> = Size / Total Inspection Hours</p>
-<p><strong>Agile dan Reviews:</strong> - Dalam Scrum: ada Sprint Review
-setelah setiap iterasi selesai - XP: pair programming = proses inspeksi
-berkelanjutan — dua orang melihat setiap baris kode - Agile biasanya
+<div class="sp-block"><div class="sp-term"><strong>Roles dalam Inspection:</strong></div><ul class="sp-list"><li><strong>Moderator/Leader</strong> — memimpin keseluruhan proses</li><li><strong>Author/Producer</strong> — pencipta artifact yang di-inspect</li><li><strong>Reviewer/Reader</strong> — membaca dan menemukan defects</li><li><strong>Scribe</strong> — mencatat issues</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Defect Classification:</strong></div><ul class="sp-list"><li><strong>Severity:</strong>
+Major (akan menyebabkan masalah jika tidak diperbaiki) atau Minor</li><li><strong>Type:</strong> Missing, Extra, Wrong</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Inspection Metrics:</strong></div><ul class="sp-list"><li>Total Defects Found = A + B</li><li>C (A dan B adalah jumlah yang ditemukan masing-masing reviewer, C adalah
+yang ditemukan keduanya)</li><li>Estimated Total Defects = AB/C</li><li><strong>Yield</strong> = Total Defects Found / Estimated Total Defects ×
+100%</li><li><strong>Defect Density</strong> = Total Defects Found / Size</li><li><strong>Inspection Rate</strong> = Size / Total Inspection Hours</li></ul></div>
+<div class="sp-block"><div class="sp-term"><strong>Agile dan Reviews:</strong></div><ul class="sp-list"><li>Dalam Scrum: ada Sprint Review
+setelah setiap iterasi selesai</li><li>XP: pair programming = proses inspeksi
+berkelanjutan — dua orang melihat setiap baris kode</li><li>Agile biasanya
 menggunakan review <strong>informal</strong>, tidak menggunakan formal
-inspection</p>
+inspection</li></ul></div>
 <h3 id="scrum-ceremonies-yang-diperkuat-ver-val">Scrum Ceremonies yang
 Diperkuat VER &amp; VAL</h3>
 <table>
@@ -1389,12 +1253,11 @@ framework di mana berbagai Practice bisa berhasil digunakan bersama.</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Kegunaan Essence:</strong> - Memberikan <em>common
-understanding</em> dan vocabulary untuk mendeskripsikan metode -
-Memungkinkan metode lebih mudah dipahami, direvisi, dibandingkan,
-dievaluasi - <strong>Scrum Essentials Cards</strong>: Ivar Jacobson
+<div class="sp-block"><div class="sp-term"><strong>Kegunaan Essence:</strong></div><ul class="sp-list"><li>Memberikan <em>common
+understanding</em> dan vocabulary untuk mendeskripsikan metode</li><li>Memungkinkan metode lebih mudah dipahami, direvisi, dibandingkan,
+dievaluasi</li><li><strong>Scrum Essentials Cards</strong>: Ivar Jacobson
 (penggagas Essence) + Jeff Sutherland (penggagas Scrum) membuat gambaran
-Scrum dalam bahasa Essence</p>
+Scrum dalam bahasa Essence</li></ul></div>
 <h3 id="scaling-agile">📈 Scaling Agile</h3>
 <p><strong>Tiga Level Agile:</strong> 1. <strong>Team Level
 Agility</strong> — 1–2 tim, proyek skala kecil 2. <strong>Enterprise
@@ -1402,11 +1265,11 @@ Agility (Scaled Agile)</strong> — 3–10+ tim, 24–100+ anggota. Framework:
 SAFe, Nexus, Scrum@Scale, Spotify Agile 3. <strong>Business Level
 Agility</strong> — Agile terintegrasi ke seluruh aspek bisnis (HR,
 finance, marketing, dll.)</p>
-<p><strong>Tantangan Scaling Agile (17th State of Agile Report,
-2023):</strong> - Mendefinisikan Large Scaled Agile framework yang
-sesuai organisasi - Membandingkan dan memilih framework yang paling
-sesuai - Agile tailoring untuk menyesuaikan keadaan dan karakteristik
-organisasi</p>
+<div class="sp-block"><div class="sp-term"><strong>Tantangan Scaling Agile (17th State of Agile Report,
+2023):</strong></div><ul class="sp-list"><li>Mendefinisikan Large Scaled Agile framework yang
+sesuai organisasi</li><li>Membandingkan dan memilih framework yang paling
+sesuai</li><li>Agile tailoring untuk menyesuaikan keadaan dan karakteristik
+organisasi</li></ul></div>
 <h3 id="the-essence-of-scaling-agile">🔑 The Essence of Scaling
 Agile</h3>
 <p>Elemen-elemen esensial yang harus ada agar Scaling Agile dapat
@@ -1605,12 +1468,11 @@ Agile secara agnostik — tanpa bias ke salah satu framework Scaling Agile
 yang ada. Terdiri dari: 1. <strong>The Essence of Scaling Agile</strong>
 — elemen-elemen esensial 2. <strong>Mapping</strong> ke Practice Area
 (PA) pada CMMI v2 yang relevan</p>
-<p><strong>Kegunaan ASA Model:</strong> - Assessment Capability Level /
-Maturity Level proses Scaling Agile - Membantu mengukur
-<strong>readiness</strong> organisasi dalam implementasi Scaling Agile -
-Proses pemilihan framework scaling agile tertentu - Tailoring framework
-atau proses scaling agile - Panduan implementasi dan adopsi scaling
-agile secara bertahap</p>
+<div class="sp-block"><div class="sp-term"><strong>Kegunaan ASA Model:</strong></div><ul class="sp-list"><li>Assessment Capability Level /
+Maturity Level proses Scaling Agile</li><li>Membantu mengukur
+<strong>readiness</strong> organisasi dalam implementasi Scaling Agile</li><li>Proses pemilihan framework scaling agile tertentu</li><li>Tailoring framework
+atau proses scaling agile</li><li>Panduan implementasi dan adopsi scaling
+agile secara bertahap</li></ul></div>
 <h3 id="scaling-agile-maturity-level-berdasarkan-asa-model">📊 Scaling
 Agile Maturity Level (Berdasarkan ASA Model)</h3>
 <table>
@@ -1721,17 +1583,16 @@ Magister Teknologi Informasi, Universitas Indonesia</em></p>
 
 </main>
 
-<a id="back-to-top" href="#" title="Kembali ke atas">↑</a>
+<a id="back-to-top" href="#" title="Kembali ke atas">&#8593;</a>
 
 <script>
+
   const btn = document.getElementById('back-to-top');
   window.addEventListener('scroll', () => {
     btn.classList.toggle('visible', window.scrollY > 400);
   });
-
   const sections = document.querySelectorAll('main h2[id]');
   const links = document.querySelectorAll('#sidebar a');
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1741,9 +1602,8 @@ Magister Teknologi Informasi, Universitas Indonesia</em></p>
       }
     });
   }, { rootMargin: '-10% 0px -80% 0px' });
-
   sections.forEach(s => observer.observe(s));
-</script>
 
+</script>
 </body>
 </html>
